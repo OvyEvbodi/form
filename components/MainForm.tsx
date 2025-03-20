@@ -239,7 +239,7 @@ const IEVForm = () => {
 
   const proRadioFieldsData: RadioProps [] = [
     {
-      title: "Do you have experience in coordinating community-based programs and data collection activities? (1 point)",
+      title: "Do you have experience in coordinating community-based programs and data collection activities?",
       tag: "experience in coordinating community-based programs",
       FieldError: true,
       name: "community-based coordination",
@@ -255,14 +255,14 @@ const IEVForm = () => {
       required: true
     },
     {
-      title: "How would you respond if team members failed to show up or data collection equipment malfunctioned during a project? (1 Point)",
+      title: "How would you respond if team members failed to show up or data collection equipment malfunctioned during a project?",
       tag: "respond if team members failed to show up or data collection equipment malfunctioned",
       FieldError: true,
       name: "equipment malfunctioned",
       options: ["Abandon the affected part of the project and move forward with what is available", "Wait and hope the issues resolve themselves over time", "Assess the situation, troubleshoot where possible, and implement alternative solutions while keeping stakeholders informed", "Escalate the issue immediately to senior management without attempting any solutions"],
       required: true
     },{
-      title: "In a case where there is resistance or concerns from community members, care givers or head of household regarding data collection, how would you handle the situation? (1 Point)",
+      title: "In a case where there is resistance or concerns from community members, care givers or head of household regarding data collection, how would you handle the situation?",
       tag: "resistance or concerns from community members",
       FieldError: true,
       name: "resistance from community members",
@@ -270,7 +270,7 @@ const IEVForm = () => {
       required: true
     },
     {
-      title: "You are planning to gain support from community leaders and members on a project, which of the following steps are crucial to building trust? (1 Point)",
+      title: "You are planning to gain support from community leaders and members on a project, which of the following steps are crucial to building trust?",
       tag: "gain support from community leaders",
       FieldError: true,
       name: "support from community leaders",
@@ -278,7 +278,7 @@ const IEVForm = () => {
       required: true
     },
     {
-      title: "In a scenario where caregivers raise concerns or misconceptions about the vaccination, how would you best approach this? (1 Point)",
+      title: "In a scenario where caregivers raise concerns or misconceptions about the vaccination, how would you best approach this?",
       tag: "caregivers raise concerns or misconceptions",
       FieldError: true,
       name: "caregivers raise concerns",
@@ -286,7 +286,7 @@ const IEVForm = () => {
       required: true
     },
     {
-      title: "What step is integral to ensuring that marginalized or hard-to-reach communities are included a data collection process? (1 Point)",
+      title: "What step is integral to ensuring that marginalized or hard-to-reach communities are included a data collection process?",
       tag: "step is integral to ensuring that marginalized or hard-to-reach communities",
       FieldError: true,
       name: "hard-to-reach communities",
