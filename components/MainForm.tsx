@@ -33,7 +33,8 @@ const FormTemplate = (props: IEVFormProps) => {
   const [ward, setWard] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
-  const [geolocationData, setGeolocationData] = useState(""); 
+  const [geolocationData, setGeolocationData] = useState("");
+  const [consent, setConsent] = useState(false);
 
 
   const handleChangePage = (page: number) => {
@@ -58,6 +59,7 @@ const FormTemplate = (props: IEVFormProps) => {
         setLatitude(position.coords.latitude)
         setLongitude(position.coords.longitude)
         setGeolocationData(JSON.stringify(position))
+        setConsent(true)
       }
 
       if (!navigator.geolocation) {
@@ -79,43 +81,42 @@ const FormTemplate = (props: IEVFormProps) => {
 
 
   return (
-    <div>
-      <div>
-        <h1>      
-          Kano State IEV Implementation Strategy - LGA Supervisor Application Form
-        </h1>
-        <p>
-          Thank you for your interest in the LGA Supervisor role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is led by Clinton Health Access Initiative (CHAI) in collaboration with the National Health Primary HealthCare Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
-          <br />
+    <div className="p-4 max-w-screen">
+      <div className="">
+        <p className="mb-4 font-medium">
+          Thank you for your interest in the <span className="text-orange-500">LGA Supervisor</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is led by Clinton Health Access Initiative (CHAI) in collaboration with the National Health Primary HealthCare Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
+          <br /><br />
           This application form is designed to collect essential information about your background, experience, and qualifications to ensure a fair and thorough selection process.
-          <br />
-          Please note that this application is open only to residents of Kano State. If you do not reside in Kano State, please do not apply. 
-          <br />
+          <br /><br />
+          <span className="text-red-700">
+            Please note that this application is open only to residents of Kano State. If you do not reside in Kano State, please do not apply. 
+          </span>
+          <br /><br />
           Take the time to complete all required fields accurately, as incomplete applications may not be considered. We appreciate your time and effort and look forward to reviewing your application.
-          <br />
-          Best of luck!
-          Required
+          <br /><br />
+          Best of luck!<br/>
+          <span className="text-red-600">&#10036;</span> Required
         </p>
       </div>
       
       <form name="iev" className="" action={action}>
-        <div id="personal info" className={page === 1 ? "" : "hidden"}>
-          <div>
-            <p>
-              Note: To proceed with your application, you must allow access to your GPS location. This is required to verify your eligibility for the IEV work in Kano State. Click the button below to enable location access.
-            </p>
-            <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
-            <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
-            <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
-            <div onClick={handleGeolocation} className="min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Click to get location</div>
-          </div>
+        <div className={consent ? "hidden" : ""}>
+          <p className="mb-4 font-bold">
+            Note: To proceed with your application, you must allow access to your GPS location. This is required to verify your eligibility for the IEV work in Kano State. Click the button below to enable location access.
+          </p>
+          <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
+          <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
+          <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
+          <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Click to get location</div>
+        </div>
+        <div id="personal info" className={page === 1 && consent ? "" : "hidden"}>
           {
             props.textFields.map((item: InputProps, index) => (
               <InputField key={index} props={item} />
             ))
           } 
-          <div>
-            <label htmlFor="lga">LGA of Residence</label><span className="text-red-600">&#10036;</span>
+          <div className="mb-2">
+            <label htmlFor="lga" className="font-bold text-md mb-1">LGA of Residence</label><span className="text-red-600">&#10036;</span>
             <select name="lga" value={lga} required onChange={ handleLgaChange }>
               <option value="">select lga</option>
               {lgaList.map((item: string, index: number) => (
@@ -123,8 +124,8 @@ const FormTemplate = (props: IEVFormProps) => {
               ))}
             </select>
           </div>
-          <div>
-            <label htmlFor="ward">Name of Ward</label><span className="text-red-600">&#10036;</span>
+          <div className="mb-2">
+            <label htmlFor="ward" className="font-bold text-md mb-1">Name of Ward</label><span className="text-red-600">&#10036;</span>
             <select  name="ward" value={ward} required disabled={!lga} onChange={handleWardChange}>
               {/* <option value="">Choose a ward</option> */}
               {
@@ -140,7 +141,7 @@ const FormTemplate = (props: IEVFormProps) => {
             ))
           }
           {props.cautionText && <p className="text-xs mb-6">{props.cautionText}</p>}
-          <div onClick={() => handleChangePage(2)} className="min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Next</div>
+          <div onClick={() => handleChangePage(2)} className="lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Next</div>
         </div>
         <div id="professional info" className={page === 2 ? "" : "hidden"}>
           <h2>Professional</h2>
@@ -150,7 +151,7 @@ const FormTemplate = (props: IEVFormProps) => {
             ))
           }
           <div className="flex gap-4">
-            <div onClick={() => handleChangePage(1)} className="min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-gray-700 rounded-lg hover:bg-gray-400 transition-all">Back</div>
+            <div onClick={() => handleChangePage(1)} className="lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-gray-700 rounded-lg hover:bg-gray-400 transition-all">Back</div>
             <Button props={props.buttonInfo} />
           </div>
         </div>

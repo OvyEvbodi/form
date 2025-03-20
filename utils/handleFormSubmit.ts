@@ -70,7 +70,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
           RETURNING *;`;
 
         const values = [
-          name, lga, ward, latitude, longitude, points, submissionTime, 
+          id, name, lga, ward, latitude, longitude, points, submissionTime, 
           phoneNumber, email, gender, education, hausa, english, 
           geolocationData, status
       ];

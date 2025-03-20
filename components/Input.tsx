@@ -43,7 +43,7 @@ const InputField = ({props}: { props: InputProps }) => {
 export const RadioField = ({props}: { props: RadioProps }) => {
   return (
     <div className="flex flex-col gap- p-4">
-      <p>{props.title} {props.required && <span className="text-red-600">&#10036;</span>}</p>
+      <p className="font-bold text-md mb-1">{props.title} {props.required && <span className="text-red-600">&#10036;</span>}</p>
       {
         props.options.map((item: string, index) => (
           <div key={index}>
