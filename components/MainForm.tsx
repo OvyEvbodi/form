@@ -84,7 +84,7 @@ const FormTemplate = (props: IEVFormProps) => {
     <div className="p-4 max-w-screen">
       <div className="">
         <p className="mb-4 font-medium">
-          Thank you for your interest in the <span className="text-orange-500">LGA Supervisor</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is led by Clinton Health Access Initiative (CHAI) in collaboration with the National Health Primary HealthCare Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
+          Thank you for your interest in the <span className="text-blue-500 font-bold">LGA Supervisor</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is led by Clinton Health Access Initiative (CHAI) in collaboration with the National Health Primary HealthCare Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
           <br /><br />
           This application form is designed to collect essential information about your background, experience, and qualifications to ensure a fair and thorough selection process.
           <br /><br />
@@ -109,7 +109,9 @@ const FormTemplate = (props: IEVFormProps) => {
           <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
           <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Click to get location</div>
         </div>
+  
         <div id="personal info" className={page === 1 && consent ? "" : "hidden"}>
+        <div className="text-cyan-900 font-bold text-lg">Personal Information</div>
           {
             props.textFields.map((item: InputProps, index) => (
               <InputField key={index} props={item} />
@@ -144,7 +146,7 @@ const FormTemplate = (props: IEVFormProps) => {
           <div onClick={() => handleChangePage(2)} className="lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Next</div>
         </div>
         <div id="professional info" className={page === 2 ? "" : "hidden"}>
-          <h2>Professional</h2>
+        <div className="text-cyan-900 font-bold text-lg">Professional Information</div>
           {
             props.proRadioFields.map((item: RadioProps, index) => (
               <RadioField key={index} props={item} />
