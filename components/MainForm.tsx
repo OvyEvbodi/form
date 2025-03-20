@@ -33,9 +33,8 @@ const FormTemplate = (props: IEVFormProps) => {
   const [ward, setWard] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
-  const [geolocationData, setGeolocationData] = useState({});
+  const [geolocationData, setGeolocationData] = useState(""); 
 
-  
 
   const handleChangePage = (page: number) => {
     setPage(page)
@@ -58,14 +57,7 @@ const FormTemplate = (props: IEVFormProps) => {
       const success = async (position: any) => {
         setLatitude(position.coords.latitude)
         setLongitude(position.coords.longitude)
-        setGeolocationData({
-          message: "Geolocation successfully detected", 
-          latitude, 
-          longitude, 
-          position
-        })
-        console.log(geolocationData)
-        
+        setGeolocationData(JSON.stringify(position))
       }
 
       if (!navigator.geolocation) {
@@ -114,6 +106,7 @@ const FormTemplate = (props: IEVFormProps) => {
             </p>
             <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
             <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
+            <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
             <div onClick={handleGeolocation} className="min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Click to get location</div>
           </div>
           {
@@ -122,8 +115,8 @@ const FormTemplate = (props: IEVFormProps) => {
             ))
           } 
           <div>
-            <label htmlFor="lga">LGA of Residence</label>
-            <select name="lga" value={lga} onChange={ handleLgaChange }>
+            <label htmlFor="lga">LGA of Residence</label><span className="text-red-600">&#10036;</span>
+            <select name="lga" value={lga} required onChange={ handleLgaChange }>
               <option value="">select lga</option>
               {lgaList.map((item: string, index: number) => (
                 <option key={index}  value={item}>{item}</option>
@@ -131,8 +124,8 @@ const FormTemplate = (props: IEVFormProps) => {
             </select>
           </div>
           <div>
-            <label htmlFor="ward">Name of Ward</label>
-            <select  name="ward" value={ward} disabled={!lga} onChange={handleWardChange}>
+            <label htmlFor="ward">Name of Ward</label><span className="text-red-600">&#10036;</span>
+            <select  name="ward" value={ward} required disabled={!lga} onChange={handleWardChange}>
               {/* <option value="">Choose a ward</option> */}
               {
                 wards.map((item: string, index: number) => (
@@ -259,7 +252,7 @@ const IEVForm = () => {
       tag: "respond if team members failed to show up or data collection equipment malfunctioned",
       FieldError: true,
       name: "equipment malfunctioned",
-      options: ["Abandon the affected part of the project and move forward with what is available", "Wait and hope the issues resolve themselves over time", "Assess the situation, troubleshoot where possible, and implement alternative solutions while keeping stakeholders informed", "Escalate the issue immediately to senior management without attempting any solutions"],
+      options: ["Abandon the affected part of the project and move forward with what is available.", "Wait and hope the issues resolve themselves over time.", "Assess the situation, troubleshoot where possible, and implement alternative solutions while keeping stakeholders informed.", "Escalate the issue immediately to senior management without attempting any solutions."],
       required: true
     },{
       title: "In a case where there is resistance or concerns from community members, care givers or head of household regarding data collection, how would you handle the situation?",
