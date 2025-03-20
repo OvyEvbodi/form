@@ -1,6 +1,8 @@
 'use client'
 import {  useState } from "react"
-import { useGeolocated } from "react-geolocated";
+import { useGeolocated } from "react-geolocated"
+import axios, { AxiosError } from 'axios'
+
 
 
 const PreForm = () => {
@@ -11,21 +13,30 @@ const PreForm = () => {
     try {
       event.preventDefault()
     
-      const success = (position: any) => {
+      const success = async (position: any) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        console.log({
+        const geolocationData = {
           message: "Geolocation successfully detected", 
           email, 
           latitude, 
           longitude, 
           position
-        })
+        }
+        console.log(geolocationData)
         // post email and geolocation details to endpoint
+        // try {
+        //   const { data, status } = await axios.post("http://127.0.0.1:8080", geolocationData)
+        // if (status === 200) {
+              // redirect to main form
 
-        // redirect to main form
-        // window.location.href = 'https://forms.office.com/pages/responsepage.aspx?id=1ZaE-EQo30OpmOXT4XMGwrJ_u3WTTuJAkGoCkBzgQTRUMUtRWU9ZVE9CVEZENFgwMUtXWU1MUklRNC4u&route=shorturl';
+              // window.location.href = 'https://forms.office.com/pages/responsepage.aspx?id=1ZaE-EQo30OpmOXT4XMGwrJ_u3WTTuJAkGoCkBzgQTRUMUtRWU9ZVE9CVEZENFgwMUtXWU1MUklRNC4u&route=shorturl';
+        // }
+
+        // } catch (error) {
+        //   console.log(error)
+        // }
       }
 
       if (!navigator.geolocation) {

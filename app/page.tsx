@@ -1,3 +1,4 @@
+import IEVForm from "@/components/MainForm";
 import PreForm from "@/components/PreForm";
 
 export default function Home() {
@@ -6,6 +7,7 @@ export default function Home() {
       <main className="flex flex-col justify-center items-center">
         <h1 className="text-3xl font-extrabold">Kano State IEV Implementation Strategy</h1>
         <PreForm />
+        <IEVForm />
       </main>
     </div>
   );
