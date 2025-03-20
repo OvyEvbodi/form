@@ -81,7 +81,7 @@ const FormTemplate = (props: IEVFormProps) => {
 
 
   return (
-    <div className="lg:max-w-[860px] opacity-80 p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-100 via-gray-100 to-gray-50">
+    <div className="lg:max-w-[860px] opacity-90 p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-50 via-gray-100 to-gray-50">
       <div className="">
       <h1 className="pt-4 my-4 text-3xl font-extrabold text-gray-800">Kano State IEV Implementation Strategy<span className="text-blue-500">LGA Supervisor</span> Application Form</h1>
         <p className="mb-4 font-medium">

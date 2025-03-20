@@ -28,6 +28,7 @@ body {
 }
 .bg_img_holder {
   background-image: url("/form_img.jpeg");
-
-
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
