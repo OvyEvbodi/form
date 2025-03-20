@@ -46,10 +46,10 @@ export const RadioField = ({props}: { props: RadioProps }) => {
       <p className="font-bold text-md mb-1">{props.title} {props.required && <span className="text-red-600">&#10036;</span>}</p>
       {
         props.options.map((item: string, index) => (
-          <div key={index}>
-            <input required={props.required} type="radio" name={props.name} value={item} className="mr-1" />
-            <label htmlFor={item}>{item}</label>
-          </div>
+          <label key={index} className="mb-4 font-medium container">{item}
+            <input required={props.required} type="radio" name={props.name} value={item} className="mr-3" />
+            <span className="checkmark"></span>
+          </label>
         ))
       }
     </div>
