@@ -81,8 +81,9 @@ const FormTemplate = (props: IEVFormProps) => {
 
 
   return (
-    <div className="p-4 max-w-screen">
+    <div className="lg:max-w-[860px] opacity-80 p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-100 via-gray-100 to-gray-50">
       <div className="">
+      <h1 className="pt-4 my-4 text-3xl font-extrabold text-gray-800">Kano State IEV Implementation Strategy<span className="text-blue-500">LGA Supervisor</span> Application Form</h1>
         <p className="mb-4 font-medium">
           Thank you for your interest in the <span className="text-blue-500 font-bold">LGA Supervisor</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is led by Clinton Health Access Initiative (CHAI) in collaboration with the National Health Primary HealthCare Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
           <br /><br />
