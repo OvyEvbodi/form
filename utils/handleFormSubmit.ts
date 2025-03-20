@@ -46,7 +46,8 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
       database: process.env.DB,
       password: process.env.DB_PASSWORD,
       port: Number(process.env.DB_PORT) || 5432,
-      ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false, 
+      //ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false, 
+      ssl: { rejectUnauthorized: false },
     })
     
     const dbConnection = async() => {
