@@ -83,9 +83,9 @@ const FormTemplate = (props: IEVFormProps) => {
   return (
     <div className="lg:max-w-[860px] opacity-90 p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-50 via-gray-100 to-gray-50">
       <div className="">
-      <h1 className="pt-4 my-4 text-3xl font-extrabold text-gray-800">Kano State IEV Implementation Strategy<span className="text-blue-500">LGA Supervisor</span> Application Form</h1>
+      <h1 className="pt-4 my-4 text-3xl font-extrabold text-gray-800">Kano State IEV Implementation Strategy - <span className="text-blue-500">LGA Supervisor</span> Application Form</h1>
         <p className="mb-4 font-medium">
-          Thank you for your interest in the <span className="text-blue-500 font-bold">LGA Supervisor</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is led by Clinton Health Access Initiative (CHAI) in collaboration with the National Health Primary HealthCare Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
+          Thank you for your interest in the <span className="text-blue-500 font-bold">LGA Supervisor</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is led by Clinton Health Access Initiative (CHAI) in collaboration with the National Primary Health Care Development Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
           <br /><br />
           This application form is designed to collect essential information about your background, experience, and qualifications to ensure a fair and thorough selection process.
           <br /><br />
@@ -108,7 +108,7 @@ const FormTemplate = (props: IEVFormProps) => {
           <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
           <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
           <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
-          <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Click to get location</div>
+          <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Grant Location Access</div>
         </div>
   
         <div id="personal info" className={page === 1 && consent ? "" : "hidden"}>
@@ -147,7 +147,7 @@ const FormTemplate = (props: IEVFormProps) => {
           <div onClick={() => handleChangePage(2)} className="lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Next</div>
         </div>
         <div id="professional info" className={page === 2 ? "" : "hidden"}>
-        <div className="text-cyan-900 font-bold text-lg">Professional Information</div>
+        <div className="text-cyan-900 font-bold text-lg">Professional Assessment</div>
           {
             props.proRadioFields.map((item: RadioProps, index) => (
               <RadioField key={index} props={item} />
@@ -168,17 +168,18 @@ const IEVForm = () => {
 
   const inputFieldsData: InputProps[] = [
     {
-      tag: "name",
+      tag: "Name",
       placeholder: "John Doe",
       FieldError: false,
       name: "name",
       id: "name",
       iconUrl: "/name_icon.png",
       type: "text",
-      required: true
+      required: true,
+      additionalStyle: "capitalize"
     },
     {
-      tag: "phone number (11 digits)",
+      tag: "Phone number (11 digits)",
       placeholder: "Enter your phone number",
       FieldError: true,
       name: "phone number",
@@ -188,7 +189,7 @@ const IEVForm = () => {
       required: true
     },
     {
-      tag: "email address",
+      tag: "Email address",
       placeholder: "Enter your email",
       FieldError: true,
       name: "email",
@@ -205,7 +206,7 @@ const IEVForm = () => {
       tag: "gender",
       FieldError: true,
       name: "gender",
-      options: ["male", "female"],
+      options: ["Male", "Female"],
       required: true
     },
     {
