@@ -29,9 +29,7 @@ const PreForm = () => {
         // try {
         //   const { data, status } = await axios.post("http://127.0.0.1:8080", geolocationData)
         // if (status === 200) {
-              // redirect to main form
-
-              // window.location.href = 'https://forms.office.com/pages/responsepage.aspx?id=1ZaE-EQo30OpmOXT4XMGwrJ_u3WTTuJAkGoCkBzgQTRUMUtRWU9ZVE9CVEZENFgwMUtXWU1MUklRNC4u&route=shorturl';
+               // window.location.href = 'https://forms.office.com/pages/responsepage.aspx?id=1ZaE-EQo30OpmOXT4XMGwrJ_u3WTTuJAkGoCkBzgQTRUMUtRWU9ZVE9CVEZENFgwMUtXWU1MUklRNC4u&route=shorturl';
         // }
 
         // } catch (error) {

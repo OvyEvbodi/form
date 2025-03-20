@@ -1,16 +1,22 @@
 'use client'
 
-import InputField, { InputProps, RadioField, RadioProps, ra } from "@/components/Input";
+import InputField, { InputProps, RadioField, RadioProps } from "@/components/Input";
 import Button, { ButtonProps } from "@/components/Button";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
+import { lgaList, lgaWardsMap } from "@/data";
+import { useGeolocated } from "react-geolocated";
+import axios, { AxiosError } from "axios";
+
+
 
 export interface IEVFormProps {
   logoUrl?: string;
   title: string;
   description?: string;
   textFields: InputProps[];
-  radioFields: RadioProps[];
+  perRadioFields: RadioProps[];
+  proRadioFields: RadioProps[];
   buttonInfo: ButtonProps;
   footerText?: string;
   footerLink?: string;
@@ -20,26 +26,142 @@ export interface IEVFormProps {
 }
 
 const FormTemplate = (props: IEVFormProps) => {
-  const [result, action, isPending] = useActionState(handleFormSubmit, null)
-  console.log(result)
+  const [lastResult, action, isPending] = useActionState(handleFormSubmit, null);
+  // const [filledForm, filledFields] = useForm({lastResult})
+  const [page, setPage] = useState(1);
+  const [lga, setLga] = useState("");
+  const [ward, setWard] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [geolocationData, setGeolocationData] = useState({});
+
+  
+
+  const handleChangePage = (page: number) => {
+    setPage(page)
+  };
+
+  const handleLgaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault()
+    setLga(event.target.value)
+    setWard('')
+  };
+
+  const handleWardChange  = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault()
+    setWard(event.target.value)
+  };
+
+  const handleGeolocation = async(event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    try {
+      const success = async (position: any) => {
+        setLatitude(position.coords.latitude)
+        setLongitude(position.coords.longitude)
+        setGeolocationData({
+          message: "Geolocation successfully detected", 
+          latitude, 
+          longitude, 
+          position
+        })
+        console.log(geolocationData)
+        
+      }
+
+      if (!navigator.geolocation) {
+        console.log("Geolocation is not supported by your browser")
+      } else {
+        console.log("Getting location")
+        navigator.geolocation.getCurrentPosition(success); // add error callback
+        console.log("successful")
+      }
+    
+    } catch (error) {
+      // for dev
+      console.log(error)
+    }
+    
+  };
+
+  const wards = lga ? lgaWardsMap[lga] : [];
+
 
   return (
     <div>
-      <form className="" action={action}>
+      <div>
+        <h1>      
+          Kano State IEV Implementation Strategy - LGA Supervisor Application Form
+        </h1>
+        <p>
+          Thank you for your interest in the LGA Supervisor role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is led by Clinton Health Access Initiative (CHAI) in collaboration with the National Health Primary HealthCare Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
+          <br />
+          This application form is designed to collect essential information about your background, experience, and qualifications to ensure a fair and thorough selection process.
+          <br />
+          Please note that this application is open only to residents of Kano State. If you do not reside in Kano State, please do not apply. 
+          <br />
+          Take the time to complete all required fields accurately, as incomplete applications may not be considered. We appreciate your time and effort and look forward to reviewing your application.
+          <br />
+          Best of luck!
+          Required
+        </p>
+      </div>
+      
+      <form name="iev" className="" action={action}>
+        <div id="personal info" className={page === 1 ? "" : "hidden"}>
+          <div>
+            <p>
+              Note: To proceed with your application, you must allow access to your GPS location. This is required to verify your eligibility for the IEV work in Kano State. Click the button below to enable location access.
+            </p>
+            <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
+            <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
+            <div onClick={handleGeolocation} className="min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Click to get location</div>
+          </div>
           {
             props.textFields.map((item: InputProps, index) => (
               <InputField key={index} props={item} />
             ))
-          }
+          } 
+          <div>
+            <label htmlFor="lga">LGA of Residence</label>
+            <select name="lga" value={lga} onChange={ handleLgaChange }>
+              <option value="">select lga</option>
+              {lgaList.map((item: string, index: number) => (
+                <option key={index}  value={item}>{item}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="ward">Name of Ward</label>
+            <select  name="ward" value={ward} disabled={!lga} onChange={handleWardChange}>
+              {/* <option value="">Choose a ward</option> */}
+              {
+                wards.map((item: string, index: number) => (
+                  <option key={index}  value={item}>{item}</option>
+                ))
+              }
+            </select>
+          </div>
           {
-            props.radioFields.map((item: RadioProps, index) => (
+            props.perRadioFields.map((item: RadioProps, index) => (
               <RadioField key={index} props={item} />
             ))
           }
           {props.cautionText && <p className="text-xs mb-6">{props.cautionText}</p>}
-
-          <Button props={props.buttonInfo} />
-        </form>
+          <div onClick={() => handleChangePage(2)} className="min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Next</div>
+        </div>
+        <div id="professional info" className={page === 2 ? "" : "hidden"}>
+          <h2>Professional</h2>
+          {
+            props.proRadioFields.map((item: RadioProps, index) => (
+              <RadioField key={index} props={item} />
+            ))
+          }
+          <div className="flex gap-4">
+            <div onClick={() => handleChangePage(1)} className="min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-gray-700 rounded-lg hover:bg-gray-400 transition-all">Back</div>
+            <Button props={props.buttonInfo} />
+          </div>
+        </div>
+      </form>
     </div>
   )
 };
@@ -75,18 +197,19 @@ const IEVForm = () => {
       name: "email",
       id: "email",
       iconUrl: "",
-      type: "email"
+      type: "email",
+      required: false
     }
   ];
 
-  const radioFieldsData: RadioProps [] = [
+  const perRadioFieldsData: RadioProps [] = [
     {
       title: "Gender",
       tag: "gender",
       FieldError: true,
       name: "gender",
       options: ["male", "female"],
-      cumpulsory: true
+      required: true
     },
     {
       title: "What is your highest educational qualification?",
@@ -94,7 +217,7 @@ const IEVForm = () => {
       FieldError: true,
       name: "education",
       options: ["None", "Primary", "Secondary", "Tertiary"],
-      cumpulsory: true
+      required: true
     },
     {
       title: "How fluent are you in Hausa?",
@@ -102,7 +225,7 @@ const IEVForm = () => {
       FieldError: true,
       name: "hausa",
       options: ["Beginner", "Fluent", "Native", "I don't speak Hausa"],
-      cumpulsory: true
+      required: true
     },
     {
       title: "How fluent are you in English?",
@@ -110,9 +233,67 @@ const IEVForm = () => {
       FieldError: true,
       name: "english",
       options: ["Fluent", "Not Fluent"],
-      cumpulsory: true
+      required: true
     },
-  ]
+  ];
+
+  const proRadioFieldsData: RadioProps [] = [
+    {
+      title: "Do you have experience in coordinating community-based programs and data collection activities? (1 point)",
+      tag: "experience in coordinating community-based programs",
+      FieldError: true,
+      name: "community-based coordination",
+      options: ["Yes", "No"],
+      required: true
+    },
+    {
+      title: "What data collection tool or technology are you most familiar with?",
+      tag: "data collection tool or technology",
+      FieldError: true,
+      name: "data collection tool",
+      options: ["ODK", "Kobo Kollect", "CommsCare", "Optics", "None"],
+      required: true
+    },
+    {
+      title: "How would you respond if team members failed to show up or data collection equipment malfunctioned during a project? (1 Point)",
+      tag: "respond if team members failed to show up or data collection equipment malfunctioned",
+      FieldError: true,
+      name: "equipment malfunctioned",
+      options: ["Abandon the affected part of the project and move forward with what is available", "Wait and hope the issues resolve themselves over time", "Assess the situation, troubleshoot where possible, and implement alternative solutions while keeping stakeholders informed", "Escalate the issue immediately to senior management without attempting any solutions"],
+      required: true
+    },{
+      title: "In a case where there is resistance or concerns from community members, care givers or head of household regarding data collection, how would you handle the situation? (1 Point)",
+      tag: "resistance or concerns from community members",
+      FieldError: true,
+      name: "resistance from community members",
+      options: ["Politely listen to their concerns, address them respectfully using the information provided during training, and try to build trust and understanding.", "Insist on their participation and explain that it is mandatory.", "Offer them an incentive (like money or goods) to participate.", "Immediately stop the data collection attempt and move to the next household."],
+      required: true
+    },
+    {
+      title: "You are planning to gain support from community leaders and members on a project, which of the following steps are crucial to building trust? (1 Point)",
+      tag: "gain support from community leaders",
+      FieldError: true,
+      name: "support from community leaders",
+      options: ["Minimize communication to avoid potential disagreements or questions.", "Present the project as a directive from a higher authority without seeking their input.", "Clearly explain the project's objectives, benefits, and addressing potential concerns openly and honestly.", "Promise individual benefits to key leaders in exchange for their support."],
+      required: true
+    },
+    {
+      title: "In a scenario where caregivers raise concerns or misconceptions about the vaccination, how would you best approach this? (1 Point)",
+      tag: "caregivers raise concerns or misconceptions",
+      FieldError: true,
+      name: "caregivers raise concerns",
+      options: ["Tell them that their concerns are wrong and that they should trust the health authorities without question.", "Politely listen to their specific concerns, provide accurate information based on your training and approved materials, and address their questions respectfully.", "Dismiss their concerns and insist that vaccination is necessary.", "Immediately stop discussing vaccination and focus only on the data collection."],
+      required: true
+    },
+    {
+      title: "What step is integral to ensuring that marginalized or hard-to-reach communities are included a data collection process? (1 Point)",
+      tag: "step is integral to ensuring that marginalized or hard-to-reach communities",
+      FieldError: true,
+      name: "hard-to-reach communities",
+      options: ["Focusing data collection efforts primarily in easily accessible urban areas to maximize efficiency.", "Assuming that if the general population is covered, marginalized communities will naturally be included in the data.", "Utilizing only standardized data collection methods that are universally applicable across all communities.", "Adapting data collection strategies, communication methods, and engaging with community-specific gatekeepers and influencers to build trust and access."],
+      required: true
+    },
+  ];
 
   const buttonInfoData: ButtonProps = {
     text: "Submit",
@@ -126,7 +307,8 @@ const IEVForm = () => {
     description: "Add your details below to get back into the app",
     logoUrl: "/logo.png",
     textFields: inputFieldsData,
-    radioFields: radioFieldsData,
+    perRadioFields: perRadioFieldsData,
+    proRadioFields: proRadioFieldsData,
     buttonInfo: buttonInfoData,
     footerText: "Don't have an account?",
     footerLinkText: "Create account",
