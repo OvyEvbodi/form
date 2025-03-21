@@ -94,7 +94,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     if (english !== "Fluent") return "Unqualified"
     if (hausa !== "Fluent" && hausa !== "Native") return "Unqualified"
     if (education !== "Secondary" && education !== "Tertiary")  return "Unqualified"
-    if (communityYearsCoordinating !== "Above 3 Years") return "Unqualified"
+    if (communityYearsCoordinating !== "3 Years and above") return "Unqualified"
     if (points < 5) return "Unqualified"
     return "Qualified"
   }
