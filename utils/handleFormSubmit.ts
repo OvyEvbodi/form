@@ -22,6 +22,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const longitude = formData.get("longitude") as string;
   const geolocationData = formData.get("geolocationData") as string;
   const communityCoordination = formData.get("community-based coordination") as string;
+  const communityYearsCoordinating = formData.get("community years coordinating") as string;
   const dataCollectionTools = formData.get("data collection tool") as string;
   const equipmentMalfunctioned = formData.get("equipment malfunctioned") as string;
   const communityResistance = formData.get("resistance from community members") as string;
@@ -94,6 +95,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     if (english !== "Fluent") return "Unqualified"
     if (hausa !== "Fluent" && hausa !== "Native") return "Unqualified"
     if (education !== "Secondary" && education !== "Tertiary")  return "Unqualified"
+    if (communityYearsCoordinating !== "Above 3 Years") return "Unqualified"
     if (points < 5) return "Unqualified"
     return "Qualified"
   }
@@ -117,6 +119,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     geolocationData,
     submissionTime,
     communityCoordination,
+    communityYearsCoordinating,
     dataCollectionTools,
     equipmentMalfunctioned,
     communityResistance,
@@ -153,6 +156,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
           school_qualification: education,
           hausa_fluency: hausa,
           english_fluency: english,
+          years_experience: communityYearsCoordinating,
           latitude,
           longitude,
           full_coordinates: geolocationData,
@@ -184,6 +188,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
           school_qualification: education,
           hausa_fluency: hausa,
           english_fluency: english,
+          years_experience: communityYearsCoordinating,
           latitude,
           longitude,
           full_coordinates: geolocationData,
@@ -215,6 +220,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
           school_qualification: education,
           hausa_fluency: hausa,
           english_fluency: english,
+          years_experience: communityYearsCoordinating,
           latitude,
           longitude,
           full_coordinates: geolocationData,

@@ -265,6 +265,14 @@ const WardIEVForm = () => {
       required: true
     },
     {
+      title: "If you chose yes above, how many years of experience do you have?",
+      tag: "years of experience coordinating",
+      FieldError: true,
+      name: "community years coordinating",
+      options: ["Less than a year", "1-3 Years", "Above 3 Years", "Not Applicable"],
+      required: true
+    },
+    {
       title: "What data collection tool or technology are you most familiar with?",
       tag: "data collection tool or technology",
       FieldError: true,
