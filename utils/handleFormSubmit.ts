@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 
 export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const name = formData.get("name") as string;
-  const dob = formData.get("dob");
+  const dobString = formData.get("dob") as string;
   const phoneNumber = formData.get("phone number") as string;
   const email = formData.get("email") as string;
   const lga = formData.get("lga") as string;
@@ -26,10 +26,39 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const communitySupport = formData.get("support from community leaders") as string;
   const caregiversConerns = formData.get("caregivers raise concerns") as string;
   const hardtoreachCommunities = formData.get("hard-to-reach communities") as string;
+  const dob = new Date(dobString);
+  
   const id = uuidv4();
   const submissionTime = new Date();
   let points = 0;
-  const status = "qualified"; //sort out logic
+
+  const minimumAge:(dob: Date) => boolean = (dob: Date) => {
+    // const today = new Date();
+    // let age: number = 0;
+    // const timeDiff = Math.floor(today.getTime() - dob.getTime())
+    // const daysDiff = Math.floor(timeDiff / 1000 * 3600 * 24)
+    // age = daysDiff / 365;
+
+    // if (age >= 35) return true
+    // else return false
+
+      const today = new Date();
+      
+      // Calculate age in full years
+      const age = today.getFullYear() - dob.getFullYear();
+    
+      // Adjust if the birthday hasn't occurred yet this year
+      const birthdayThisYear = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+      if (today < birthdayThisYear) {
+        return age - 1 >= 35; // Subtract one year if birthday hasn't occurred
+      }
+    
+      return age >= 35;
+  };
+
+  const status = minimumAge(dob)  ?  "qualified" : "Unqualified"; //sort out logic
+
+  
 
   const calculatePoints = () => {
     communityCoordination === "Yes" && points++
@@ -42,34 +71,6 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   };
   calculatePoints()
 
-  try {
-    const db = new PrismaClient();
-    const addNewEntry = await db.lga_supervisor_application.create({
-      data: {
-        id,
-        name,
-        phone_number: phoneNumber, 
-        email,
-        lga,
-        ward,
-        gender,
-        school_qualification: education,
-        hausa_fluency: hausa,
-        english_fluency: english,
-        latitude,
-        longitude,
-        full_cordinates: geolocationData,
-        submission_time: submissionTime,
-        total_points: points,
-        status
-      }
-    })
-  } catch (error) {
-    console.log(error)
-  } finally {
-    redirect("/thank-you")
-  }
-  
   const filledFormData = {
     id,
     name,
@@ -98,5 +99,37 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   };
 
   console.log(filledFormData)
-  
+
+  const dbPost = async () => {
+    const db = new PrismaClient();
+    const addNewEntry = await db.lga_supervisor_application.create({
+      data: {
+        id,
+        name,
+        dob,
+        phone_number: phoneNumber, 
+        email,
+        lga,
+        ward,
+        gender,
+        school_qualification: education,
+        hausa_fluency: hausa,
+        english_fluency: english,
+        latitude,
+        longitude,
+        full_cordinates: geolocationData,
+        submission_time: submissionTime,
+        total_points: points,
+        status
+      }
+    })
+  };
+
+  try {
+    dbPost()
+  } catch (error) {
+    console.log(error)
+  } finally {
+    redirect("/thank-you")
+  }
 };
