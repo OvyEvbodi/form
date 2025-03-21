@@ -128,6 +128,19 @@ export const lgaWardsMap: any = { // create interface for type safety
     "Dawaki",
     "Zogarawa"
   ],
+  "Dawakin Tofa": [
+    "Danguguwa",
+    "Dawaki East",
+    "Dawaki West",
+    "Dawanau",
+    "Ganduje",
+    "Gargari",
+    "Jalli",
+    "Kwa",
+    "Marke",
+    "Tattarawa",
+    "Tumfafi"
+  ],
   "Doguwa": [
     "Dadin Kowa",
     "Dogon Kawo",

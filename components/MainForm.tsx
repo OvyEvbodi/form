@@ -81,46 +81,47 @@ const FormTemplate = (props: IEVFormProps) => {
 
 
   return (
-    <div className="lg:max-w-[860px] opacity-90 p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-50 via-gray-200 to-gray-100">
-      <div className="">
-      <h1 className="pt-4 my-4 text-3xl font-extrabold text-gray-800">Kano State IEV Implementation Strategy - <span className="text-blue-500">LGA Supervisor</span> Application Form</h1>
-        <p className="mb-4 font-medium">
-          Thank you for your interest in the <span className="text-blue-500 font-bold">LGA Supervisor</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is led by Clinton Health Access Initiative (CHAI) in collaboration with the National Primary Health Care Development Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
-          <br /><br />
-          This application form is designed to collect essential information about your background, experience, and qualifications to ensure a fair and thorough selection process.
-          <br /><br />
-          <span className="text-red-700">
-            Please note that this application is open only to residents of Kano State. If you do not reside in Kano State, please do not apply. 
-          </span>
-          <br /><br />
-          Take the time to complete all required fields accurately, as incomplete applications may not be considered. We appreciate your time and effort and look forward to reviewing your application.
-          <br /><br />
-          Best of luck!<br/>
-          <span className="text-red-600">&#10036;</span> Required
-        </p>
+    <div className="text-sm md:text-medium lg:max-w-[860px] opacity-[0.956] p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-50 via-gray-200 to-gray-100">
+      <div className={page === 2 ? "hidden sm_img_holder " : "sm_img_holder "}>
+        <div className="bg-cyan-800 opacity-90 rounded-md text-white p-4 md:p-0 sm:bg-transparent sm:opacity-100 sm:text-black">
+          <h1 className="pt-4 my-4 text-3xl font-extrabold text-gray-800">Kano State IEV Implementation Strategy - <span className="text-blue-500">LGA Supervisor</span> Application Form</h1>
+            <p className="mb-4 font-medium text-sm lg:text-medium">
+              Thank you for your interest in the <span className="text-blue-500 font-bold">LGA Supervisor</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is led by Clinton Health Access Initiative (CHAI) in collaboration with the National Primary Health Care Development Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
+              <br /><br />
+              This application form is designed to collect essential information about your background, experience, and qualifications to ensure a fair and thorough selection process.
+              <br /><br />
+              <span className="text-red-700">
+                Please note that this application is open only to residents of Kano State. If you do not reside in Kano State, please do not apply. 
+              </span>
+              <br /><br />
+              Take the time to complete all required fields accurately, as incomplete applications may not be considered. We appreciate your time and effort and look forward to reviewing your application.
+              <br /><br />
+              Best of luck!<br/>
+              <span className="text-red-700">&#10038;</span> Required
+            </p>
+        </div>
       </div>
-      
       <form name="iev" className="" action={action}>
         <div className={consent ? "hidden" : ""}>
-          <p className="mb-4 font-bold">
+          <p className="my-4 font-bold">
             Note: To proceed with your application, you must allow access to your GPS location. This is required to verify your eligibility for the IEV work in Kano State. Click the button below to enable location access.
           </p>
           <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
           <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
           <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
-          <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Grant Location Access</div>
+          <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Grant Location Access</div>
         </div>
   
         <div id="personal info" className={page === 1 && consent ? "" : "hidden"}>
-        <div className="text-cyan-900 font-bold text-lg">Personal Information</div>
+        <div className="text-cyan-900 font-bold text-lg my-4">Personal Information</div>
           {
             props.textFields.map((item: InputProps, index) => (
               <InputField key={index} props={item} />
             ))
           } 
           <div className="mb-2">
-            <label htmlFor="lga" className="font-bold text-md mb-1">LGA of Residence</label><span className="text-red-600">&#10036;</span>
-            <select name="lga" value={lga} required onChange={ handleLgaChange }>
+            <label htmlFor="lga" className="font-bold text-md mb-1">LGA of Residence</label><span className="text-red-700">&#10038;</span>
+            <select name="lga" value={lga} required onChange={ handleLgaChange } className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
               <option value="">select lga</option>
               {lgaList.map((item: string, index: number) => (
                 <option key={index}  value={item}>{item}</option>
@@ -128,8 +129,8 @@ const FormTemplate = (props: IEVFormProps) => {
             </select>
           </div>
           <div className="mb-2">
-            <label htmlFor="ward" className="font-bold text-md mb-1">Name of Ward</label><span className="text-red-600">&#10036;</span>
-            <select  name="ward" value={ward} required disabled={!lga} onChange={handleWardChange}>
+            <label htmlFor="ward" className="font-bold text-md mb-1">Name of Ward</label><span className="text-red-700">&#10038;</span>
+            <select  name="ward" value={ward} required disabled={!lga} onChange={handleWardChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
               {/* <option value="">Choose a ward</option> */}
               {
                 wards.map((item: string, index: number) => (
@@ -144,17 +145,17 @@ const FormTemplate = (props: IEVFormProps) => {
             ))
           }
           {props.cautionText && <p className="text-xs mb-6">{props.cautionText}</p>}
-          <div onClick={() => handleChangePage(2)} className="lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-900 transition-all">Next</div>
+          <div onClick={() => handleChangePage(2)} className="lg:min-w-[200px] lg:max-w-max min-h-[46px] p-2 px-10 text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Next</div>
         </div>
         <div id="professional info" className={page === 2 ? "" : "hidden"}>
-        <div className="text-cyan-900 font-bold text-lg">Professional Assessment</div>
+        <div className="text-cyan-900 font-bold text-lg my-4">Professional Assessment</div>
           {
             props.proRadioFields.map((item: RadioProps, index) => (
               <RadioField key={index} props={item} />
             ))
           }
           <div className="flex gap-4">
-            <div onClick={() => handleChangePage(1)} className="lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-gray-700 rounded-lg hover:bg-gray-400 transition-all">Back</div>
+            <div onClick={() => handleChangePage(1)} className="lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-gray-500 rounded-lg hover:bg-gray-600 transition-all">Back</div>
             <Button props={props.buttonInfo} />
           </div>
         </div>
@@ -189,8 +190,8 @@ const IEVForm = () => {
       required: true
     },
     {
-      tag: "Phone number (11 digits)",
-      placeholder: "Enter your phone number",
+      tag: "Phone number (must 11 digits)",
+      placeholder: "e.g 08045678910",
       FieldError: true,
       name: "phone number",
       id: "phone number",
