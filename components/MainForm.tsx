@@ -188,14 +188,15 @@ const IEVForm = () => {
       required: true
     },
     {
-      tag: "Phone Number (must be 11 digits)",
+      tag: "Phone Number (must start with '0' and be 11 digits)",
       placeholder: "e.g 08045678910",
       FieldError: true,
       name: "phone number",
       id: "phone number",
       iconUrl: "/number_icon.png",
-      type: "number",
-      required: true
+      type: "tel",
+      required: true,
+      pattern:"^0[0-9]{10}",
     },
     {
       tag: "Email Address",
