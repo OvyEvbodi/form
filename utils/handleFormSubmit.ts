@@ -117,33 +117,64 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
 
   console.log(filledFormData)
 
-
-  try {
-    const db = new PrismaClient();
-    const addNewEntry = await db.lga_supervisor_application.create({
-      data: {
-        id,
-        name,
-        dob,
-        phone_number: phoneNumber, 
-        email,
-        lga,
-        ward,
-        gender,
-        school_qualification: education,
-        hausa_fluency: hausa,
-        english_fluency: english,
-        latitude,
-        longitude,
-        full_cordinates: geolocationData,
-        submission_time: submissionTime,
-        total_points: points,
-        status
-      }
-  })
-    } catch (error) {
-    console.log(error)
-  } finally {
-    redirect("/thank-you")
+  if (jobRole === "ward") {
+    try {
+      const db = new PrismaClient();
+      const addNewEntry = await db.ward_supervisor_application.create({
+        data: {
+          id,
+          name,
+          dob,
+          phone_number: phoneNumber, 
+          email,
+          lga,
+          ward,
+          gender,
+          school_qualification: education,
+          hausa_fluency: hausa,
+          english_fluency: english,
+          latitude,
+          longitude,
+          full_coordinates: geolocationData,
+          submission_time: submissionTime,
+          total_points: points,
+          status
+        }
+    })
+      } catch (error) {
+      console.log(error)
+    } finally {
+      redirect("/thank-you")
+    }
+  } else if (jobRole === "lga") {
+    try {
+      const db = new PrismaClient();
+      const addNewEntry = await db.lga_supervisor_application.create({
+        data: {
+          id,
+          name,
+          dob,
+          phone_number: phoneNumber, 
+          email,
+          lga,
+          ward,
+          gender,
+          school_qualification: education,
+          hausa_fluency: hausa,
+          english_fluency: english,
+          latitude,
+          longitude,
+          full_coordinates: geolocationData,
+          submission_time: submissionTime,
+          total_points: points,
+          status
+        }
+    })
+      } catch (error) {
+      console.log(error)
+    } finally {
+      redirect("/thank-you")
+    }
   }
+
 };

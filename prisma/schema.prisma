@@ -23,7 +23,7 @@ model lga_supervisor_application {
   school_qualification String
   hausa_fluency        String
   english_fluency      String
-  full_cordinates      String
+  full_coordinates     String
   status               String?
   dob                  DateTime? @db.Date
   id                   String    @id @unique @db.Uuid
@@ -32,24 +32,23 @@ model lga_supervisor_application {
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model ward_supervisor_application {
-  id                  String[]  @id @db.Uuid
-  name                String
-  lga                 String
-  ward                String
-  latitude            String
-  longitude           String
-  total_points        String
-  submission_time     String
-  phone_number        String
-  email               String?
-  gender              String
-  school_qulification String
-  hausa_fluency       String
-  english_fluency     String
-  full_cordinates     String
-  status              String?
-  dob                 DateTime? @db.Date
-  device              String?
+  id                   String @id @unique @db.Uuid
+  name                 String
+  lga                  String
+  ward                 String
+  latitude             String
+  longitude            String
+  phone_number         String
+  email                String?
+  gender               String
+  school_qualification String
+  hausa_fluency        String
+  english_fluency      String
+  full_coordinates     String
+  status               String?
+  dob                  DateTime? @db.Date
+  device               String?
+  total_points         BigInt
+  submission_time      DateTime  @db.Date
 
-  @@ignore
 }
