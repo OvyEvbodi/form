@@ -74,7 +74,6 @@ const FormTemplate = (props: IEVFormProps) => {
     }
   };
 
-
   const wards = lga ? lgaWardsMap[lga] : [];
 
   return (
@@ -113,7 +112,6 @@ const FormTemplate = (props: IEVFormProps) => {
           </div>
           }
         </div>
-        
   
         <div id="personal info" className={consent ? "" : "hidden"}>
         <div className="text-cyan-900 font-bold text-lg my-4">Personal Information</div>
