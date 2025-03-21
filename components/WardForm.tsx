@@ -304,7 +304,7 @@ const WardIEVForm = () => {
       required: true
     },
     {
-      title: "What step is integral to ensuring that marginalized or hard-to-reach communities are included a data collection process?",
+      title: "What step is important to ensuring that hard-to-reach communities are included in the data collection process?",
       tag: "step is integral to ensuring that marginalized or hard-to-reach communities",
       FieldError: true,
       name: "hard-to-reach communities",
