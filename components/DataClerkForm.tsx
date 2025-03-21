@@ -71,7 +71,6 @@ const FormTemplate = (props: IEVFormProps) => {
 
   const wards = lga ? lgaWardsMap[lga] : [];
 
-
   return (
     <div className="text-sm md:text-medium lg:max-w-[860px] opacity-[0.956] p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-50 via-gray-200 to-gray-100">
       <div className={page === 2 ? "hidden sm_img_holder " : "sm_img_holder "}>
@@ -151,10 +150,10 @@ const FormTemplate = (props: IEVFormProps) => {
           </div>
         </div>
       </form>
+      { isPending ? <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-neutral-900/85"><div className="p-12 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md">Submitting...</div></div> : <div></div>}
     </div>
   )
 };
-
 
 const DataClerksIEVForm = () => {
 
@@ -342,7 +341,6 @@ const DataClerksIEVForm = () => {
     accentColour: "purple"
   };
 
-  
   return (
     <div className="md:bg-light_grey min-h-screen flex justify-center items-center">
       <FormTemplate {...ievFormData}/>

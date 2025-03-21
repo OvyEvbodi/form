@@ -152,10 +152,10 @@ const FormTemplate = (props: IEVFormProps) => {
           </div>
         </div>
       </form>
+      { isPending ? <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-neutral-900/85"><div className="p-12 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md">Submitting...</div></div> : <div></div>}
     </div>
   )
 };
-
 
 const WardIEVForm = () => {
 
