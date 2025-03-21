@@ -112,7 +112,8 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     caregiversConerns,
     hardtoreachCommunities,
     points,
-    status
+    status,
+    jobRole
   };
 
   console.log(filledFormData)
@@ -138,6 +139,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
           full_coordinates: geolocationData,
           submission_time: submissionTime,
           total_points: points,
+          device,
           status
         }
     })
@@ -167,6 +169,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
           full_coordinates: geolocationData,
           submission_time: submissionTime,
           total_points: points,
+          device,
           status
         }
     })

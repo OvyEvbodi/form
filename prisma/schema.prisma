@@ -50,5 +50,4 @@ model ward_supervisor_application {
   device               String?
   total_points         BigInt
   submission_time      DateTime  @db.Date
-
 }

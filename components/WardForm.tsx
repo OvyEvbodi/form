@@ -109,7 +109,7 @@ const FormTemplate = (props: IEVFormProps) => {
           <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
           <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
           <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
-          <input type="text" name="jobRole" value="ward" className="hidden"/>
+          <input type="text" name="jobRole" value="ward" className="hidden" onChange={() => console.log(".")}/>
           <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Grant Location Access</div>
         </div>
   
