@@ -5,6 +5,8 @@ import Button, { ButtonProps } from "@/components/Button";
 import { useActionState, useState } from "react";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { lgaList, lgaWardsMap } from "@/data";
+import BeatLoader from "react-spinners/BeatLoader";
+import ClockLoader from "react-spinners/ClockLoader";
 
 
 export interface IEVFormProps {
@@ -32,6 +34,7 @@ const FormTemplate = (props: IEVFormProps) => {
   const [longitude, setLongitude] = useState("");
   const [geolocationData, setGeolocationData] = useState("");
   const [consent, setConsent] = useState(false);
+  const [geoLoading, setGeoLoading] = useState(false);
 
 
   const handleLgaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -46,6 +49,7 @@ const FormTemplate = (props: IEVFormProps) => {
   };
 
   const handleGeolocation = async(event: React.MouseEvent<HTMLDivElement>) => {
+    setGeoLoading(true)
     event.preventDefault()
     try {
       const success = async (position: any) => {
@@ -53,6 +57,7 @@ const FormTemplate = (props: IEVFormProps) => {
         setLongitude(position.coords.longitude)
         setGeolocationData(JSON.stringify(position))
         setConsent(true)
+        setGeoLoading(false)
       }
 
       if (!navigator.geolocation) {
@@ -68,6 +73,7 @@ const FormTemplate = (props: IEVFormProps) => {
       console.log(error)
     }
   };
+
 
   const wards = lga ? lgaWardsMap[lga] : [];
 
@@ -101,8 +107,13 @@ const FormTemplate = (props: IEVFormProps) => {
           <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
           <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
           <input type="text" name="jobRole" value="clerk" className="hidden" onChange={() => console.log(".")}/>
-          <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Grant Location Access</div>
+          {!geoLoading ? <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Grant Location Access</div> :
+          <div className="mb-4 lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">
+            <BeatLoader color="#ccc" />
+          </div>
+          }
         </div>
+        
   
         <div id="personal info" className={consent ? "" : "hidden"}>
         <div className="text-cyan-900 font-bold text-lg my-4">Personal Information</div>
@@ -150,7 +161,7 @@ const FormTemplate = (props: IEVFormProps) => {
           </div>
         </div>
       </form>
-      { isPending ? <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-neutral-900/85"><div className="p-12 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md">Submitting...</div></div> : <div></div>}
+      { isPending ? <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-neutral-900/85"><div className="p-12 sm:px-20 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md"><ClockLoader color="#169285" /></div></div> : <div></div>}
     </div>
   )
 };
