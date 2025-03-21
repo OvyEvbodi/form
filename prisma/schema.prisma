@@ -49,5 +49,5 @@ model ward_supervisor_application {
   dob                  DateTime? @db.Date
   device               String?
   total_points         BigInt
-  submission_time      DateTime  @db.Date
+  submission_time      DateTime  @db.Timestamptz(6)
 }

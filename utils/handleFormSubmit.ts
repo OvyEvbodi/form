@@ -120,8 +120,8 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
 
   if (jobRole === "ward") {
     try {
-      const db = new PrismaClient();
-      const addNewEntry = await db.ward_supervisor_application.create({
+      const warddb = new PrismaClient();
+      const addWordEntry = await warddb.ward_supervisor_application.create({ 
         data: {
           id,
           name,
