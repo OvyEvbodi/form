@@ -2,12 +2,9 @@
 
 import InputField, { InputProps, RadioField, RadioProps } from "@/components/Input";
 import Button, { ButtonProps } from "@/components/Button";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { lgaList, lgaWardsMap } from "@/data";
-import { useGeolocated } from "react-geolocated";
-import axios, { AxiosError } from "axios";
-
 
 
 export interface IEVFormProps {
@@ -36,10 +33,6 @@ const FormTemplate = (props: IEVFormProps) => {
   const [geolocationData, setGeolocationData] = useState("");
   const [consent, setConsent] = useState(false);
 
-
-  const handleChangePage = (page: number) => {
-    setPage(page)
-  };
 
   const handleLgaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
@@ -113,7 +106,7 @@ const FormTemplate = (props: IEVFormProps) => {
           <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Grant Location Access</div>
         </div>
   
-        <div id="personal info" className={page === 1 && consent ? "" : "hidden"}>
+        <div id="personal info" className={consent ? "" : "hidden"}>
         <div className="text-cyan-900 font-bold text-lg my-4">Personal Information</div>
           {
             props.textFields.map((item: InputProps, index) => (
@@ -146,9 +139,8 @@ const FormTemplate = (props: IEVFormProps) => {
             ))
           }
           {props.cautionText && <p className="text-xs mb-6">{props.cautionText}</p>}
-          <div onClick={() => handleChangePage(2)} className="lg:min-w-[200px] lg:max-w-max min-h-[46px] cursor-pointer p-2 px-10 text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Next</div>
         </div>
-        <div id="professional info" className={page === 2 ? "" : "hidden"}>
+        <div id="professional info" className={consent ? "" : "hidden"}>
         <div className="text-cyan-900 font-bold text-lg my-4">Professional Assessment</div>
           {
             props.proRadioFields.map((item: RadioProps, index) => (
@@ -156,7 +148,6 @@ const FormTemplate = (props: IEVFormProps) => {
             ))
           }
           <div className="flex gap-4">
-            <div onClick={() => handleChangePage(1)} className="lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-gray-500 rounded-lg hover:bg-gray-600 transition-all">Back</div>
             <Button props={props.buttonInfo} />
           </div>
         </div>
