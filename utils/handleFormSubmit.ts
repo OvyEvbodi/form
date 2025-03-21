@@ -1,11 +1,12 @@
 'use server'
 import { Pool } from "pg";
 import { v4 as uuidv4 } from 'uuid';
+import { PrismaClient } from "@prisma/client";
 
 
 export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const name = formData.get("name") as string;
-  const dob = formData.get("name");
+  const dob = formData.get("dob");
   const phoneNumber = formData.get("phone number") as string;
   const email = formData.get("email") as string;
   const lga = formData.get("lga") as string;
@@ -41,49 +42,28 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   calculatePoints()
 
   try {
-    const pool = new Pool({
-      user: process.env.DB_USER,
-      host: process.env.DB_HOST,
-      database: process.env.DB,
-      password: process.env.DB_PASSWORD,
-      port: Number(process.env.DB_PORT) || 5432,
-      //ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false, 
-      ssl: { rejectUnauthorized: false },
+    const db = new PrismaClient();
+    const addNewEntry = await db.lga_supervisor_application.create({
+      data: {
+        id,
+        name,
+        phone_number: phoneNumber, 
+        email,
+        lga,
+        ward,
+        gender,
+        school_qualification: education,
+        hausa_fluency: hausa,
+        english_fluency: english,
+        latitude,
+        longitude,
+        full_cordinates: geolocationData,
+        submission_time: submissionTime,
+        total_points: points,
+        status
+      }
     })
-    
-    
-    
-    const dbConnection = async() => {
-      // const db = pool.connect((error, client, release) => {
-      //   if (error) {
-      //     console.log(error)
-      //   }
-      //   console.log("connected ooooo") // release connection
-      //   const newEntry = pool.query('INSERT INTO public.lga_supervisor_application(id, name, lga, ward, latitude, longitude, total_points, submission_time, phone_number, email, gender, school_qualification, hausa_fluency, english_fluency, full_cordinates) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);',
-      //     [id, name, lga, ward, latitude, longitude, points, submissionTime, phoneNumber, email, gender, education, hausa, english])
-      //     console.log("posted ooooo") // release connection
-      // })
-    
 
-      console.log("DB Connection:", process.env.DB_HOST);
-
-        const query = `
-          INSERT INTO public.lga_supervisor_application 
-          (name, lga, ward, latitude, longitude, total_points, submission_time, phone_number, email, gender, school_qualification, hausa_fluency, english_fluency, full_cordinates, status, dob) 
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
-          RETURNING *;`;
-
-        const values = [
-          id, name, lga, ward, latitude, longitude, points, submissionTime, 
-          phoneNumber, email, gender, education, hausa, english, 
-          geolocationData, status, dob
-      ];
-
-    const result = await pool.query(query, values);
-    // console.log(result)
-    };
-
-    dbConnection()
   } catch (error) {
     console.log(error)
   }
@@ -92,7 +72,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     id,
     name,
     dob,
-    phoneNumber,
+    phoneNumber, 
     email,
     lga,
     ward,
