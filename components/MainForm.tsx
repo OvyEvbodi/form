@@ -109,7 +109,7 @@ const FormTemplate = (props: IEVFormProps) => {
           <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
           <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
           <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
-          <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Grant Location Access</div>
+          <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Grant Location Access</div>
         </div>
   
         <div id="personal info" className={page === 1 && consent ? "" : "hidden"}>
@@ -145,7 +145,7 @@ const FormTemplate = (props: IEVFormProps) => {
             ))
           }
           {props.cautionText && <p className="text-xs mb-6">{props.cautionText}</p>}
-          <div onClick={() => handleChangePage(2)} className="lg:min-w-[200px] lg:max-w-max min-h-[46px] p-2 px-10 text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Next</div>
+          <div onClick={() => handleChangePage(2)} className="lg:min-w-[200px] lg:max-w-max min-h-[46px] cursor-pointer p-2 px-10 text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Next</div>
         </div>
         <div id="professional info" className={page === 2 ? "" : "hidden"}>
         <div className="text-cyan-900 font-bold text-lg my-4">Professional Assessment</div>
@@ -155,7 +155,7 @@ const FormTemplate = (props: IEVFormProps) => {
             ))
           }
           <div className="flex gap-4">
-            <div onClick={() => handleChangePage(1)} className="lg:min-w-[227px] min-h-[46px] py-[11px] px-[27px] text-white font-semibold capitalize bg-gray-500 rounded-lg hover:bg-gray-600 transition-all">Back</div>
+            <div onClick={() => handleChangePage(1)} className="lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-gray-500 rounded-lg hover:bg-gray-600 transition-all">Back</div>
             <Button props={props.buttonInfo} />
           </div>
         </div>

@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const name = formData.get("name") as string;
+  const dob = formData.get("name");
   const phoneNumber = formData.get("phone number") as string;
   const email = formData.get("email") as string;
   const lga = formData.get("lga") as string;
@@ -50,6 +51,8 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
       ssl: { rejectUnauthorized: false },
     })
     
+    
+    
     const dbConnection = async() => {
       // const db = pool.connect((error, client, release) => {
       //   if (error) {
@@ -60,19 +63,20 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
       //     [id, name, lga, ward, latitude, longitude, points, submissionTime, phoneNumber, email, gender, education, hausa, english])
       //     console.log("posted ooooo") // release connection
       // })
+    
 
       console.log("DB Connection:", process.env.DB_HOST);
 
         const query = `
           INSERT INTO public.lga_supervisor_application 
-          (name, lga, ward, latitude, longitude, total_points, submission_time, phone_number, email, gender, school_qualification, hausa_fluency, english_fluency, full_cordinates, status) 
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+          (name, lga, ward, latitude, longitude, total_points, submission_time, phone_number, email, gender, school_qualification, hausa_fluency, english_fluency, full_cordinates, status, dob) 
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
           RETURNING *;`;
 
         const values = [
           id, name, lga, ward, latitude, longitude, points, submissionTime, 
           phoneNumber, email, gender, education, hausa, english, 
-          geolocationData, status
+          geolocationData, status, dob
       ];
 
     const result = await pool.query(query, values);
@@ -87,6 +91,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const filledFormData = {
     id,
     name,
+    dob,
     phoneNumber,
     email,
     lga,
