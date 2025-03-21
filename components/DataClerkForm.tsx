@@ -1,0 +1,346 @@
+'use client'
+
+import InputField, { InputProps, RadioField, RadioProps } from "@/components/Input";
+import Button, { ButtonProps } from "@/components/Button";
+import { useActionState, useEffect, useState } from "react";
+import { handleFormSubmit } from "@/utils/handleFormSubmit";
+import { lgaList, lgaWardsMap } from "@/data";
+import { useGeolocated } from "react-geolocated";
+import axios, { AxiosError } from "axios";
+
+
+
+export interface IEVFormProps {
+  logoUrl?: string;
+  title: string;
+  description?: string;
+  textFields: InputProps[];
+  perRadioFields: RadioProps[];
+  proRadioFields: RadioProps[];
+  buttonInfo: ButtonProps;
+  footerText?: string;
+  footerLink?: string;
+  accentColour?: string;
+  footerLinkText?: string;
+  cautionText?: string;
+}
+
+const FormTemplate = (props: IEVFormProps) => {
+  const [lastResult, action, isPending] = useActionState(handleFormSubmit, null);
+  // const [filledForm, filledFields] = useForm({lastResult})
+  const [page, setPage] = useState(1);
+  const [lga, setLga] = useState("");
+  const [ward, setWard] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [geolocationData, setGeolocationData] = useState("");
+  const [consent, setConsent] = useState(false);
+
+
+  const handleChangePage = (page: number) => {
+    setPage(page)
+  };
+
+  const handleLgaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault()
+    setLga(event.target.value)
+    setWard('')
+  };
+
+  const handleWardChange  = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault()
+    setWard(event.target.value)
+  };
+
+  const handleGeolocation = async(event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    try {
+      const success = async (position: any) => {
+        setLatitude(position.coords.latitude)
+        setLongitude(position.coords.longitude)
+        setGeolocationData(JSON.stringify(position))
+        setConsent(true)
+      }
+
+      if (!navigator.geolocation) {
+        console.log("Geolocation is not supported by your browser")
+      } else {
+        console.log("Getting location")
+        navigator.geolocation.getCurrentPosition(success); // add error callback
+        console.log("successful")
+      }
+    
+    } catch (error) {
+      // for dev
+      console.log(error)
+    }
+    
+  };
+
+  const wards = lga ? lgaWardsMap[lga] : [];
+
+
+  return (
+    <div className="text-sm md:text-medium lg:max-w-[860px] opacity-[0.956] p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-50 via-gray-200 to-gray-100">
+      <div className={page === 2 ? "hidden sm_img_holder " : "sm_img_holder "}>
+        <div className="bg-cyan-800 opacity-90 rounded-md text-white p-4 md:p-0 sm:bg-transparent sm:opacity-100 sm:text-black">
+          <h1 className="pt-4 my-4 text-3xl font-extrabold text-gray-800">Kano State IEV Implementation Strategy - <span className="text-blue-500">Data Clerk</span> Application Form</h1>
+            <p className="mb-4 font-medium text-sm lg:text-medium">
+              Thank you for your interest in the <span className="text-blue-500 font-bold">Data Clerk</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is coordinated by the Clinton Health Access Initiative (CHAI) in collaboration with the National Primary Health Care Development Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
+              <br /><br />
+              This application form is designed to collect essential information about your background, experience, and qualifications to ensure a fair and thorough selection process.
+              <br /><br />
+              <span className="text-black md:text-red-700">
+                Please note that this application is open only to residents of Kano State. If you do not reside in Kano State, please do not apply. 
+              </span>
+              <br /><br />
+              Take the time to complete all required fields accurately, as incomplete applications may not be considered. We appreciate your time and effort and look forward to reviewing your application.
+              <br /><br />
+              Best of luck!<br/>
+              <span className="text-red-700">&#10038;</span> Required
+            </p>
+        </div>
+      </div>
+      <form name="iev" className="" action={action}>
+        <div className={consent ? "hidden" : ""}>
+          <p className="my-4 font-bold">
+            Note: To proceed with your application, you must allow access to your GPS location. This is required to verify your eligibility for the IEV work in Kano State. Click the button below to enable location access.
+          </p>
+          <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
+          <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
+          <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
+          <input type="text" name="jobRole" value="clerk" className="hidden" onChange={() => console.log(".")}/>
+          <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Grant Location Access</div>
+        </div>
+  
+        <div id="personal info" className={page === 1 && consent ? "" : "hidden"}>
+        <div className="text-cyan-900 font-bold text-lg my-4">Personal Information</div>
+          {
+            props.textFields.map((item: InputProps, index) => (
+              <InputField key={index} props={item} />
+            ))
+          } 
+          <div className="mb-2">
+            <label htmlFor="lga" className="font-bold text-md mb-1">LGA of Residence</label><span className="text-red-700">&#10038;</span>
+            <select name="lga" value={lga} required onChange={ handleLgaChange } className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
+              <option value="">Select LGA</option>
+              {lgaList.map((item: string, index: number) => (
+                <option key={index}  value={item}>{item}</option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-2">
+            <label htmlFor="ward" className="font-bold text-md mb-1">Name of Ward</label><span className="text-red-700">&#10038;</span>
+            <select  name="ward" value={ward} required disabled={!lga} onChange={handleWardChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
+              {/* <option value="">Choose a ward</option> */}
+              {
+                wards.map((item: string, index: number) => (
+                  <option key={index}  value={item}>{item}</option>
+                ))
+              }
+            </select>
+          </div>
+          {
+            props.perRadioFields.map((item: RadioProps, index) => (
+              <RadioField key={index} props={item} />
+            ))
+          }
+          {props.cautionText && <p className="text-xs mb-6">{props.cautionText}</p>}
+          <div onClick={() => handleChangePage(2)} className="lg:min-w-[200px] lg:max-w-max min-h-[46px] cursor-pointer p-2 px-10 text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Next</div>
+        </div>
+        <div id="professional info" className={page === 2 ? "" : "hidden"}>
+        <div className="text-cyan-900 font-bold text-lg my-4">Professional Assessment</div>
+          {
+            props.proRadioFields.map((item: RadioProps, index) => (
+              <RadioField key={index} props={item} />
+            ))
+          }
+          <div className="flex gap-4">
+            <div onClick={() => handleChangePage(1)} className="lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-gray-500 rounded-lg hover:bg-gray-600 transition-all">Back</div>
+            <Button props={props.buttonInfo} />
+          </div>
+        </div>
+      </form>
+    </div>
+  )
+};
+
+
+const DataClerksIEVForm = () => {
+
+  const inputFieldsData: InputProps[] = [
+    {
+      tag: "Name",
+      placeholder: "John Doe",
+      FieldError: false,
+      name: "name",
+      id: "name",
+      iconUrl: "/name_icon.png",
+      type: "text",
+      required: true,
+      additionalStyle: "capitalize"
+    },
+    {
+      tag: "Date of Birth",
+      placeholder: "",
+      FieldError: false,
+      name: "dob",
+      id: "dob",
+      iconUrl: "",
+      type: "date",
+      required: true
+    },
+    {
+      tag: "Phone Number (must 11 digits)",
+      placeholder: "e.g 08045678910",
+      FieldError: true,
+      name: "phone number",
+      id: "phone number",
+      iconUrl: "/number_icon.png",
+      type: "number",
+      required: true
+    },
+    {
+      tag: "Email Address",
+      placeholder: "Enter your email",
+      FieldError: true,
+      name: "email",
+      id: "email",
+      iconUrl: "",
+      type: "email",
+      required: false
+    }
+  ];
+
+  const perRadioFieldsData: RadioProps [] = [
+    {
+      title: "Gender",
+      tag: "gender",
+      FieldError: true,
+      name: "gender",
+      options: ["Male", "Female"],
+      required: true
+    },
+    {
+      title: "What is your highest educational qualification?",
+      tag: "education",
+      FieldError: true,
+      name: "education",
+      options: ["None", "Primary", "Secondary", "Tertiary"],
+      required: true
+    },
+    {
+      title: "How fluent are you in Hausa?",
+      tag: "hausa",
+      FieldError: true,
+      name: "hausa",
+      options: ["Beginner", "Fluent", "Native", "I don't speak Hausa"],
+      required: true
+    },
+    {
+      title: "How fluent are you in English?",
+      tag: "english",
+      FieldError: true,
+      name: "english",
+      options: ["Fluent", "Not Fluent"],
+      required: true
+    },
+    {
+      title: "For this role, you will need to install a data collection app that only works on Android phone. If selected, do you have an Android phone you can use?",
+      tag: "device",
+      FieldError: true,
+      name: "device",
+      options: ["Yes", "No"],
+      required: true
+    }
+  ];
+
+  const proRadioFieldsData: RadioProps [] = [
+    {
+      title: "Do you have experience in coordinating community-based programs and data collection activities?",
+      tag: "experience in coordinating community-based programs",
+      FieldError: true,
+      name: "community-based coordination",
+      options: ["Yes", "No"],
+      required: true
+    },
+    {
+      title: "What data collection tool or technology are you most familiar with?",
+      tag: "data collection tool or technology",
+      FieldError: true,
+      name: "data collection tool",
+      options: ["ODK", "Kobo Kollect", "CommsCare", "Optics", "None"],
+      required: true
+    },
+    {
+      title: "Where should you record the data/information you collect during a data collection exercise?",
+      tag: "data entry ethics",
+      FieldError: true,
+      name: "data entry ethics",
+      options: ["On the official data collection form or electronic device provided.", "On any piece of paper you have.", "In your personal notebook.", "You don't need to write anything down."],
+      required: true
+    },
+    {
+      title: "If you notice an inconsistency in the data, what is your first course of action?",
+      tag: "data inconsistencies",
+      FieldError: true,
+      name: "how to resolve data inconsistencies",
+      options: ["Ignore it and continue entering data.", "Correct the error based on previous data entries.", "Report the discrepancy to a supervisor or relevant team.", "Delete the data and start over." ],
+      required: true
+    },
+    {
+      title: "How would you handle incomplete data fields when entering records?",
+      tag: "incomplete data",
+      FieldError: true,
+      name: "handling incomplete data entries",
+      options: ["Leave them blank.", "Fill in estimated values.", "Do nothing.", "Delete the record."],
+      required: true
+    },
+    {
+      title: "Should you share the personal information you collect from a data collection exercise with people outside the enumeration team?",
+      tag: "sharing data",
+      FieldError: true,
+      name: "unauthorized sharing of data",
+      options: ["Yes, with friends and family.", "Yes, with community leaders.", "No, the information is confidential.", "Only if they ask for it."],
+      required: true
+    },
+    {
+      title: "What is your understanding of the importance of accurate data entry?",
+      tag: "understanding importance of accurate data entry",
+      FieldError: true,
+      name: "importance of accurate data entry",
+      options: ["It doesn't really matter if the numbers are there.", "It is crucial for generating reliable reports and making informed decisions.", "It saves time if you enter quickly, even with mistakes.", "Someone else will correct any errors."],
+      required: true
+    }
+  ];
+
+  const buttonInfoData: ButtonProps = {
+    text: "Submit",
+    type: "button",
+    filled: true,
+    additionalStyle: "w-full"
+  };
+
+  const ievFormData: IEVFormProps = {
+    title: "Login",
+    description: "Add your details below to get back into the app",
+    logoUrl: "/logo.png",
+    textFields: inputFieldsData,
+    perRadioFields: perRadioFieldsData,
+    proRadioFields: proRadioFieldsData,
+    buttonInfo: buttonInfoData,
+    footerText: "Don't have an account?",
+    footerLinkText: "Create account",
+    footerLink: "/signup",
+    accentColour: "purple"
+  };
+
+  
+  return (
+    <div className="md:bg-light_grey min-h-screen flex justify-center items-center">
+      <FormTemplate {...ievFormData}/>
+    </div>
+  )
+};
+
+export default DataClerksIEVForm;

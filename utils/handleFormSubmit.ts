@@ -27,6 +27,12 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const communitySupport = formData.get("support from community leaders") as string;
   const caregiversConerns = formData.get("caregivers raise concerns") as string;
   const hardtoreachCommunities = formData.get("hard-to-reach communities") as string;
+  // data clerk professional questions below
+  const dataEntry = formData.get("data entry ethics") as string;
+  const dataInconsistencies = formData.get("how to resolve data inconsistencies") as string;
+  const incompleteData = formData.get("handling incomplete data entries") as string;
+  const sharingData = formData.get("unauthorized sharing of data") as string;
+  const importanceOfAccuracy = formData.get("importance of accurate data entry") as string;
   const jobRole = formData.get("jobRole") as string;
   const dob = new Date(dobString);
   
@@ -34,49 +40,54 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const submissionTime = new Date();
   let points = 0;
 
-  const WardMinimumAge:(dob: Date) => boolean = (dob: Date) => {
-      const today = new Date();
-      
-      // Calculate age in full years
-      const age = today.getFullYear() - dob.getFullYear();
-    
-      // Adjust if the birthday hasn't occurred yet this year
-      const birthdayThisYear = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
-      if (today < birthdayThisYear) {
-        return age - 1 >= 35; // Subtract one year if birthday hasn't occurred
-      }
-    
-      return age >= 35;
-  };
-  const LgaMinimumAge:(dob: Date) => boolean = (dob: Date) => {
+  const acceptedAge:(dob: Date, min: number, range: number[]) => boolean = (dob: Date, min: number, range: number[] = []) => {
     const today = new Date();
-    
     // Calculate age in full years
     const age = today.getFullYear() - dob.getFullYear();
-  
     // Adjust if the birthday hasn't occurred yet this year
     const birthdayThisYear = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
-    if (today < birthdayThisYear) {
-      return age - 1 >= 18; // Subtract one year if birthday hasn't occurred
+
+    if (range.length > 0) {
+      if (today < birthdayThisYear) {
+        return age - 1 >=range[0] && age - 1 <= range[1] // Subtract one year if birthday hasn't occurred
+      }
+      return age >= range[0] && age <= range[1]
     }
-  
-    return age >= 18;
+
+    if (today < birthdayThisYear) {
+      return age - 1 >= min; // Subtract one year if birthday hasn't occurred
+    }
+    return age >= min;
 };
 
-  const calculatePoints = () => {
-    communityCoordination === "Yes" && points++
-    dataCollectionTools !== "None" && points++
-    equipmentMalfunctioned === "Assess the situation, troubleshoot where possible, and implement alternative solutions while keeping stakeholders informed." && points++
-    communityResistance === "Politely listen to their concerns, address them respectfully using the information provided during training, and try to build trust and understanding." && points++
-    communitySupport === "Clearly explain the project's objectives, benefits, and addressing potential concerns openly and honestly." && points++
-    caregiversConerns === "Politely listen to their specific concerns, provide accurate information based on your training and approved materials, and address their questions respectfully." && points++
-    hardtoreachCommunities === "Adapting data collection strategies, communication methods, and engaging with community-specific gatekeepers and influencers to build trust and access." && points++
-  };
-  calculatePoints()
+  if (jobRole === "ward" || jobRole === "lga") {
+    const calculatePoints = () => {
+      communityCoordination === "Yes" && points++
+      dataCollectionTools !== "None" && points++
+      equipmentMalfunctioned === "Assess the situation, troubleshoot where possible, and implement alternative solutions while keeping stakeholders informed." && points++
+      communityResistance === "Politely listen to their concerns, address them respectfully using the information provided during training, and try to build trust and understanding." && points++
+      communitySupport === "Clearly explain the project's objectives, benefits, and addressing potential concerns openly and honestly." && points++
+      caregiversConerns === "Politely listen to their specific concerns, provide accurate information based on your training and approved materials, and address their questions respectfully." && points++
+      hardtoreachCommunities === "Adapting data collection strategies, communication methods, and engaging with community-specific gatekeepers and influencers to build trust and access." && points++
+    };
+    calculatePoints()
+  } else if (jobRole === "clerk") {
+    const calculatePoints = () => {
+      communityCoordination === "Yes" && points++
+      dataCollectionTools !== "None" && points++
+      dataEntry === "On the official data collection form or electronic device provided." && points++
+      dataInconsistencies === "Report the discrepancy to a supervisor or relevant team." && points++
+      incompleteData === "Leave them blank." && points++
+      sharingData === "No, the information is confidential." && points++
+      importanceOfAccuracy === "It is crucial for generating reliable reports and making informed decisions." && points++
+    };
+    calculatePoints()
+  }
 
   const getStatus = () => {
-    if (jobRole === "ward" && !WardMinimumAge(dob) ) return "Unqualified"
-    if (jobRole === "lga" && !LgaMinimumAge(dob) ) return "Unqualified"
+    if (jobRole === "ward" && !acceptedAge(dob, 35, [])) return "Unqualified"
+    if (jobRole === "lga" && !acceptedAge(dob, 18, [] )) return "Unqualified"
+    if (jobRole === "clerk" && !acceptedAge(dob, 0, [20, 35])) return "Unqualified"
     if (device === "No") return "Unqualified"
     if (english !== "Fluent") return "Unqualified"
     if (hausa !== "Fluent" && hausa !== "Native") return "Unqualified"
@@ -110,6 +121,11 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     communitySupport,
     caregiversConerns,
     hardtoreachCommunities,
+    dataEntry,
+    dataInconsistencies,
+    incompleteData,
+    sharingData,
+    importanceOfAccuracy,
     points,
     status,
     device,
@@ -152,6 +168,36 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
       const db = new PrismaClient();
       const addNewEntry = await db.lga_supervisor_application.create({
+        data: {
+          id,
+          name,
+          dob,
+          phone_number: phoneNumber, 
+          email,
+          lga,
+          ward,
+          gender,
+          school_qualification: education,
+          hausa_fluency: hausa,
+          english_fluency: english,
+          latitude,
+          longitude,
+          full_coordinates: geolocationData,
+          submission_time: submissionTime,
+          total_points: points,
+          device,
+          status
+        }
+    })
+      } catch (error) {
+      console.log(error)
+    } finally {
+      redirect("/thank-you")
+    }
+  } else if (jobRole === "clerk") {
+    try {
+      const db = new PrismaClient();
+      const addNewEntry = await db.data_clerk_application.create({
         data: {
           id,
           name,
