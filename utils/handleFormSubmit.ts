@@ -159,6 +159,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
           submission_time: submissionTime,
           total_points: points,
           device,
+          valid_bank,
           status
         }
     })
@@ -189,6 +190,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
           submission_time: submissionTime,
           total_points: points,
           device,
+          valid_bank,
           status
         }
     })
@@ -219,6 +221,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
           submission_time: submissionTime,
           total_points: points,
           device,
+          valid_bank,
           status
         }
     })
