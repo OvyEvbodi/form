@@ -16,6 +16,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const education = formData.get("education") as string;
   const hausa = formData.get("hausa") as string;
   const english = formData.get("english") as string;
+  const device = formData.get("english") as string;
   const latitude = formData.get("latitude") as string;
   const longitude = formData.get("longitude") as string;
   const geolocationData = formData.get("geolocationData") as string;
@@ -56,10 +57,6 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
       return age >= 35;
   };
 
-  const status = minimumAge(dob)  ?  "qualified" : "Unqualified"; //sort out logic
-
-  
-
   const calculatePoints = () => {
     communityCoordination === "Yes" && points++
     dataCollectionTools !== "None" && points++
@@ -70,6 +67,18 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     hardtoreachCommunities === "Adapting data collection strategies, communication methods, and engaging with community-specific gatekeepers and influencers to build trust and access." && points++
   };
   calculatePoints()
+
+  const getStatus = () => {
+    if (!minimumAge(dob)) return "Unqualified"
+    if (device === "No") return "Unqualified"
+    if (english !== "Fluent") return "Unqualified"
+    if (hausa !== "Fluent" && hausa !== "Native") return "Unqualified"
+    if (education !== "Secondary" && education !== "Tertiary")  return "Unqualified"
+    if (points < 5) return "Unqualified"
+    return "Qualified"
+  }
+
+  const status = getStatus();
 
   const filledFormData = {
     id,
@@ -83,6 +92,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     education,
     hausa,
     english,
+    device,
     latitude,
     longitude,
     geolocationData,

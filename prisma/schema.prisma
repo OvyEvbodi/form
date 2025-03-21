@@ -10,7 +10,6 @@ datasource db {
 /// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model lga_supervisor_application {
-  id                   String  @id @db.Uuid @unique
   name                 String
   lga                  String
   ward                 String
@@ -27,7 +26,8 @@ model lga_supervisor_application {
   full_cordinates      String
   status               String?
   dob                  DateTime? @db.Date
-
+  id                   String    @id @unique @db.Uuid
+  device               String?
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -49,6 +49,7 @@ model ward_supervisor_application {
   full_cordinates     String
   status              String?
   dob                 DateTime? @db.Date
+  device              String?
 
   @@ignore
 }

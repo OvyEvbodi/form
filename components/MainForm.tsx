@@ -244,6 +244,14 @@ const IEVForm = () => {
       options: ["Fluent", "Not Fluent"],
       required: true
     },
+    {
+      title: "For this role, you will need to install a data collection app that only works on Android phone. If selected, do you have an Android phone you can use?",
+      tag: "device",
+      FieldError: true,
+      name: "device",
+      options: ["Yes", "No"],
+      required: true
+    }
   ];
 
   const proRadioFieldsData: RadioProps [] = [
