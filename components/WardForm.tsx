@@ -171,7 +171,7 @@ const WardIEVForm = () => {
   const inputFieldsData: InputProps[] = [
     {
       tag: "Name",
-      placeholder: "John Doe",
+      placeholder: "",
       FieldError: false,
       name: "name",
       id: "name",
@@ -191,7 +191,7 @@ const WardIEVForm = () => {
       required: true
     },
     {
-      tag: "Phone Number (must 11 digits)",
+      tag: "Phone Number (must be 11 digits)",
       placeholder: "e.g 08045678910",
       FieldError: true,
       name: "phone number",
