@@ -16,7 +16,7 @@ model lga_supervisor_application {
   latitude             String
   longitude            String
   total_points         BigInt
-  submission_time      DateTime  @db.Timestamptz(6)
+  submission_time      DateTime @db.Timestamptz(6)
   phone_number         String
   email                String?
   gender               String
@@ -25,9 +25,10 @@ model lga_supervisor_application {
   english_fluency      String
   full_coordinates     String
   status               String?
-  dob                  DateTime? @db.Date
-  id                   String    @id @unique @db.Uuid
-  device               String?
+  dob                  DateTime @db.Date
+  id                   String   @id @unique @db.Uuid
+  device               String
+  valid_bank           String?
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -45,15 +46,16 @@ model ward_supervisor_application {
   english_fluency      String
   full_coordinates     String
   status               String?
-  dob                  DateTime? @db.Date
-  device               String?
+  dob                  DateTime @db.Date
+  device               String
   total_points         BigInt
-  submission_time      DateTime  @db.Timestamptz(6)
-  id                   String    @id @unique @db.Uuid
+  submission_time      DateTime @db.Timestamptz(6)
+  id                   String   @id @unique @db.Uuid
+  valid_bank           String?
 }
 
 model data_clerk_application {
-  id                   String    @id @unique @db.Uuid
+  id                   String   @id @unique @db.Uuid
   name                 String
   lga                  String
   ward                 String
@@ -67,8 +69,9 @@ model data_clerk_application {
   english_fluency      String
   full_coordinates     String
   status               String?
-  dob                  DateTime? @db.Date
-  device               String?
+  dob                  DateTime @db.Date
+  device               String
   total_points         BigInt
-  submission_time      DateTime  @db.Timestamptz(6)
+  submission_time      DateTime @db.Timestamptz(6)
+  valid_bank           String?
 }
