@@ -110,7 +110,8 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
 
   console.log(filledFormData)
 
-  const dbPost = async () => {
+
+  try {
     const db = new PrismaClient();
     const addNewEntry = await db.lga_supervisor_application.create({
       data: {
@@ -132,12 +133,8 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
         total_points: points,
         status
       }
-    })
-  };
-
-  try {
-    dbPost()
-  } catch (error) {
+  })
+    } catch (error) {
     console.log(error)
   } finally {
     redirect("/thank-you")
