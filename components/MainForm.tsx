@@ -250,6 +250,14 @@ const IEVForm = () => {
       name: "device",
       options: ["Yes", "No"],
       required: true
+    },
+    {
+      title: "Due to policy restrictions, we are unable to process payments through the following banks: Kuda Microfinance Bank, Opay, Momo, Palmpay Limited, and MoniePoint Microfinance Bank. If you are selected, do you have another bank account in your name with a different bank?",
+      tag: "valid_bank",
+      FieldError: true,
+      name: "valid_bank",
+      options: ["Yes", "No"],
+      required: true
     }
   ];
 

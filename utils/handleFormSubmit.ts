@@ -17,6 +17,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const hausa = formData.get("hausa") as string;
   const english = formData.get("english") as string;
   const device = formData.get("device") as string;
+  const valid_bank = formData.get("valid_bank") as string;
   const latitude = formData.get("latitude") as string;
   const longitude = formData.get("longitude") as string;
   const geolocationData = formData.get("geolocationData") as string;
@@ -89,6 +90,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     if (jobRole === "lga" && !acceptedAge(dob, 18, [] )) return "Unqualified"
     if (jobRole === "clerk" && !acceptedAge(dob, 0, [20, 35])) return "Unqualified"
     if (device === "No") return "Unqualified"
+    if (valid_bank === "No") return "Unqualified"
     if (english !== "Fluent") return "Unqualified"
     if (hausa !== "Fluent" && hausa !== "Native") return "Unqualified"
     if (education !== "Secondary" && education !== "Tertiary")  return "Unqualified"
@@ -129,6 +131,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     points,
     status,
     device,
+    valid_bank,
     jobRole
   };
 
