@@ -122,7 +122,7 @@ const FormTemplate = (props: IEVFormProps) => {
           <div className="mb-2">
             <label htmlFor="lga" className="font-bold text-md mb-1">LGA of Residence</label><span className="text-red-700">&#10038;</span>
             <select name="lga" value={lga} required onChange={ handleLgaChange } className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
-              <option value="">select lga</option>
+              <option value="">Select LGA</option>
               {lgaList.map((item: string, index: number) => (
                 <option key={index}  value={item}>{item}</option>
               ))}
@@ -190,7 +190,7 @@ const IEVForm = () => {
       required: true
     },
     {
-      tag: "Phone number (must 11 digits)",
+      tag: "Phone Number (must 11 digits)",
       placeholder: "e.g 08045678910",
       FieldError: true,
       name: "phone number",
@@ -200,7 +200,7 @@ const IEVForm = () => {
       required: true
     },
     {
-      tag: "Email address",
+      tag: "Email Address",
       placeholder: "Enter your email",
       FieldError: true,
       name: "email",

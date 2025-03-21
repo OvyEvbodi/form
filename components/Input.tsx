@@ -29,7 +29,7 @@ const InputField = ({props}: { props: InputProps }) => {
   return (
     <div className={` ${props?.FieldError && "text-red border-red"} `}>
       <div>
-       { props?.tag && <span className="text-lg font-medium text-gray-900">{props.tag}</span> } {props.required && <span className="text-red-600">&#10038;</span>}
+       { props?.tag && <span className="text-base font-bold text-gray-900">{props.tag}</span> } {props.required && <span className="text-red-600">&#10038;</span>}
       </div>
       <div className={`mb-6 flex gap-3 items-center  rounded-sm bg-white hover:border-b-2 border-cyan-700 p-2 px-4 group  ${props?.FieldError && "text-red border-red"}`}>
         {/* { props.iconUrl && <Image src={props.iconUrl} alt={props?.tag}  width={16} height={16}/> } */}
