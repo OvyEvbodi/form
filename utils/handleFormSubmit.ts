@@ -64,9 +64,10 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
         status
       }
     })
-
   } catch (error) {
     console.log(error)
+  } finally {
+    redirect("/thank-you")
   }
   
   const filledFormData = {
@@ -97,5 +98,5 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   };
 
   console.log(filledFormData)
-  redirect("/thank-you")
+  
 };

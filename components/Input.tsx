@@ -1,5 +1,4 @@
 import { ChangeEventHandler, ReactNode } from "react";
-import Image from "next/image";
 
 export interface InputProps {
   tag: string;
@@ -30,7 +29,7 @@ const InputField = ({props}: { props: InputProps }) => {
   return (
     <div className={` ${props?.FieldError && "text-red border-red"} `}>
       <div>
-       { props?.tag && <span className="text-lg font-medium text-gray-900">{props.tag}</span> } {props.required && <span className="text-red-600">&#10036;</span>}
+       { props?.tag && <span className="text-lg font-medium text-gray-900">{props.tag}</span> } {props.required && <span className="text-red-600">&#10038;</span>}
       </div>
       <div className={`mb-6 flex gap-3 items-center  rounded-sm bg-white hover:border-b-2 border-cyan-700 p-2 px-4 group  ${props?.FieldError && "text-red border-red"}`}>
         {/* { props.iconUrl && <Image src={props.iconUrl} alt={props?.tag}  width={16} height={16}/> } */}
@@ -43,7 +42,7 @@ const InputField = ({props}: { props: InputProps }) => {
 export const RadioField = ({props}: { props: RadioProps }) => {
   return (
     <div className="flex flex-col gap- p-4">
-      <p className="font-bold text-md mb-4 lg:mb-6">{props.title} {props.required && <span className="text-red-600">&#10036;</span>}</p>
+      <p className="font-bold text-md mb-4 lg:mb-6">{props.title} {props.required && <span className="text-red-600">&#10038;</span>}</p>
       {
         props.options.map((item: string, index) => (
           // <label key={index} className="mb-4 font-medium " htmlFor={props.name}>{item}

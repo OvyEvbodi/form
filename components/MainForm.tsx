@@ -90,7 +90,7 @@ const FormTemplate = (props: IEVFormProps) => {
               <br /><br />
               This application form is designed to collect essential information about your background, experience, and qualifications to ensure a fair and thorough selection process.
               <br /><br />
-              <span className="text-red-700">
+              <span className="text-black md:text-red-700">
                 Please note that this application is open only to residents of Kano State. If you do not reside in Kano State, please do not apply. 
               </span>
               <br /><br />
