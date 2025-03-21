@@ -27,22 +27,14 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const communitySupport = formData.get("support from community leaders") as string;
   const caregiversConerns = formData.get("caregivers raise concerns") as string;
   const hardtoreachCommunities = formData.get("hard-to-reach communities") as string;
+  const jobRole = formData.get("jobRole") as string;
   const dob = new Date(dobString);
   
   const id = uuidv4();
   const submissionTime = new Date();
   let points = 0;
 
-  const minimumAge:(dob: Date) => boolean = (dob: Date) => {
-    // const today = new Date();
-    // let age: number = 0;
-    // const timeDiff = Math.floor(today.getTime() - dob.getTime())
-    // const daysDiff = Math.floor(timeDiff / 1000 * 3600 * 24)
-    // age = daysDiff / 365;
-
-    // if (age >= 35) return true
-    // else return false
-
+  const WardMinimumAge:(dob: Date) => boolean = (dob: Date) => {
       const today = new Date();
       
       // Calculate age in full years
@@ -56,6 +48,20 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     
       return age >= 35;
   };
+  const LgaMinimumAge:(dob: Date) => boolean = (dob: Date) => {
+    const today = new Date();
+    
+    // Calculate age in full years
+    const age = today.getFullYear() - dob.getFullYear();
+  
+    // Adjust if the birthday hasn't occurred yet this year
+    const birthdayThisYear = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+    if (today < birthdayThisYear) {
+      return age - 1 >= 18; // Subtract one year if birthday hasn't occurred
+    }
+  
+    return age >= 18;
+};
 
   const calculatePoints = () => {
     communityCoordination === "Yes" && points++
@@ -69,7 +75,8 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   calculatePoints()
 
   const getStatus = () => {
-    if (!minimumAge(dob)) return "Unqualified"
+    if (jobRole === "ward" && !WardMinimumAge(dob) ) return "Unqualified"
+    if (jobRole === "lga" && !LgaMinimumAge(dob) ) return "Unqualified"
     if (device === "No") return "Unqualified"
     if (english !== "Fluent") return "Unqualified"
     if (hausa !== "Fluent" && hausa !== "Native") return "Unqualified"

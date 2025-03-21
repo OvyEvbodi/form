@@ -2,9 +2,12 @@
 
 import InputField, { InputProps, RadioField, RadioProps } from "@/components/Input";
 import Button, { ButtonProps } from "@/components/Button";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { lgaList, lgaWardsMap } from "@/data";
+import { useGeolocated } from "react-geolocated";
+import axios, { AxiosError } from "axios";
+
 
 
 export interface IEVFormProps {
@@ -81,9 +84,9 @@ const FormTemplate = (props: IEVFormProps) => {
     <div className="text-sm md:text-medium lg:max-w-[860px] opacity-[0.956] p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-50 via-gray-200 to-gray-100">
       <div className={page === 2 ? "hidden sm_img_holder " : "sm_img_holder "}>
         <div className="bg-cyan-800 opacity-90 rounded-md text-white p-4 md:p-0 sm:bg-transparent sm:opacity-100 sm:text-black">
-          <h1 className="pt-4 my-4 text-3xl font-extrabold text-gray-800">Kano State IEV Implementation Strategy - <span className="text-blue-500">LGA Coordinator</span> Application Form</h1>
+          <h1 className="pt-4 my-4 text-3xl font-extrabold text-gray-800">Kano State IEV Implementation Strategy - <span className="text-blue-500">Ward Supervisor</span> Application Form</h1>
             <p className="mb-4 font-medium text-sm lg:text-medium">
-              Thank you for your interest in the <span className="text-blue-500 font-bold">LGA Coordinator</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is coordinated by the Clinton Health Access Initiative (CHAI) in collaboration with the National Primary Health Care Development Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
+              Thank you for your interest in the <span className="text-blue-500 font-bold">Ward Supervisor</span> role for the Kano State Identify Enumerate and Vaccinate (IEV) strategy implementation. This project is coordinated by the Clinton Health Access Initiative (CHAI) in collaboration with the National Primary Health Care Development Agency (NPHCDA) and the Kano State Primary Health Care Management Board (SPHCMB).
               <br /><br />
               This application form is designed to collect essential information about your background, experience, and qualifications to ensure a fair and thorough selection process.
               <br /><br />
@@ -106,7 +109,7 @@ const FormTemplate = (props: IEVFormProps) => {
           <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
           <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
           <input type="text" name="geolocationData" value={geolocationData} onChange={() => console.log(geolocationData)} className="hidden"/>
-          <input type="text" name="jobRole" value="lga" className="hidden"/>
+          <input type="text" name="jobRole" value="ward" className="hidden"/>
           <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Grant Location Access</div>
         </div>
   
@@ -163,7 +166,7 @@ const FormTemplate = (props: IEVFormProps) => {
 };
 
 
-const IEVForm = () => {
+const WardIEVForm = () => {
 
   const inputFieldsData: InputProps[] = [
     {
@@ -339,4 +342,4 @@ const IEVForm = () => {
   )
 };
 
-export default IEVForm;
+export default WardIEVForm;
