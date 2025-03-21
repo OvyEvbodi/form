@@ -23,7 +23,7 @@ export interface IEVFormProps {
 }
 
 const FormTemplate = (props: IEVFormProps) => {
-  const [lastResult, action, isPending] = useActionState(handleFormSubmit, null);
+  const [state, action, isPending] = useActionState(handleFormSubmit, null);
   // const [filledForm, filledFields] = useForm({lastResult})
   const [page, setPage] = useState(1);
   const [lga, setLga] = useState("");
@@ -67,11 +67,9 @@ const FormTemplate = (props: IEVFormProps) => {
       // for dev
       console.log(error)
     }
-    
   };
 
   const wards = lga ? lgaWardsMap[lga] : [];
-
 
   return (
     <div className="text-sm md:text-medium lg:max-w-[860px] opacity-[0.956] p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-50 via-gray-200 to-gray-100">
@@ -151,7 +149,9 @@ const FormTemplate = (props: IEVFormProps) => {
             <Button props={props.buttonInfo} />
           </div>
         </div>
-      </form>
+      </form> 
+      
+      { isPending ? <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-neutral-900/85"><div className="p-12 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md">Submitting...</div></div> : <div></div>}
     </div>
   )
 };

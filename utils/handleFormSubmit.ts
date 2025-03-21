@@ -1,5 +1,4 @@
 'use server'
-import { Pool } from "pg";
 import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient } from "@prisma/client";
 import { redirect } from 'next/navigation';
@@ -237,5 +236,4 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
       redirect("/thank-you")
     }
   }
-
 };
