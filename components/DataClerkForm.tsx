@@ -113,7 +113,7 @@ const FormTemplate = (props: IEVFormProps) => {
           <div onClick={handleGeolocation} className="mb-4 lg:min-w-[227px] min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Grant Location Access</div>
         </div>
   
-        <div id="personal info" className={page === 1 && consent ? "" : ""}>
+        <div id="personal info" className={page === 1 && consent ? "" : "hidden"}>
         <div className="text-cyan-900 font-bold text-lg my-4">Personal Information</div>
           {
             props.textFields.map((item: InputProps, index) => (
@@ -148,7 +148,7 @@ const FormTemplate = (props: IEVFormProps) => {
           {props.cautionText && <p className="text-xs mb-6">{props.cautionText}</p>}
           <div onClick={() => handleChangePage(2)} className="lg:min-w-[200px] lg:max-w-max min-h-[46px] cursor-pointer p-2 px-10 text-white font-semibold capitalize bg-cyan-700 rounded-lg hover:bg-cyan-800 transition-all">Next</div>
         </div>
-        <div id="professional info" className={page === 2 ? "" : ""}>
+        <div id="professional info" className={page === 2 ? "" : "hidden"}>
         <div className="text-cyan-900 font-bold text-lg my-4">Professional Assessment</div>
           {
             props.proRadioFields.map((item: RadioProps, index) => (
