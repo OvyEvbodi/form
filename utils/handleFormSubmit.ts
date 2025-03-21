@@ -16,7 +16,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const education = formData.get("education") as string;
   const hausa = formData.get("hausa") as string;
   const english = formData.get("english") as string;
-  const device = formData.get("english") as string;
+  const device = formData.get("device") as string;
   const latitude = formData.get("latitude") as string;
   const longitude = formData.get("longitude") as string;
   const geolocationData = formData.get("geolocationData") as string;
@@ -99,7 +99,6 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     education,
     hausa,
     english,
-    device,
     latitude,
     longitude,
     geolocationData,
@@ -113,6 +112,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     hardtoreachCommunities,
     points,
     status,
+    device,
     jobRole
   };
 
