@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kano IEV_Assessment",
-  description: "Kano IEV_Assessment questionnaire for Enumerators, data clerks, and coordinators",
+  title: "Kano IEV Strategy Implementation",
+  description: "Kano IEV Strategy Implementation Application Form for Assistants, Data Clerks, and Enumerators.",
 };
 
 export default function RootLayout({
