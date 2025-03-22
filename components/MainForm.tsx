@@ -106,13 +106,9 @@ const FormTemplate = (props: IEVFormProps) => {
         console.log("Geolocation is not supported by your browser")
       } else {
         // console.log("Getting location")
-        const options = {
-          enableHighAccuracy: true,
-          maximumAge: 20000,
-          timeout: 10000,
-        };
-        // navigator.geolocation.getCurrentPosition(success, GeoErrorCallback);
-        const geoWatchID = navigator.geolocation.watchPosition(success, GeoErrorCallback, options);
+        
+        navigator.geolocation.getCurrentPosition(success, GeoErrorCallback);
+        // const geoWatchID = navigator.geolocation.watchPosition(success, GeoErrorCallback, options);
 
       }
     
