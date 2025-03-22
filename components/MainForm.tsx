@@ -54,7 +54,8 @@ const FormTemplate = (props: IEVFormProps) => {
 
   const getState = async (latitude:string, longitude:string) => {
     try {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCDHk4B-Ixf3X2pNVF9rSWky9r1blmJwKA`;
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
 
     const { data, status } = await axios.get(url);
 
