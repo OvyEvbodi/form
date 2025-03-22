@@ -7,6 +7,7 @@ import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { lgaList, lgaWardsMap } from "@/data";
 import BeatLoader from "react-spinners/BeatLoader";
 import ClockLoader from "react-spinners/ClockLoader";
+import Link from "next/link";
 
 
 export interface IEVFormProps {
@@ -18,7 +19,7 @@ export interface IEVFormProps {
   proRadioFields: RadioProps[];
   buttonInfo: ButtonProps;
   footerText?: string;
-  footerLink?: string;
+  footerLink: string;
   accentColour?: string;
   footerLinkText?: string;
   cautionText?: string;
@@ -157,6 +158,9 @@ const FormTemplate = (props: IEVFormProps) => {
           <div className="flex gap-4">
             <Button props={props.buttonInfo} />
           </div>
+        </div>
+        <div className="mt-2 text-center text-sm text-gray-600 font-medium transition-all">
+          <p>{props.footerText} <Link href={props.footerLink} className="text-cyan-950 font-medium hover:underline hover:text-cyan-800">{props.footerLinkText}</Link> </p>
         </div>
       </form> 
       { isPending ? <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-neutral-900/85"><div className="p-12 sm:px-20 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md"><ClockLoader color="#169285" /></div></div> : <div></div>}
@@ -336,17 +340,17 @@ const IEVForm = () => {
   };
 
   const ievFormData: IEVFormProps = {
-    title: "Login",
-    description: "Add your details below to get back into the app",
+    title: "",
+    description: "",
     logoUrl: "/logo.png",
     textFields: inputFieldsData,
     perRadioFields: perRadioFieldsData,
     proRadioFields: proRadioFieldsData,
     buttonInfo: buttonInfoData,
-    footerText: "Don't have an account?",
-    footerLinkText: "Create account",
-    footerLink: "/signup",
-    accentColour: "purple"
+    footerText: "Are you experiencing any technical issues? ",
+    footerLinkText: "Contact support here",
+    footerLink: "/support",
+    accentColour: "cyan-800"
   };
 
   
