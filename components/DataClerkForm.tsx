@@ -100,7 +100,7 @@ const FormTemplate = (props: IEVFormProps) => {
       <form name="iev" className="" action={action}>
         <div className={consent ? "hidden" : ""}>
           <p className="my-4 font-bold">
-            Note: To proceed with your application, you must allow access to your GPS location. This is required to verify your eligibility for the IEV work in Kano State. Click the button below to enable location access.
+            Note: Only females can apply for this role. Also, to proceed with your application, you must allow access to your GPS location. This is required to verify your eligibility for the IEV work in Kano State. Click the button below to enable location access.
           </p>
           <input type="text" name="latitude" value={latitude} onChange={() => console.log(latitude)} className="hidden"/>
           <input type="text" name="longitude" value={longitude} onChange={() => console.log(longitude)} className="hidden"/>
@@ -213,11 +213,11 @@ const DataClerksIEVForm = () => {
 
   const perRadioFieldsData: RadioProps [] = [
     {
-      title: "Gender",
+      title: "Gender (females only)",
       tag: "gender",
       FieldError: true,
       name: "gender",
-      options: ["Male", "Female"],
+      options: ["Female"],
       required: true
     },
     {
