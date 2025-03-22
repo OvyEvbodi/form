@@ -159,9 +159,9 @@ const FormTemplate = (props: IEVFormProps) => {
             <Button props={props.buttonInfo} />
           </div>
         </div>
-        <div className="mt-2 text-center text-sm text-gray-600 font-medium transition-all">
+        {/* <div className="mt-2 text-center text-sm text-gray-600 font-medium transition-all">
           <p>{props.footerText} <Link href={props.footerLink} className="text-cyan-950 font-medium hover:underline hover:text-cyan-800">{props.footerLinkText}</Link> </p>
-        </div>
+        </div> */}
       </form> 
       { isPending ? <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-neutral-900/85"><div className="p-12 sm:px-20 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md"><ClockLoader color="#169285" /></div></div> : <div></div>}
     </div>
