@@ -25,7 +25,7 @@ const SupportForm = () => {
                   <textarea name="message" required placeholder="Your message...." />
                   <label htmlFor="message"></label>
               </div>
-              <input id="submit_btn" type="submit" className="" value="contact support" onClick={() => setIsPending(true)} onChange={() => console.log("")} />
+              <input id="submit_btn" type="submit" className="" value="contact support" onClick={() => { setIsPending(true); setTimeout(() => setIsPending(true), 10000) }} onChange={() => console.log("")} />
           </form>
           { isPending ? <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-neutral-900/85"><div className="p-12 sm:px-20 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md"><ClockLoader color="#169285" /></div></div> : <div></div>}
         </div>
