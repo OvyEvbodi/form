@@ -14,7 +14,7 @@ export default function LgaCoordinator() {
       <div className="flex justify-center items-center p-4 font-medium text-medium min-h-screen min-w-screen">
       <div className="bg-cyan-700/60 flex flex-col justify-center items-center p-4">
       {/* <Image src={checkIcon} height={80} width={80} alt="check-icon"/> */}
-      <div className="mb-6 p-10 md:p-20 bg-cyan-800/80 text-white text-base sm:text-lg text-center">Thank you for your interesting in the LGA Assistant role. Due to the number of applications received, applications for this role is now closed. <br /> Kindly consider applying for: Ward Assistant or Data Clerk (females only)</div>
+      <div className="mb-6 p-10 md:p-20 bg-cyan-800/80 text-white text-base sm:text-lg text-center">Thank you for your interest in the LGA Assistant role. Due to the number of submissions received,  application for this role is now closed. <br /> Kindly consider applying for: Ward Assistant or Data Clerk (females only)</div>
       <LinkRoute props={clerk} />
       <LinkRoute props={ward} />
       </div>

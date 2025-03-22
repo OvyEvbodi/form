@@ -10,5 +10,5 @@ export const ward: LinkProps = {
 };
 export const clerk: LinkProps = {
   hrefString: "/application/data_clerk",
-  linkText: "Apply to be A Data Clerk"
+  linkText: "Apply to be A Data Clerk (Females only)"
 };
