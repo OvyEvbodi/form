@@ -8,6 +8,7 @@ import { lgaList, lgaWardsMap } from "@/data";
 import BeatLoader from "react-spinners/BeatLoader";
 import ClockLoader from "react-spinners/ClockLoader";
 import Link from "next/link";
+import axios from "axios";
 
 
 export interface IEVFormProps {
@@ -37,6 +38,7 @@ const FormTemplate = (props: IEVFormProps) => {
   const [consent, setConsent] = useState(false);
   const [geoLoading, setGeoLoading] = useState(false);
   const [locationError, setLocationError] = useState(false);
+  const [locationUrl, setLocationUrl] = useState("");
 
 
   const handleLgaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -50,6 +52,25 @@ const FormTemplate = (props: IEVFormProps) => {
     setWard(event.target.value)
   };
 
+  const getState = async (latitude:string, longitude:string) => {
+    try {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCDHk4B-Ixf3X2pNVF9rSWky9r1blmJwKA`;
+
+    const { data, status } = await axios.get(url);
+
+    if (status === 200) {
+      const geoState: string = data.results[0]?.formatted_address;
+
+      if (geoState.includes("Kano") || geoState.includes("kano") ) return true
+      
+    }
+
+    return false
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  };
   
   const handleGeolocation = async(event: React.MouseEvent<HTMLDivElement>) => {
     setGeoLoading(true)
@@ -60,9 +81,18 @@ const FormTemplate = (props: IEVFormProps) => {
         setLatitude(position.coords.latitude)
         setLongitude(position.coords.longitude)
         setGeolocationData(JSON.stringify(position))
-        setConsent(true)
-        setGeoLoading(false)
-        console.log("successful")
+        
+        const isValidGeolocation = await getState(position.coords.latitude, position.coords.longitude);
+        
+        if (isValidGeolocation) {
+          setConsent(true)
+          setGeoLoading(false)
+          setLocationError(false)
+        } else {
+          setConsent(false)
+          setLocationError(true)
+          setGeoLoading(false)
+        }
 
       }
 
@@ -70,8 +100,6 @@ const FormTemplate = (props: IEVFormProps) => {
         setConsent(false)
         setLocationError(true)
         setGeoLoading(false)
-        console.log("eeeerrrrooooorrr......")
-
       };
 
       if (!navigator.geolocation) {
@@ -136,17 +164,17 @@ const FormTemplate = (props: IEVFormProps) => {
           {
             locationError ? 
             <div>
-              We're unable to find your location. <br/>
+              We couldn't determine your location. <br/> This could happen if:
               <ul>
-                <h6>Please try:</h6>
-                <li>Checking your network connection</li>
-                <li>Checking that your location is on</li>
-                <li>Using another browser to access the form</li>
-                <li>Using another device to access the form</li>
+                <li>Your network connection is poor</li>
+                <li>You are not in Kano state</li>
+                <li>Your location is turned off</li>
+                <li>Your browser doesn't support this feature</li>
+                <li>You need another device to access the form</li>
               </ul>
             </div> : 
             <div></div>
-          }  
+          }      
         </div>
   
         <div id="personal info" className={consent ? "" : "hidden"}>
