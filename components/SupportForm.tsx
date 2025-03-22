@@ -15,8 +15,8 @@ const SupportForm = () => {
               <input type="hidden" name="_subject" value="New Kano IEV support message"></input>
               <input type="hidden" name="_cc" value="evbodiovo@gmmail.com,ecokeke21@gmail.com"></input>
               <input type="hidden" name="_autoresponse" value="We have received your message, and we will get back to you within 24 hours. Thank you"></input>
-              {/* <input type="hidden" name="_next" value="https://kano-iev.mydatacollect.com/support_thank_you"></input> */}
-              <input type="hidden" name="_next" value="http://127.0.0.1:3000/support_thank_you"></input>
+              <input type="hidden" name="_next" value="https://kano-iev.mydatacollect.com/support_thank_you"></input>
+              {/* <input type="hidden" name="_next" value="http://127.0.0.1:3000/support_thank_you"></input> */}
 
               <div className="form_unit">
                   <input name="name" type="text" placeholder="Enter you name" />
