@@ -183,14 +183,15 @@ const IEVForm = () => {
       additionalStyle: "capitalize"
     },
     {
-      tag: "Date of Birth",
+      tag: "Date of Birth (must be at least 18)",
       placeholder: "",
       FieldError: false,
       name: "dob",
       id: "dob",
       iconUrl: "",
       type: "date",
-      required: true
+      required: true,
+      max: "2007-03-01"
     },
     {
       tag: "Phone Number (must start with '0' and be 11 digits)",

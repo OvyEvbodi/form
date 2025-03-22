@@ -13,8 +13,8 @@ export interface InputProps {
   value?: string;
   required: boolean;
   pattern?: string;
-  min?: number;
-  max?: number;
+  min?: string;
+  max?: string;
 }
 
 export interface RadioProps {
@@ -36,7 +36,7 @@ const InputField = ({props}: { props: InputProps }) => {
       </div>
       <div className={`mb-6 flex gap-3 items-center  rounded-sm bg-white hover:border-b-2 border-cyan-700 p-2 px-4 group  ${props?.FieldError && "text-red border-red"}`}>
         {/* { props.iconUrl && <Image src={props.iconUrl} alt={props?.tag}  width={16} height={16}/> } */}
-        <input required={props.required} pattern={props.pattern} value={props?.value} type={props.type} placeholder={props.placeholder} onChange={props?.onChange && props.onChange} className={`w-full outline-none  ${props?.FieldError && "placeholder:text-red border-red"} ${props?.additionalStyle && props.additionalStyle}`} name={props?.name} id={props?.id} />
+        <input required={props.required} pattern={props?.pattern} value={props?.value} type={props.type} min={props?.min} max={props?.max} placeholder={props?.placeholder} onChange={props?.onChange && props.onChange} className={`w-full outline-none  ${props?.FieldError && "placeholder:text-red border-red"} ${props?.additionalStyle && props.additionalStyle}`} name={props?.name} id={props?.id} />
       </div>
     </div>
   )
