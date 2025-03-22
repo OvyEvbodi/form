@@ -61,6 +61,7 @@ const FormTemplate = (props: IEVFormProps) => {
         setConsent(true)
         setGeoLoading(false)
         console.log("successful")
+        console.log(position.coords.latitude, position.coords.longitude)
 
       }
 

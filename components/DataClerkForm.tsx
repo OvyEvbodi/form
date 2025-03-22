@@ -36,6 +36,7 @@ const FormTemplate = (props: IEVFormProps) => {
   const [geolocationData, setGeolocationData] = useState("");
   const [consent, setConsent] = useState(false);
   const [geoLoading, setGeoLoading] = useState(false);
+  const [locationError, setLocationError] = useState(false);
 
 
   const handleLgaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -49,9 +50,11 @@ const FormTemplate = (props: IEVFormProps) => {
     setWard(event.target.value)
   };
 
+  
   const handleGeolocation = async(event: React.MouseEvent<HTMLDivElement>) => {
     setGeoLoading(true)
     event.preventDefault()
+
     try {
       const success = async (position: any) => {
         setLatitude(position.coords.latitude)
@@ -59,20 +62,38 @@ const FormTemplate = (props: IEVFormProps) => {
         setGeolocationData(JSON.stringify(position))
         setConsent(true)
         setGeoLoading(false)
+        console.log("successful")
+
       }
+
+      const GeoErrorCallback = () => {
+        setConsent(false)
+        setLocationError(true)
+        setGeoLoading(false)
+        console.log("eeeerrrrooooorrr......")
+
+      };
 
       if (!navigator.geolocation) {
         console.log("Geolocation is not supported by your browser")
       } else {
         console.log("Getting location")
-        navigator.geolocation.getCurrentPosition(success); // add error callback
-        console.log("successful")
+        const options = {
+          enableHighAccuracy: true,
+          maximumAge: 20000,
+          timeout: 10000,
+        };
+        // navigator.geolocation.getCurrentPosition(success, GeoErrorCallback);
+        const geoWatchID = navigator.geolocation.watchPosition(success, GeoErrorCallback, options);
+
       }
     
     } catch (error) {
-      // for dev
-      console.log(error)
+      setLocationError(true)
+      console.error(error)
+      setGeoLoading(false)
     }
+    
   };
 
   const wards = lga ? lgaWardsMap[lga] : [];
@@ -112,6 +133,20 @@ const FormTemplate = (props: IEVFormProps) => {
             <BeatLoader color="#ccc" />
           </div>
           }
+          {
+            locationError ? 
+            <div>
+              We're unable to find your location. <br/>
+              <ul>
+                <h6>Please try:</h6>
+                <li>Checking your network connection</li>
+                <li>Checking that your location is on</li>
+                <li>Using another browser to access the form</li>
+                <li>Using another device to access the form</li>
+              </ul>
+            </div> : 
+            <div></div>
+          }  
         </div>
   
         <div id="personal info" className={consent ? "" : "hidden"}>
