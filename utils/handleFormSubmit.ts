@@ -10,7 +10,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const phoneNumber = formData.get("phone number") as string;
   const email = formData.get("email") as string;
   const lga = formData.get("lga") as string;
-  const ward = formData.get("ward") ? formData.get("ward") as string : "";
+  const ward = formData.get("ward") as string;
   const gender = formData.get("gender") as string;
   const education = formData.get("education") as string;
   const hausa = formData.get("hausa") as string;
