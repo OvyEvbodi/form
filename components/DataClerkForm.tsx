@@ -83,9 +83,36 @@ const FormTemplate = (props: IEVFormProps) => {
         setLongitude(position.coords.longitude)
         setGeolocationData(JSON.stringify(position))
         
-        const isValidGeolocation = await getState(position.coords.latitude, position.coords.longitude);
-        
-        if (isValidGeolocation) {
+        // const isValidGeolocation = await getState(position.coords.latitude, position.coords.longitude);
+        const kanoGolocationRange = (latitude:string, longitude:string) => {
+          try {
+            const latNumber = Number(latitude);
+            const longNumber = Number(longitude);
+            const kanoRange = {
+              latMin: 10.6,
+              latMax: 12.5,
+              longMin:7.9,
+              longMax: 9.3
+            };
+
+            if ((latNumber >= kanoRange.latMin && latNumber <= kanoRange.latMax ) && (longNumber >= kanoRange.longMin && longNumber <= kanoRange.longMax )) {
+              console.log(latNumber >= kanoRange.latMin)
+              console.log(typeof latNumber)
+              console.log(`Valid.... Your lat string ${latitude} and long string ${longitude}. Your lat numb: ${latNumber}, your long numb: ${longNumber}. Our range: latMin: ${kanoRange.latMin} latMax: ${kanoRange.latMax}, longMin: ${kanoRange.longMin} - lomgMax: ${kanoRange.longMax}`)
+              return true
+            } else {
+              console.log(`failed...  Your lat string ${latitude} and long string ${longitude}. Your lat numb: ${latNumber}, your long numb: ${longNumber}. Our range: latMin: ${kanoRange.latMin} latMax: ${kanoRange.latMax}, longMin: ${kanoRange.longMin} - lomgMax: ${kanoRange.longMax}`)
+              return false
+            } 
+            
+          } catch (error) {
+            console.error(error)
+            return false
+          }
+        };
+
+        // if (isValidGeolocation) {
+        if (kanoGolocationRange(position.coords.latitude, position.coords.longitude)) {
           setConsent(true)
           setGeoLoading(false)
           setLocationError(false)
