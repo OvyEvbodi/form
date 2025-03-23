@@ -85,6 +85,10 @@ const FormTemplate = (props: IEVFormProps) => {
         
         // const isValidGeolocation = await getState(position.coords.latitude, position.coords.longitude);
         const kanoGolocationRange = (latitude:string, longitude:string) => {
+          if (latitude == "" || longitude == "") {
+            console.log("empty coords")
+            return false
+          }
           try {
             const latNumber = Number(latitude);
             const longNumber = Number(longitude);
