@@ -181,7 +181,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     } finally {
       redirect("/thank-you")
     }
-  } else if (jobRole === "lga_deactivated") {
+  } else if (jobRole === "lga") {
     try {
       const db = new PrismaClient();
       const addNewEntry = await db.lga_supervisor_application.create({
