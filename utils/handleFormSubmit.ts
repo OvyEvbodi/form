@@ -45,6 +45,12 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   if (ward === null ) {
     redirect("/empty-ward")
   }
+  // ---------------------------------ward work around 
+  if (latitude == "" || longitude == "") {
+    redirect("/empty-coords")
+  }
+
+
   const acceptedAge:(dob: Date, min: number, range: number[]) => boolean = (dob: Date, min: number, range: number[] = []) => {
     const today = new Date();
     // Calculate age in full years
