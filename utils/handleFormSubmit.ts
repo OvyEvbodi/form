@@ -41,6 +41,10 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   const submissionTime = new Date();
   let points = 0;
 
+  // ---------------------------------ward work around 
+  if (ward === null ) {
+    redirect("/empty-ward")
+  }
   const acceptedAge:(dob: Date, min: number, range: number[]) => boolean = (dob: Date, min: number, range: number[] = []) => {
     const today = new Date();
     // Calculate age in full years
