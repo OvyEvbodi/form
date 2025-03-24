@@ -211,7 +211,7 @@ export interface IEVFormProps {
   cautionText?: string;
 } // add select fields props later
 
-export const ievFormData: IEVFormProps = {
+export const ievShortlistData: IEVFormProps = {
   title: "Registration Form for Recruitment",
   description: "Congratulations! You have been selected to participate in the Kano State IEV exercise. Please complete this form as documentation for completing your recruitment process. ",
   logoUrl: "",

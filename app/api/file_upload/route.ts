@@ -23,9 +23,6 @@ const shortlistedSchema = z.object({
 
 
 export const POST = async (request: NextRequest) => {
-  
-  // try to upload
-  // then save entry into database
   try {
     // validate data
     const filledForm = await request.formData();
@@ -34,7 +31,18 @@ export const POST = async (request: NextRequest) => {
     if (!validatedForm.success) {
       const formErrors = validatedForm.error.flatten().fieldErrors;
 
-      return {
+      console.log(filledForm)
+      console.log({
+        firstname: formErrors?.firstname,
+        lastname: formErrors?.lastname,
+        dob: formErrors?.dob,
+        phone: formErrors?.phone,
+        address: formErrors?.address,
+        bank_acct_name: formErrors?.bank_acct_name,
+        bank_acct_no: formErrors?.bank_acct_no
+      })
+
+      return NextResponse.json( {
         errors: {
           firstname: formErrors?.firstname,
           lastname: formErrors?.lastname,
@@ -44,12 +52,21 @@ export const POST = async (request: NextRequest) => {
           bank_acct_name: formErrors?.bank_acct_name,
           bank_acct_no: formErrors?.bank_acct_no
         }
-      }
+      })
     }
 
+
+    // ---------------------remove next line after validation testing!!!
+    console.log(filledForm)
+    return NextResponse.json({success: "Nicely filled"})
+
+
+    // try to upload
     const data = await request.formData();
     const idFile: File | null = data.get("id file") as unknown as File;
     // s3 upload
+
+    // then save entry into database
 
     return NextResponse.json(
       "", 
