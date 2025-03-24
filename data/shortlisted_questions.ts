@@ -61,7 +61,7 @@ const bioTextFieldsData: InputProps[] = [
     errorMessage: "Please enter a last name"
   },
   {
-    tag: "Date of Birth (as it appears on your ID)",
+    tag: "Date of Birth",
     placeholder: "",
     FieldError: false,
     name: "dob",
@@ -73,7 +73,7 @@ const bioTextFieldsData: InputProps[] = [
     errorMessage: "Please enter a valid date of birth"
   },
   {
-    tag: "Phone Number (must start with '0' and be 11 digits)",
+    tag: "Phone Number (must be same phone number used during application)",
     placeholder: "e.g 08045678910",
     FieldError: false,
     name: "phone",
@@ -103,7 +103,7 @@ const bioTextFieldsData: InputProps[] = [
     id: "address",
     iconUrl: "",
     type: "text",
-    required: false,
+    required: true,
     errorMessage: "Please enter an address"
   }
 ];
@@ -126,11 +126,11 @@ const bioRadioFieldsData: RadioProps [] = [
     required: true
   },
   {
-    title: "Are you willing to be redeployed to an LGA other than where you reside?",
+    title: "If yes above, are you willing to be deployed to a ward other than ward of residence?",
     tag: "willing_to_be_redeployed",
     FieldError: false,
     name: "willing_to_be_redeployed",
-    options: ["Yes", "No"],
+    options: ["Yes", "No", "Not Applicable"],
     required: true
   },
   {
