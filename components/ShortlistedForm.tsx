@@ -1,17 +1,16 @@
 'use client'
 
 import Button from "@/components/Button";
-import { useActionState, useState } from "react";
+import { useActionState, useState, useRef } from "react";
 import { lgaList, lgaWardsMap } from "@/data";
 import BeatLoader from "react-spinners/BeatLoader";
 import ClockLoader from "react-spinners/ClockLoader";
 import Link from "next/link";
 import { POST } from "@/app/api/file_upload/route";
 import { ievShortlistData, IEVFormProps } from "@/data/shortlisted_questions";
-import InputField, { InputProps, RadioField, RadioProps } from "@/components/Input";
+import InputField, { InputProps, RadioField, RadioProps, SelectField, SelectProps } from "@/components/Input";
 
-
-
+// create asterisks component
 
 const handleSubmit = async (prevState: any, formData: FormData) => {
   const saveData = await fetch("/api/file_upload", {
@@ -21,10 +20,12 @@ const handleSubmit = async (prevState: any, formData: FormData) => {
 };
 
 const FormTemplate = (props: IEVFormProps) => {
-  const [state, action, isPending] = useActionState(handleSubmit, null);
+  const [state, action, isPending] = useActionState(handleSubmit, undefined);
   const [page, setPage] = useState(1);
   const [lga, setLga] = useState("");
   const [ward, setWard] = useState("");
+  const [fileName, setFileName] = useState("");
+  const uploadInputRef = useRef<HTMLInputElement | null > (null);
 
 
   const handleLgaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -38,6 +39,14 @@ const FormTemplate = (props: IEVFormProps) => {
     setWard(event.target.value)
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const idFile = event.target.files?.[0];
+    setFileName(idFile?.name ?? "")
+  };
+
+  const handleChooseFile = (event: React.MouseEvent<HTMLDivElement>) => {
+    uploadInputRef.current?.click()
+  };
 
   const wards = lga ? lgaWardsMap[lga] : [];
 
@@ -52,13 +61,21 @@ const FormTemplate = (props: IEVFormProps) => {
         </div>
       </div>
       <form name="iev" className="p-4" action={action}>
-  
         <div id="personal info" >
-        <h2 className="text-cyan-900 font-bold text-lg my-4">{props.firstSectionTitle}</h2>
-        <p className="mb-4">{props.firstSectionDescription}</p>
+          <h2 className="text-cyan-900 font-bold text-lg my-4">{props.firstSectionTitle}</h2>
+          <p className="mb-4">
+            {props.firstSectionDescription}
+          </p>
           {
             props.firstTextFields && props.firstTextFields.map((item: InputProps, index) => (
-              <InputField key={index} props={item} />
+              <div key={index} >
+                <InputField props={item} />
+              {
+                item.FieldError && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
+                  {item.errorMessage}
+                </div>)
+              }
+              </div>
             ))
           } 
           <div className="mb-2">
@@ -82,32 +99,83 @@ const FormTemplate = (props: IEVFormProps) => {
             </select>
           </div>
           {
+            props.firstSelectFields && props.firstSelectFields.map((item: SelectProps, index) => (
+              <div key={index} >
+                <SelectField props={item} />
+              {
+                item.FieldError && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
+                  {item.errorMessage}
+                </div>)
+              }
+              </div>
+            ))
+          }
+          {
             props.firstRadioFields && props.firstRadioFields.map((item: RadioProps, index) => (
-              <RadioField key={index} props={item} />
+              <div key={index} >
+                <RadioField props={item} />
+              {
+                item.FieldError && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
+                  {item.errorMessage}
+                </div>)
+              }
+              </div>
             ))
           }
           {props.cautionText && <p className="text-xs mb-6">{props.cautionText}</p>}
         </div>
         {/* ----------- section 2 ---------- */}
         <div id="bank info" >
-        <div className="text-cyan-900 font-bold text-lg my-4">Professional Assessment</div>
+        <h2 className="text-cyan-900 font-bold text-lg my-4">{props.secondSectionTitle}</h2>
+          <p className="mb-4">
+            {props.secondSectionDescription}
+          </p>
           {
             props.secondTextFields && props.secondTextFields.map((item: InputProps, index) => (
-              <InputField key={index} props={item} />
+              <div key={index} >
+                <InputField props={item} />
+              {
+                item.FieldError && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
+                  {item.errorMessage}
+                </div>)
+              }
+              </div>
             ))
           }
           {
-            props.secondSelectFields && props.secondSelectFields.map((item: RadioProps, index) => (
-              <RadioField key={index} props={item} /> 
+            props.secondSelectFields && props.secondSelectFields.map((item: SelectProps, index) => (
+              <div key={index} >
+                <SelectField props={item} />
+              {
+                item.FieldError && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
+                  {item.errorMessage}
+                </div>)
+              }
+              </div>
             ))
           }
           {
             props.secondRadioFields && props.secondRadioFields.map((item: RadioProps, index) => (
-              <RadioField key={index} props={item} />
+              <div key={index} >
+                <RadioField props={item} />
+              {
+                item.FieldError && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
+                  {item.errorMessage}
+                </div>)
+              }
+              </div>
             ))
           }
-          <div className="p-2 mb-4 border-2 border-cyan-900">
-            <input type="file" />
+          <div className="p-2 mb-4 border-0 border-cyan-900">
+            <input ref={uploadInputRef} type="file" name="id_file" onChange={handleFileChange} className="absolute right-[999999999px]" />
+            <div onClick={handleChooseFile} className="bg-cyan-800 max-w-max py-2 px-8 text-white font-semibold hover:bg-gray-700">Upload file <span className="text-red-700">&#10038;</span></div>
+            <span>{fileName}</span>
+            {/* {
+              
+              state.errors?.id_file && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
+                  {state.errors?.id_file}
+                </div>)
+              } */}
           </div>
           <div className="flex gap-4">
             <Button props={props.buttonInfo} />
@@ -123,9 +191,6 @@ const FormTemplate = (props: IEVFormProps) => {
 };
 
 const IEVForm = () => {
-
-  
-
   
   return (
     <div className="md:bg-light_grey min-h-screen flex justify-center items-center">
