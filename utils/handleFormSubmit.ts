@@ -96,7 +96,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
   }
 
   const getStatus = () => {
-    if (jobRole === "ward" && !acceptedAge(dob, 35, [])) return "Unqualified"
+    if (jobRole === "ward" && !acceptedAge(dob, 30, [])) return "Unqualified"
     if (jobRole === "lga" && !acceptedAge(dob, 18, [] )) return "Unqualified"
     if (jobRole === "clerk" && !acceptedAge(dob, 0, [20, 35])) return "Unqualified"
     if (device === "No") return "Unqualified"
