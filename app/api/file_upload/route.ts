@@ -94,6 +94,9 @@ export const POST = async (request: NextRequest) => {
       id_file: filledForm.get("id_file") as File
     };
 
+    const lowerFirstName = filledForm.get("firstname")?.toString().toLowerCase() || "";
+    const lowerLastName = filledForm.get("lastname")?.toString().toLowerCase() || "";
+
 
     // const castedForm = {};
     // filledForm.forEach((value, key) => castedForm[key] = value);
@@ -132,15 +135,16 @@ export const POST = async (request: NextRequest) => {
     const idFile: File | null = filledForm.get("id_file") as unknown as File;
     if (!idFile) return // add message
     const originalFileName = idFile?.name;  // rename file here!!! I'm tired abeg
-    const imageFileName = getNewName(originalFileName, id, castedForm.firstname, castedForm.lastname);
+    const imageFileName = getNewName(originalFileName, id, lowerFirstName, lowerLastName);
     console.log(filledForm)
-    console.log(idFile)
+    console.log(imageFileName)
     // s3 upload
     const cred = {
       accessKeyId: process.env.AWS_S3_ACCESS_KEY ?? "",
       secretAccessKey: process.env.AWS_S3_SECRET_KEY ?? ""
     }
 
+    // add useful feedback for errors......................
     const s3 = new S3Client({
       region: process.env.AWS_REGION,
       credentials:  cred 
@@ -161,7 +165,8 @@ export const POST = async (request: NextRequest) => {
     // check size
     // add other form values to db data
     delete (castedForm as any).id_file;
-    saveToDb(castedForm, imageFileName)
+    await saveToDb(castedForm, imageFileName)
+    console.log("successfully registered........")
 
     return NextResponse.json(
       "", 
