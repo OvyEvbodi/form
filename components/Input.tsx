@@ -15,6 +15,7 @@ export interface InputProps {
   pattern?: string;
   min?: string;
   max?: string;
+  errorMessage?: string;
 }
 
 export interface RadioProps {
@@ -26,6 +27,19 @@ export interface RadioProps {
   name: string;
   options: string [];
   required: boolean;
+  errorMessage?: string;
+}
+
+export interface SelectProps {
+  title: string;
+  tag: string;
+  FieldError?: boolean;
+  onChange?: ChangeEventHandler;
+  additionalStyle?: string;
+  name: string;
+  options: string [];
+  required: boolean;
+  errorMessage?: string;
 }
 
 const InputField = ({props}: { props: InputProps }) => {
@@ -63,6 +77,13 @@ export const RadioField = ({props}: { props: RadioProps }) => {
   )
 }
 
+export const SelectField = ({props}: { props: SelectProps }) => {
+  return (
+    <div>
+      select field
+    </div>
+  )
+};
 
 
 export default InputField;
