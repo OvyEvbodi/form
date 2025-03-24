@@ -122,6 +122,17 @@ const FormTemplate = (props: IEVFormProps) => {
               </div>
             ))
           }
+          <div className="p-2 mb-4">
+            <input ref={uploadInputRef} type="file" name="id_file" onChange={handleFileChange} className="absolute right-[999999999px]" />
+            <div onClick={handleChooseFile} className="bg-cyan-800 max-w-max py-2 px-8 text-white font-semibold hover:bg-gray-700">Upload file <span className="text-red-700">&#10038;</span></div>
+            <span className="my-1 text-sm text-gray-500">{fileName}</span>
+            {/* {
+              
+              state.errors?.id_file && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
+                  {state.errors?.id_file}
+                </div>)
+              } */}
+          </div>
           {props.cautionText && <p className="text-xs mb-6">{props.cautionText}</p>}
         </div>
         {/* ----------- section 2 ---------- */}
@@ -166,18 +177,7 @@ const FormTemplate = (props: IEVFormProps) => {
               </div>
             ))
           }
-          <div className="p-2 mb-4 border-0 border-cyan-900">
-            <input ref={uploadInputRef} type="file" name="id_file" onChange={handleFileChange} className="absolute right-[999999999px]" />
-            <div onClick={handleChooseFile} className="bg-cyan-800 max-w-max py-2 px-8 text-white font-semibold hover:bg-gray-700">Upload file <span className="text-red-700">&#10038;</span></div>
-            <span>{fileName}</span>
-            {/* {
-              
-              state.errors?.id_file && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
-                  {state.errors?.id_file}
-                </div>)
-              } */}
-          </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 mt-4">
             <Button props={props.buttonInfo} />
           </div>
         </div>
