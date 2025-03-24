@@ -78,3 +78,23 @@ model data_clerk_application {
   valid_bank           String
   years_experience     String
 }
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model shortlisted_applicant_form {
+  id                       String @unique @id(map: "successful_applicant_id_pkey") @db.Uuid
+  firstname                String
+  lastname                 String
+  dob                      String
+  phone_number             String
+  email                    String?
+  lga                      String
+  ward                     String
+  full_address             String
+  willing_to_be_reassigned String
+  willing_to_be_redeployed String
+  id_type                  String
+  name_of_bank             String
+  bank_acct_name           String
+  bank_acct_no             String
+
+}
