@@ -76,8 +76,8 @@ const bioTextFieldsData: InputProps[] = [
     tag: "Phone Number (must be same phone number used during application)",
     placeholder: "e.g 08045678910",
     FieldError: false,
-    name: "phone",
-    id: "phone",
+    name: "phone_number",
+    id: "phone_number",
     iconUrl: "/number_icon.png",
     type: "tel",
     required: true,
@@ -99,8 +99,8 @@ const bioTextFieldsData: InputProps[] = [
     tag: "Full Residential Address",
     placeholder: "Enter your address",
     FieldError: false,
-    name: "address",
-    id: "address",
+    name: "full_address",
+    id: "full_address",
     iconUrl: "",
     type: "text",
     required: true,
@@ -174,9 +174,9 @@ const bankTextFieldsData: InputProps[] = [
 const bankSelectFieldsData: SelectProps [] = [
   {
     title: "Bank name",
-    tag: "bank_name",
+    tag: "name_of_bank",
     FieldError: false,
-    name: "bank_name",
+    name: "name_of_bank",
     options: bankList,
     required: true
   },

@@ -81,11 +81,10 @@ model data_clerk_application {
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model shortlisted_applicant_form {
-  id                       String @unique @id(map: "successful_applicant_id_pkey") @db.Uuid
   firstname                String
   lastname                 String
   dob                      String
-  phone_number             String
+  phone_number             String   @unique(map: "phone_number_unique")
   email                    String?
   lga                      String
   ward                     String
@@ -96,5 +95,16 @@ model shortlisted_applicant_form {
   name_of_bank             String
   bank_acct_name           String
   bank_acct_no             String
+  id                       String   @id(map: "successful_applicant_id_pkey") @unique @db.Uuid
+  created_at               DateTime @db.Timestamptz(6)
+  gender                   String
+  file_name                String
+}
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model test_delete {
+  name   String?
+  number String?
+
+  @@ignore
 }
