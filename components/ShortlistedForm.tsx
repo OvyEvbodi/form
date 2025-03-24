@@ -12,11 +12,39 @@ import InputField, { InputProps, RadioField, RadioProps, SelectField, SelectProp
 
 // create asterisks component
 
-const handleSubmit = async (prevState: any, formData: FormData) => {
-  const saveData = await fetch("/api/file_upload", {
+interface DbResponse extends Response {
+  errors?: {
+    firstname: string;
+    lastname: string;
+    dob: string;
+    phone_number: string;
+    address: string;
+    bank_acct_name: string;
+    bank_acct_no: string;
+    id_file: string;
+  };
+  success?: {
+    message: string;
+  }
+
+}
+
+const handleSubmit: (prevState: any, formData: FormData) => Promise<DbResponse> = async (prevState: any, formData: FormData) => {
+  const saveData: DbResponse = await fetch("/api/file_upload", {
     method: "POST",
     body: formData
   })
+  const feedback = await saveData.json();
+
+  if (saveData) {
+    return {
+      errors: feedback.errors
+    } as DbResponse
+  }
+
+  console.log(feedback)
+  console.log("here now----------------------")
+  return saveData
 };
 
 const FormTemplate = (props: IEVFormProps) => {
@@ -126,12 +154,14 @@ const FormTemplate = (props: IEVFormProps) => {
             <input ref={uploadInputRef} type="file" name="id_file" onChange={handleFileChange} className="absolute right-[999999999px]" />
             <div onClick={handleChooseFile} className="bg-cyan-800 max-w-max py-2 px-8 text-white font-semibold hover:bg-gray-700">Upload file <span className="text-red-700">&#10038;</span></div>
             <span className="my-1 text-sm text-gray-500">{fileName}</span>
-            {/* {
-              
-              state.errors?.id_file && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
-                  {state.errors?.id_file}
-                </div>)
-              } */}
+            {
+              state?.errors?.id_file && 
+              (
+              <div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
+                {state.errors?.id_file}
+              </div>
+              )
+            }
           </div>
           {props.cautionText && <p className="text-xs mb-6">{props.cautionText}</p>}
         </div>
