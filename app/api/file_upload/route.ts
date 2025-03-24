@@ -43,8 +43,8 @@ const saveToDb = async (form: any, imageFileName: string) => { //interface later
     const dbData = {
       ...form,
       id,
-      created_at
-
+      created_at,
+      file_name: imageFileName
     };
 
     const warddb = new PrismaClient();
