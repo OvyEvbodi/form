@@ -214,7 +214,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
     } finally {
       redirect("/thank-you")
     }
-  } else if (jobRole === "clerk") {
+  } else if (jobRole === "clerk_deactivated") {
     try {
       const db = new PrismaClient();
       const addNewEntry = await db.data_clerk_application.create({
