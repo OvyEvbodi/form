@@ -150,7 +150,7 @@ export const handleFormSubmit = async (prevState: any, formData: FormData) => {
 
   console.log(filledFormData)
 
-  if (jobRole === "ward") {
+  if (jobRole === "ward_deactivated") {
     try {
       const warddb = new PrismaClient();
       const addWordEntry = await warddb.ward_supervisor_application.create({ 
