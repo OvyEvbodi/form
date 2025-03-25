@@ -60,6 +60,7 @@ const FormTemplate = (props: IEVFormProps) => {
   const uploadInputRef = useRef<HTMLInputElement | null > (null);
   const [fileName, setFileName] = useState("");
   const [fileSize, setFileSize] = useState(0);
+  const [redeploy, setRedeploy] = useState(false);
 
   const router = useRouter();
 
@@ -76,6 +77,15 @@ const FormTemplate = (props: IEVFormProps) => {
   const handleWardChange  = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
     setWard(event.target.value)
+  };
+  const handleRedeployChange  = (value: boolean) => {
+    setRedeploy(value)
+    if (!redeploy) {
+      setFirstChoice("")
+      // setSecondChoice("")
+    }
+    // // console.log(firstChoice)
+
   };
   const handleFirstChoiceChange  = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
@@ -126,7 +136,7 @@ const FormTemplate = (props: IEVFormProps) => {
               }
               </div>
             ))
-          } 
+          }
           {/* ------------------2 dropdowns not dynamic -------------- */}
           <div className="mb-2">
             <label htmlFor="lga" className="font-bold text-md mb-1">LGA of Residence</label><span className="text-red-700">&#10038;</span>
@@ -160,9 +170,21 @@ const FormTemplate = (props: IEVFormProps) => {
               </div>
             ))
           }
+          <div className="flex flex-col gap- p-4">
+            <p className="font-bold text-md mb-4 lg:mb-6">If yes above, are you willing to be deployed to a ward other than ward of residence? <span className="text-red-600">&#10038;</span></p>
+            <div className="mb-4 font-medium" >
+              <input onChange={() => handleRedeployChange(true)} required={true} type="radio" name="willing_to_be_redeployed" value="Yes" className="mr-3"/>
+              <label  className="mb-4 font-medium " htmlFor="willing_to_be_redeployed">Yes</label>
+            </div>
+            <div className="mb-4 font-medium" >
+            <input onChange={() => handleRedeployChange(false)} required={true} type="radio" name="willing_to_be_redeployed" value="No" className="mr-3"/>
+              <label  className="mb-4 font-medium " htmlFor="willing_to_be_redeployed">No</label>
+              <span className="checkmark"></span>
+            </div>
+          </div>
           {/* ------------------2 dropdowns not dynamic -------------- */}
-          <div className={"mb-2"}>
-            <label htmlFor="first_choice" className="font-bold text-md mb-1">If yes, select first choice</label>
+          <div className={redeploy ? "mb-2" : "hidden"}>
+            <label htmlFor="first_choice" className="font-bold text-md mb-1">Select first choice</label>
             <select  name="first_choice" value={firstChoice} required disabled={!lga} onChange={handleFirstChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
               {/* <option value="">Choose your first choice</option> */}
               {
@@ -172,8 +194,8 @@ const FormTemplate = (props: IEVFormProps) => {
               }
             </select>
           </div>
-          <div className={"mb-2"}>
-            <label htmlFor="second_choice" className="font-bold text-md mb-1">If yes, select second choice</label>
+          <div className={redeploy ? "mb-2" : "hidden"}>
+            <label htmlFor="second_choice" className="font-bold text-md mb-1">Select second choice</label>
             <select  name="second_choice" value={secondChoice} required disabled={!lga} onChange={handleSecondChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
               {/* <option value="">Choose your second choice</option> */}
               {
@@ -260,7 +282,7 @@ const FormTemplate = (props: IEVFormProps) => {
           }
           {
             state?.notShortlisted && (
-              <div className="my-2 border-b-1 border-red-700 text-sm text-red-700">{state?.notShortlisted.message} {state?.notShortlisted.phoneNumber}</div>
+              <div className="my-3 text-white font-medium p-2 bg-red-800">{state?.notShortlisted.message}<br/> Your number is: {state?.notShortlisted.phoneNumber}</div>
             )
           }
           <div className="flex gap-4 mt-4">

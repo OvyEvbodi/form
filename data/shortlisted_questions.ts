@@ -136,14 +136,6 @@ const roleSelectFieldsData: SelectProps [] = [
     options: ["Yes", "No"],
     required: true
   },
-  {
-    title: "If yes above, are you willing to be deployed to a ward other than ward of residence?",
-    tag: "willing_to_be_redeployed",
-    FieldError: false,
-    name: "willing_to_be_redeployed",
-    options: ["Yes", "No", "Not Applicable"],
-    required: true
-  },
 ];
 
 const bankTextFieldsData: InputProps[] = [
