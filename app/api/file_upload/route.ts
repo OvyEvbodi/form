@@ -27,10 +27,11 @@ interface CastedFormInterface {
   gender: string;
   id_file?: File;
   middlename?: string;
-  initial_role: string;
+  initial_role?: string;
 };
 
 const id = uuidv4();
+var initialRole = "";
 // implement not allowed methods
 
 const verifiedApplicant: (
@@ -55,6 +56,10 @@ const verifiedApplicant: (
             where: { AND: [{ phone_number: phoneNumber }, { status: "Qualified" } ]}
           });
 
+          if (result !== null) {
+            initialRole = roleTable.split("_")[0];
+            console.log(initialRole)
+          }
           return {[roleTable]: result};
         })
       );
@@ -62,7 +67,7 @@ const verifiedApplicant: (
       const hasValidEntry = applicantData.some((entry) =>
         Object.values(entry).some((value) => value !== null)
       );
-
+      
       console.log(applicantData);
       if (hasValidEntry) console.log("Valid applicant")
       else console.log("Invalid applicant! Not allowed!")
@@ -78,15 +83,7 @@ const verifiedApplicant: (
 const saveToDb = async (form: CastedFormInterface, imageFileName: string) => {
   try {
     const created_at = new Date();
-    let initial_role = "";
 
-    const dbData = {
-      ...form,
-      id,
-      created_at,
-      file_name: imageFileName,
-      initial_role
-    };
     const db = new PrismaClient();
 
     const result = await verifiedApplicant(form.phone_number, db);
@@ -94,6 +91,15 @@ const saveToDb = async (form: CastedFormInterface, imageFileName: string) => {
     if(!result) {
       return "Invalid"
     }
+    console.log(initialRole)
+    const dbData = {
+      ...form,
+      id,
+      created_at,
+      file_name: imageFileName,
+      initial_role: initialRole
+    };
+
     const addWordEntry = await db.shortlisted_applicant_form.create({ 
       data: {
         ...dbData
@@ -143,7 +149,6 @@ export const POST = async (request: NextRequest) => {
       gender: filledForm.get("gender") as string || "",
       id_file: filledForm.get("id_file") as File,
       middlename: filledForm.get("middlename") as string || "",
-      initial_role: filledForm.get("middlename") as string || ""
     };
 
     const lowerFirstName = filledForm.get("firstname")?.toString().toLowerCase() || "";
@@ -206,7 +211,7 @@ export const POST = async (request: NextRequest) => {
 
     delete (castedForm as any).id_file;
     console.log(castedForm)
-    const dbFeedback = await saveToDb(castedForm, imageFileName)
+    const dbFeedback = await saveToDb(castedForm, imageFileName);
     if (dbFeedback === "Invalid") {
       return NextResponse.json({
         notShortlisted: {
