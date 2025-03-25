@@ -80,13 +80,10 @@ const FormTemplate = (props: IEVFormProps) => {
   };
   const handleRedeployChange  = (value: boolean) => {
     setRedeploy(value)
-    if (!redeploy) {
       setFirstChoice("")
-      // setSecondChoice("")
-    }
-    // // console.log(firstChoice)
-
+      setSecondChoice("")
   };
+
   const handleFirstChoiceChange  = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
     setFirstChoice(event.target.value)
@@ -185,8 +182,8 @@ const FormTemplate = (props: IEVFormProps) => {
           {/* ------------------2 dropdowns not dynamic -------------- */}
           <div className={redeploy ? "mb-2" : "hidden"}>
             <label htmlFor="first_choice" className="font-bold text-md mb-1">Select first choice</label>
-            <select  name="first_choice" value={firstChoice} required disabled={!lga} onChange={handleFirstChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
-              {/* <option value="">Choose your first choice</option> */}
+            <select  name="first_choice" value={firstChoice} disabled={!lga} onChange={handleFirstChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
+              <option value="">Choose your first choice</option>
               {
                 wards.map((item: string, index: number) => (
                   <option key={index}  value={item}>{item}</option>
@@ -196,8 +193,8 @@ const FormTemplate = (props: IEVFormProps) => {
           </div>
           <div className={redeploy ? "mb-2" : "hidden"}>
             <label htmlFor="second_choice" className="font-bold text-md mb-1">Select second choice</label>
-            <select  name="second_choice" value={secondChoice} required disabled={!lga} onChange={handleSecondChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
-              {/* <option value="">Choose your second choice</option> */}
+            <select  name="second_choice" value={secondChoice} disabled={!lga} onChange={handleSecondChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
+              <option value="">Choose your second choice</option>
               {
                 wards.map((item: string, index: number) => (
                   <option key={index}  value={item}>{item}</option>
