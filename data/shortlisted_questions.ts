@@ -134,7 +134,7 @@ const bioRadioFieldsData: RadioProps [] = [
     tag: "id_type",
     FieldError: false,
     name: "id_type",
-    options: ["Voter's Card", "Drivers License", "Nationa ID Card (NIN)", "International Passport"],
+    options: ["Voter's Card", "Drivers License", "National ID Card (NIN)", "International Passport"],
     required: true
   }
 ];
