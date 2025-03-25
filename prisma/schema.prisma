@@ -101,4 +101,6 @@ model shortlisted_applicant_form {
   first_choice_ward_for_redeployment  String?
   second_choice_ward_for_redeployment String?
   willing_to_be_redeployed            String
+  middlename                          String?
+  initial_role                        String
 }

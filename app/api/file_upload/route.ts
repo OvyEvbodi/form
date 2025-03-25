@@ -4,7 +4,7 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
 import { Prisma, PrismaClient } from "@prisma/client";
-import { shortlistedSchema, FieldErrorMsgs } from "@/zod_schema"
+import { shortlistedSchema } from "@/zod_schema"
 import { DefaultArgs } from "@prisma/client/runtime/library";
 
 interface CastedFormInterface {
@@ -26,6 +26,8 @@ interface CastedFormInterface {
   bank_acct_no: string;
   gender: string;
   id_file?: File;
+  middlename?: string;
+  initial_role: string;
 };
 
 const id = uuidv4();
@@ -76,11 +78,14 @@ const verifiedApplicant: (
 const saveToDb = async (form: CastedFormInterface, imageFileName: string) => {
   try {
     const created_at = new Date();
+    let initial_role = "";
+
     const dbData = {
       ...form,
       id,
       created_at,
-      file_name: imageFileName
+      file_name: imageFileName,
+      initial_role
     };
     const db = new PrismaClient();
 
@@ -136,7 +141,9 @@ export const POST = async (request: NextRequest) => {
       bank_acct_name: filledForm.get("bank_acct_name") as string || "",
       bank_acct_no: filledForm.get("bank_acct_no") as string || "",
       gender: filledForm.get("gender") as string || "",
-      id_file: filledForm.get("id_file") as File
+      id_file: filledForm.get("id_file") as File,
+      middlename: filledForm.get("middlename") as string || "",
+      initial_role: filledForm.get("middlename") as string || ""
     };
 
     const lowerFirstName = filledForm.get("firstname")?.toString().toLowerCase() || "";
