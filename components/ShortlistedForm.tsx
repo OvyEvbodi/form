@@ -25,7 +25,11 @@ interface DbResponse extends Response {
   };
   success?: {
     message: string;
-  }
+  };
+  notShortlisted?: {
+    message: string;
+    phoneNumber: string;
+  };
 
 }
 
@@ -157,7 +161,7 @@ const FormTemplate = (props: IEVFormProps) => {
           }
           {/* ------------------2 dropdowns not dynamic -------------- */}
           <div className={"mb-2"}>
-            <label htmlFor="first_choice" className="font-bold text-md mb-1">If yes, selecct first choice</label><span className="text-red-700">&#10038;</span>
+            <label htmlFor="first_choice" className="font-bold text-md mb-1">If yes, selecct first choice</label>
             <select  name="first_choice" value={firstChoice} required disabled={!lga} onChange={handleFirstChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
               {/* <option value="">Choose your first choice</option> */}
               {
@@ -168,7 +172,7 @@ const FormTemplate = (props: IEVFormProps) => {
             </select>
           </div>
           <div className={"mb-2"}>
-            <label htmlFor="second_choice" className="font-bold text-md mb-1">If yes, selecct second choice</label><span className="text-red-700">&#10038;</span>
+            <label htmlFor="second_choice" className="font-bold text-md mb-1">If yes, selecct second choice</label>
             <select  name="second_choice" value={secondChoice} required disabled={!lga} onChange={handleSecondChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
               {/* <option value="">Choose your second choice</option> */}
               {
@@ -252,6 +256,11 @@ const FormTemplate = (props: IEVFormProps) => {
               }
               </div>
             ))
+          }
+          {
+            state?.notShortlisted && (
+              <div className="my-2 border-b-1 border-red-700 text-sm text-red-700">{state?.notShortlisted.message} {state?.notShortlisted.phoneNumber}</div>
+            )
           }
           <div className="flex gap-4 mt-4">
             <Button props={props.buttonInfo} />

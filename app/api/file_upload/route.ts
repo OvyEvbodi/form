@@ -3,16 +3,79 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { redirect } from 'next/navigation';
 import { shortlistedSchema, FieldErrorMsgs } from "@/zod_schema"
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
+interface CastedFormInterface {
+  firstname: string;
+  lastname: string;
+  dob: string;
+  phone_number: string;
+  email?: string;
+  lga: string;
+  ward: string;
+  full_address: string;
+  willing_to_be_reassigned: string;
+  willing_to_be_redeployed: string;
+  first_choice_ward_for_redeployment?: string;
+  second_choice_ward_for_redeployment?: string;
+  id_type: string;
+  name_of_bank: string;
+  bank_acct_name: string;
+  bank_acct_no: string;
+  gender: string;
+  id_file?: File;
+};
 
 const id = uuidv4();
 // implement not allowed methods
-const saveToDb = async (form: any, imageFileName: string) => { //interface later
+
+const verifiedApplicant: (
+  phoneNumber: string, 
+  dbClient: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>
+) => Promise<boolean> = async (
+  phoneNumber: string,
+   dbClient: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>
+  ) => {
+    const listOfRoles = [
+      "lga_supervisor_application", 
+      "ward_supervisor_application", 
+      "data_clerk_application"
+    ] as const;
+
+    type RoleTable = (typeof listOfRoles)[number];
+
+    try {
+      const applicantData = await Promise.all(
+        listOfRoles.map(async (roleTable) => {
+          const result = await (dbClient[roleTable as keyof typeof dbClient] as any).findFirst({
+            where: { phone_number: phoneNumber }
+          });
+
+          return {[roleTable]: result};
+        })
+      );
+
+      const hasValidEntry = applicantData.some((entry) =>
+        Object.values(entry).some((value) => value !== null)
+      );
+
+      console.log(applicantData);
+      if (hasValidEntry) console.log("Valid applicant")
+      else console.log("Invalid applicant! Not allowed!")
+
+      return hasValidEntry
+    } catch (error) {
+      console.log(error)
+      return false;
+    }
+
+};
+
+const saveToDb = async (form: CastedFormInterface, imageFileName: string) => { //interface later
   try {
-    
     const created_at = new Date();
     const dbData = {
       ...form,
@@ -21,12 +84,24 @@ const saveToDb = async (form: any, imageFileName: string) => { //interface later
       file_name: imageFileName
     };
 
-    const warddb = new PrismaClient();
-      const addWordEntry = await warddb.shortlisted_applicant_form.create({ 
-        data: {
-          ...dbData
+    const db = new PrismaClient();
+
+    const result = await verifiedApplicant(form.phone_number, db);
+    console.log(result)
+    if(!result) {
+      return NextResponse.json({
+        notShortlisted: {
+          phoneNumber: form.phone_number,
+          message: "It seems you were not shortlisted for any role. Make sure you use the phone number you applied with."
         }
       })
+    }
+    const addWordEntry = await db.shortlisted_applicant_form.create({ 
+      data: {
+        ...dbData
+      }
+    });
+    
   } catch (error) {
     console.error(error)
   } finally {
@@ -57,7 +132,7 @@ export const POST = async (request: NextRequest) => {
       email: filledForm.get("email") as string || "",
       lga: filledForm.get("lga") as string || "",
       ward: filledForm.get("ward") as string || "",
-      full_address: filledForm.get("full_address") as String || "",
+      full_address: filledForm.get("full_address") as string || "",
       willing_to_be_reassigned: filledForm.get("willing_to_be_reassigned") as string || "",
       willing_to_be_redeployed: filledForm.get("willing_to_be_redeployed") as string || "",
       first_choice_ward_for_redeployment: filledForm.get("first_choice") as string || "",
@@ -104,8 +179,8 @@ export const POST = async (request: NextRequest) => {
     // try to upload
     const idFile: File | null = filledForm.get("id_file") as unknown as File;
     if (!idFile) return // add message
-    const originalFileName = idFile?.name;  // rename file here!!! I'm tired abeg
-    const imageFileName = getNewName(originalFileName, id, lowerFirstName, lowerLastName);
+    const originalFileName = idFile!.name;  // rename file here!!! I'm tired abeg
+    const imageFileName: string = getNewName(originalFileName, id, lowerFirstName, lowerLastName);
     console.log(filledForm)
     console.log(imageFileName)
     // s3 upload
