@@ -60,8 +60,8 @@ export const POST = async (request: NextRequest) => {
       full_address: filledForm.get("full_address") as String || "",
       willing_to_be_reassigned: filledForm.get("willing_to_be_reassigned") as string || "",
       willing_to_be_redeployed: filledForm.get("willing_to_be_redeployed") as string || "",
-      first_choice_ward_for_redeployment: filledForm.get("first_choice_ward_for_redeployment") as string || "",
-      second_choice_ward_for_redeployment: filledForm.get("second_choice_ward_for_redeployment") as string || "",
+      first_choice_ward_for_redeployment: filledForm.get("first_choice") as string || "",
+      second_choice_ward_for_redeployment: filledForm.get("second_choice") as string || "",
       id_type: filledForm.get("id_type") as string || "",
       name_of_bank: filledForm.get("name_of_bank") as string || "",
       bank_acct_name: filledForm.get("bank_acct_name") as string || "",
@@ -75,6 +75,8 @@ export const POST = async (request: NextRequest) => {
     const validatedForm = shortlistedSchema.safeParse(castedForm);
 
     console.log(filledForm)
+    console.log(castedForm)
+
     if (!validatedForm.success) {
       const formErrors = validatedForm.error.flatten().fieldErrors;
       // console.log(formErrors)

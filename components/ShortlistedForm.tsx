@@ -53,6 +53,9 @@ const FormTemplate = (props: IEVFormProps) => {
   const [page, setPage] = useState(1);
   const [lga, setLga] = useState("");
   const [ward, setWard] = useState("");
+  const [firstChoice, setFirstChoice] = useState("");
+  const [secondChoice, setSecondChoice] = useState("");
+
   const [fileName, setFileName] = useState("");
   const [fileSize, setFileSize] = useState(0);
 
@@ -68,6 +71,15 @@ const FormTemplate = (props: IEVFormProps) => {
   const handleWardChange  = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
     setWard(event.target.value)
+  };
+  const handleFirstChoiceChange  = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault()
+    setFirstChoice(event.target.value)
+  };
+  
+  const handleSecondChoiceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault()
+    setSecondChoice(event.target.value)
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,6 +122,7 @@ const FormTemplate = (props: IEVFormProps) => {
               </div>
             ))
           } 
+          {/* ------------------2 dropdowns not dynamic -------------- */}
           <div className="mb-2">
             <label htmlFor="lga" className="font-bold text-md mb-1">LGA of Residence</label><span className="text-red-700">&#10038;</span>
             <select name="lga" value={lga} required onChange={ handleLgaChange } className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
@@ -142,6 +155,29 @@ const FormTemplate = (props: IEVFormProps) => {
               </div>
             ))
           }
+          {/* ------------------2 dropdowns not dynamic -------------- */}
+          <div className={"mb-2"}>
+            <label htmlFor="first_choice" className="font-bold text-md mb-1">If yes, selecct first choice</label><span className="text-red-700">&#10038;</span>
+            <select  name="first_choice" value={firstChoice} required disabled={!lga} onChange={handleFirstChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
+              {/* <option value="">Choose your first choice</option> */}
+              {
+                wards.map((item: string, index: number) => (
+                  <option key={index}  value={item}>{item}</option>
+                ))
+              }
+            </select>
+          </div>
+          <div className={"mb-2"}>
+            <label htmlFor="second_choice" className="font-bold text-md mb-1">If yes, selecct second choice</label><span className="text-red-700">&#10038;</span>
+            <select  name="second_choice" value={secondChoice} required disabled={!lga} onChange={handleSecondChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
+              {/* <option value="">Choose your second choice</option> */}
+              {
+                wards.map((item: string, index: number) => (
+                  <option key={index}  value={item}>{item}</option>
+                ))
+              }
+            </select>
+          </div>
           {
             props.firstRadioFields && props.firstRadioFields.map((item: RadioProps, index) => (
               <div key={index} >

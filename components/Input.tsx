@@ -82,7 +82,7 @@ export const SelectField = ({props}: { props: SelectProps }) => {
     <div>
       <label htmlFor={props.name} className="font-bold text-md mb-1">{props.title}</label><span className="text-red-700">&#10038;</span>
       <select name={props.name} required onChange={props.onChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
-        <option value="">Select bank name</option>
+        <option value="">Select an option</option>
         {props.options.map((item: string, index: number) => (
           <option key={index}  value={item}>{item}</option>
         ))}

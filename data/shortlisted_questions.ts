@@ -118,6 +118,17 @@ const bioRadioFieldsData: RadioProps [] = [
     required: true
   },
   {
+    title: "What is your valid means of identification?",
+    tag: "id_type",
+    FieldError: false,
+    name: "id_type",
+    options: ["Voter's Card", "Drivers License", "National ID Card", "International Passport"],
+    required: true
+  }
+];
+
+const roleSelectFieldsData: SelectProps [] = [
+  {
     title: "Are you willing to be reassigned to a role other than the one applied for?",
     tag: "willing_to_be_reassigned",
     FieldError: false,
@@ -133,14 +144,6 @@ const bioRadioFieldsData: RadioProps [] = [
     options: ["Yes", "No", "Not Applicable"],
     required: true
   },
-  {
-    title: "What is your valid means of identification?",
-    tag: "id_type",
-    FieldError: false,
-    name: "id_type",
-    options: ["Voter's Card", "Drivers License", "National ID Card", "International Passport"],
-    required: true
-  }
 ];
 
 const bankTextFieldsData: InputProps[] = [
@@ -222,6 +225,7 @@ export const ievShortlistData: IEVFormProps = {
   firstTextFields: bioTextFieldsData,
   secondTextFields: bankTextFieldsData,
   firstRadioFields: bioRadioFieldsData,
+  firstSelectFields: roleSelectFieldsData,
   secondSelectFields: bankSelectFieldsData,
   buttonInfo: buttonInfoData,
   footerText: "Are you experiencing any technical issues? ",
