@@ -38,7 +38,7 @@ const bankList: string[] = [
 const bioTextFieldsData: InputProps[] = [
   {
     tag: "First Name (as it appears on your ID)",
-    placeholder: "",
+    placeholder: "Enter first name",
     FieldError: false,
     name: "firstname",
     id: "firstname",
@@ -49,8 +49,20 @@ const bioTextFieldsData: InputProps[] = [
     errorMessage: "Please enter a first name"
   },
   {
+    tag: "Middle name (optional)",
+    placeholder: "Enter middle name",
+    FieldError: false,
+    name: "middlename",
+    id: "middlename",
+    iconUrl: "/name_icon.png",
+    type: "text",
+    required: false,
+    additionalStyle: "capitalize",
+    errorMessage: "Please enter a valid middle name"
+  },
+  {
     tag: "Last Name (as it appears on your ID)",
-    placeholder: "",
+    placeholder: "Enter last name",
     FieldError: false,
     name: "lastname",
     id: "lastname",
@@ -122,7 +134,7 @@ const bioRadioFieldsData: RadioProps [] = [
     tag: "id_type",
     FieldError: false,
     name: "id_type",
-    options: ["Voter's Card", "Drivers License", "National ID Card", "International Passport"],
+    options: ["Voter's Card", "Drivers License", "Nationa ID Card (NIN)", "International Passport"],
     required: true
   }
 ];
@@ -152,7 +164,7 @@ const bankTextFieldsData: InputProps[] = [
     errorMessage: "Please enter a bank account name"
   },
   {
-    tag: "Account Number (must be 10 digits)",
+    tag: "Account Number (NUBAN must be 10 digits)",
     placeholder: "",
     FieldError: false,
     name: "bank_acct_no",
@@ -207,8 +219,8 @@ export interface IEVFormProps {
 } // add select fields props later
 
 export const ievShortlistData: IEVFormProps = {
-  title: "Registration Form for Recruitment",
-  description: "Congratulations! You have been selected to participate in the Kano State IEV exercise. Please complete this form as documentation for completing your recruitment process. ",
+  title: "Registration Form for Shortlisted Applicants",
+  description: "You have been shortlisted as a potential candidate for the Kano State IEV implementation. Please complete the form below to finalize the second-level assessment. If successful, you will receive a confirmation message. Good luck!",
   logoUrl: "",
   firstSectionTitle: bioSectionTitle,
   firstSectionDescription: bioSectionDesc,
