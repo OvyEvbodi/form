@@ -50,7 +50,7 @@ const verifiedApplicant: (
       const applicantData = await Promise.all(
         listOfRoles.map(async (roleTable) => {
           const result = await (dbClient[roleTable as keyof typeof dbClient] as any).findFirst({
-            where: { phone_number: phoneNumber }
+            where: { AND: [{ phone_number: phoneNumber }, { status: qualified } ]}
           });
 
           return {[roleTable]: result};
