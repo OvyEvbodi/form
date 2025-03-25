@@ -74,7 +74,7 @@ const verifiedApplicant: (
 
 };
 
-const saveToDb = async (form: CastedFormInterface, imageFileName: string) => { //interface later
+const saveToDb = async (form: CastedFormInterface, imageFileName: string) => {
   try {
     const created_at = new Date();
     const dbData = {
@@ -83,18 +83,12 @@ const saveToDb = async (form: CastedFormInterface, imageFileName: string) => { /
       created_at,
       file_name: imageFileName
     };
-
     const db = new PrismaClient();
 
     const result = await verifiedApplicant(form.phone_number, db);
     console.log(result)
     if(!result) {
-      return NextResponse.json({
-        notShortlisted: {
-          phoneNumber: form.phone_number,
-          message: "It seems you were not shortlisted for any role. Make sure you use the phone number you applied with."
-        }
-      })
+      return "Invalid"
     }
     const addWordEntry = await db.shortlisted_applicant_form.create({ 
       data: {
@@ -104,6 +98,7 @@ const saveToDb = async (form: CastedFormInterface, imageFileName: string) => { /
     
   } catch (error) {
     console.error(error)
+    return "Error saving data" // add message, and propagate feedback
   } finally {
     // redirect workaround
   }
@@ -206,11 +201,22 @@ export const POST = async (request: NextRequest) => {
     console.log(s3Res)
 
     delete (castedForm as any).id_file;
-    await saveToDb(castedForm, imageFileName)
+    const dbFeedback = await saveToDb(castedForm, imageFileName)
+    if (dbFeedback === "Invalid") {
+      return NextResponse.json({
+        notShortlisted: {
+          phoneNumber: castedForm.phone_number,
+          message: "It seems you were not shortlisted for any role. Make sure you use the phone number you applied with."
+        }
+      }, { status: 400 })
+    }
     console.log("successfully registered........")
 
-    return NextResponse.json(
-      "", 
+    return NextResponse.json({
+      success: {
+        message:  "Congratulations! You have successfully been registered."
+      }
+    }, 
       { status: 200 }
     )
   } catch (error) {

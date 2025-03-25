@@ -9,6 +9,7 @@ import Link from "next/link";
 import { POST } from "@/app/api/file_upload/route";
 import { ievShortlistData, IEVFormProps } from "@/data/shortlisted_questions";
 import InputField, { InputProps, RadioField, RadioProps, SelectField, SelectProps } from "@/components/Input";
+import { useRouter } from "next/navigation";
 
 // create asterisks component
 
@@ -33,6 +34,7 @@ interface DbResponse extends Response {
 
 }
 
+
 const handleSubmit: (prevState: any, formData: FormData) => Promise<DbResponse> = async (prevState: any, formData: FormData) => {
   const saveData: DbResponse = await fetch("/api/file_upload", {
     method: "POST",
@@ -40,16 +42,12 @@ const handleSubmit: (prevState: any, formData: FormData) => Promise<DbResponse> 
   })
   const feedback = await saveData.json();
 
-  if (saveData) {
-    console.log(feedback)
     return {
-      errors: feedback.errors
+      errors: feedback.errors || null,
+      success: feedback.success || null,
+      notShortlisted: feedback.notShortlisted || null
     } as DbResponse
-  }
-
-  console.log(feedback)
-  console.log("here now----------------------")
-  return saveData
+  
 };
 
 const FormTemplate = (props: IEVFormProps) => {
@@ -59,12 +57,15 @@ const FormTemplate = (props: IEVFormProps) => {
   const [ward, setWard] = useState("");
   const [firstChoice, setFirstChoice] = useState("");
   const [secondChoice, setSecondChoice] = useState("");
-
+  const uploadInputRef = useRef<HTMLInputElement | null > (null);
   const [fileName, setFileName] = useState("");
   const [fileSize, setFileSize] = useState(0);
 
-  const uploadInputRef = useRef<HTMLInputElement | null > (null);
+  const router = useRouter();
 
+  if (state?.success) {
+    router.push("/thank-you")
+  }
 
   const handleLgaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
@@ -161,7 +162,7 @@ const FormTemplate = (props: IEVFormProps) => {
           }
           {/* ------------------2 dropdowns not dynamic -------------- */}
           <div className={"mb-2"}>
-            <label htmlFor="first_choice" className="font-bold text-md mb-1">If yes, selecct first choice</label>
+            <label htmlFor="first_choice" className="font-bold text-md mb-1">If yes, select first choice</label>
             <select  name="first_choice" value={firstChoice} required disabled={!lga} onChange={handleFirstChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
               {/* <option value="">Choose your first choice</option> */}
               {
@@ -172,7 +173,7 @@ const FormTemplate = (props: IEVFormProps) => {
             </select>
           </div>
           <div className={"mb-2"}>
-            <label htmlFor="second_choice" className="font-bold text-md mb-1">If yes, selecct second choice</label>
+            <label htmlFor="second_choice" className="font-bold text-md mb-1">If yes, select second choice</label>
             <select  name="second_choice" value={secondChoice} required disabled={!lga} onChange={handleSecondChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
               {/* <option value="">Choose your second choice</option> */}
               {
@@ -270,7 +271,15 @@ const FormTemplate = (props: IEVFormProps) => {
           <p>{props.footerText} <Link href={props.footerLink} className="text-cyan-950 font-medium hover:underline hover:text-cyan-800">{props.footerLinkText}</Link> </p>
         </div> */}
       </form> 
-      { isPending ? <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-neutral-900/85"><div className="p-12 sm:px-20 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md"><ClockLoader color="#169285" /></div></div> : <div></div>}
+      { isPending ? 
+      <div className="fixed top-0 left-0 flex flex-col justify-center items-center w-screen h-screen bg-neutral-900/85">
+        <div className="text-lg text-white font-bold mb-2">Please wait while we verify your application</div>
+        <div className="p-12 sm:px-20 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md">
+          <ClockLoader color="#169285" />
+        </div>
+      </div> :
+      <div>
+      </div>}
     </div>
   )
 };
