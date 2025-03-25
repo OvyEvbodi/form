@@ -17,9 +17,9 @@ export const shortlistedSchema = z.object({
   full_address: z.string({required_error: "Address is required"}).min(10, {message: FieldErrorMsgs.full_address }),
   bank_acct_name: z.string({required_error: "Bank account name is required"}).trim().min(3, {message: FieldErrorMsgs.bank_acct_name }),
   bank_acct_no: z.string({required_error: "Bank account name is required"}).length(10, {message: FieldErrorMsgs.bank_acct_no }),
-  id_file: z.instanceof(File)
+  id_file: z.instanceof(File, { message: "Please choose a file" })
     .refine(file => file.size <= 2 * 1024 * 1024, {message: "File size must be 2MB or less"})
     .refine((file) => ["image/jpeg", "image/png", "image/jpg", "application/pdf"].includes(file.type), {
-      message: "Only JPG, PDF, PNG, and JPEG files are allowed",
+      message: "Please upload a valid file: JPG, PDF, PNG, or JPEG",
   })
 });

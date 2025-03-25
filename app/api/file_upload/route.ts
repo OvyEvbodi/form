@@ -50,21 +50,23 @@ export const POST = async (request: NextRequest) => {
     const filledForm = await request.formData();
 
     const castedForm = {
-      firstname: filledForm.get("firstname") as string,
-      lastname: filledForm.get("lastname") as string,
-      dob: filledForm.get("dob") as string,
-      phone_number: filledForm.get("phone_number") as string,
-      email: filledForm.get("email") as string,
-      lga: filledForm.get("lga") as string,
-      ward: filledForm.get("ward") as string,
-      full_address: filledForm.get("full_address") as String,
-      willing_to_be_reassigned: filledForm.get("willing_to_be_reassigned") as string,
-      willing_to_be_redeployed: filledForm.get("willing_to_be_redeployed") as string,
-      id_type: filledForm.get("id_type") as string,
-      name_of_bank: filledForm.get("name_of_bank") as string,
-      bank_acct_name: filledForm.get("bank_acct_name") as string,
-      bank_acct_no: filledForm.get("bank_acct_no") as string,
-      gender: filledForm.get("gender") as string,
+      firstname: filledForm.get("firstname") as string || "",
+      lastname: filledForm.get("lastname") as string || "",
+      dob: filledForm.get("dob") as string || "",
+      phone_number: filledForm.get("phone_number") as string || "",
+      email: filledForm.get("email") as string || "",
+      lga: filledForm.get("lga") as string || "",
+      ward: filledForm.get("ward") as string || "",
+      full_address: filledForm.get("full_address") as String || "",
+      willing_to_be_reassigned: filledForm.get("willing_to_be_reassigned") as string || "",
+      willing_to_be_redeployed: filledForm.get("willing_to_be_redeployed") as string || "",
+      first_choice_ward_for_redeployment: filledForm.get("first_choice_ward_for_redeployment") as string || "",
+      second_choice_ward_for_redeployment: filledForm.get("second_choice_ward_for_redeployment") as string || "",
+      id_type: filledForm.get("id_type") as string || "",
+      name_of_bank: filledForm.get("name_of_bank") as string || "",
+      bank_acct_name: filledForm.get("bank_acct_name") as string || "",
+      bank_acct_no: filledForm.get("bank_acct_no") as string || "",
+      gender: filledForm.get("gender") as string || "",
       id_file: filledForm.get("id_file") as File
     };
 
@@ -94,11 +96,10 @@ export const POST = async (request: NextRequest) => {
 
     // ---------------------remove next line after validation testing!!!
     // console.log(filledForm)
-    return NextResponse.json({success: "Nicely filled"})
+    // return NextResponse.json({success: "Nicely filled"})
 
 
     // try to upload
-    // const data = await request.formData();
     const idFile: File | null = filledForm.get("id_file") as unknown as File;
     if (!idFile) return // add message
     const originalFileName = idFile?.name;  // rename file here!!! I'm tired abeg

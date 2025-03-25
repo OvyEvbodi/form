@@ -37,6 +37,7 @@ const handleSubmit: (prevState: any, formData: FormData) => Promise<DbResponse> 
   const feedback = await saveData.json();
 
   if (saveData) {
+    console.log(feedback)
     return {
       errors: feedback.errors
     } as DbResponse
@@ -53,6 +54,8 @@ const FormTemplate = (props: IEVFormProps) => {
   const [lga, setLga] = useState("");
   const [ward, setWard] = useState("");
   const [fileName, setFileName] = useState("");
+  const [fileSize, setFileSize] = useState(0);
+
   const uploadInputRef = useRef<HTMLInputElement | null > (null);
 
 
@@ -70,6 +73,7 @@ const FormTemplate = (props: IEVFormProps) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const idFile = event.target.files?.[0];
     setFileName(idFile?.name ?? "")
+    setFileSize(Math.trunc(idFile!.size))
   };
 
   const handleChooseFile = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -152,12 +156,12 @@ const FormTemplate = (props: IEVFormProps) => {
           }
           <div className="p-2 mb-4">
             <input ref={uploadInputRef} type="file" name="id_file" onChange={handleFileChange} className="absolute right-[999999999px]" />
-            <div onClick={handleChooseFile} className="bg-cyan-800 max-w-max py-2 px-8 text-white font-semibold hover:bg-gray-700">Upload file <span className="text-red-700">&#10038;</span></div>
+            <div onClick={handleChooseFile} className="bg-cyan-800 max-w-max py-2 px-8 text-white font-semibold hover:bg-gray-700">Upload file (max: 2MB)<span className="text-red-700">&#10038;</span></div>
             <span className="my-1 text-sm text-gray-500">{fileName}</span>
             {
               state?.errors?.id_file && 
               (
-              <div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
+              <div className="my-2 text-sm text-red-700">
                 {state.errors?.id_file}
               </div>
               )
@@ -175,11 +179,14 @@ const FormTemplate = (props: IEVFormProps) => {
             props.secondTextFields && props.secondTextFields.map((item: InputProps, index) => (
               <div key={index} >
                 <InputField props={item} />
-              {
-                item.FieldError && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
-                  {item.errorMessage}
-                </div>)
-              }
+                {/* {
+                  state?.errors?.bank_acct_name && 
+                  (
+                  <div className="my-2 text-sm text-red-700">
+                    {state.errors?.bank_acct_name}
+                  </div>
+                  )
+                } */}
               </div>
             ))
           }
@@ -187,11 +194,14 @@ const FormTemplate = (props: IEVFormProps) => {
             props.secondSelectFields && props.secondSelectFields.map((item: SelectProps, index) => (
               <div key={index} >
                 <SelectField props={item} />
-              {
-                item.FieldError && (<div className="my-2 border-b-1 border-red-700 text-sm text-red-700">
-                  {item.errorMessage}
-                </div>)
-              }
+                {/* {
+                  state?.errors?.bank_acct_no && 
+                  (
+                  <div className="my-2 text-sm text-red-700">
+                    {state.errors?.bank_acct_no}
+                  </div>
+                  )
+                } */}
               </div>
             ))
           }
