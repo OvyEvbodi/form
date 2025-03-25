@@ -23,6 +23,7 @@ interface DbResponse extends Response {
     bank_acct_name: string;
     bank_acct_no: string;
     id_file: string;
+    message?: string;
   };
   success?: {
     message: string;
@@ -64,7 +65,7 @@ const FormTemplate = (props: IEVFormProps) => {
 
   const router = useRouter();
 
-  if (state?.success) {
+  if (state?.success?.message) {
     router.push("/thank-you")
   }
 
@@ -280,6 +281,11 @@ const FormTemplate = (props: IEVFormProps) => {
           {
             state?.notShortlisted && (
               <div className="my-3 text-white font-medium p-2 bg-red-800">{state?.notShortlisted.message}<br/> Your number is: {state?.notShortlisted.phoneNumber}</div>
+            )
+          }
+          {
+            state?.errors && (
+              <div className="my-3 text-white font-medium p-2 bg-red-800">{state?.errors.message}</div>
             )
           }
           <div className="flex gap-4 mt-4">

@@ -100,15 +100,17 @@ const saveToDb = async (form: CastedFormInterface, imageFileName: string) => {
       initial_role: initialRole
     };
 
-    const addWordEntry = await db.shortlisted_applicant_form.create({ 
+    const addEntry = await db.shortlisted_applicant_form.create({ 
       data: {
         ...dbData
       }
     });
-    
+    console.log(addEntry)
+    if (addEntry === null) return "savingError"
+    console.log("Congratulations! You have successfully been registered.")
   } catch (error) {
     console.error(error)
-    return "Error saving data" // add message, and propagate feedback
+    return "savingError" // add message, and propagate feedback
   } finally {
     // redirect workaround
   }
@@ -168,7 +170,8 @@ export const POST = async (request: NextRequest) => {
           full_address: formErrors?.full_address,
           bank_acct_name: formErrors?.bank_acct_name,
           bank_acct_no: formErrors?.bank_acct_no,
-          id_file: formErrors.id_file
+          id_file: formErrors.id_file,
+          message: ""
         }
       }, { status: 400 })
     }
@@ -204,8 +207,8 @@ export const POST = async (request: NextRequest) => {
     };
 
     const command = new PutObjectCommand(params);
-    const s3Res = await s3.send(command)
-    console.log(s3Res)
+    // const s3Res = await s3.send(command)
+    // console.log(s3Res)
 
     delete (castedForm as any).id_file;
     console.log(castedForm)
@@ -217,12 +220,29 @@ export const POST = async (request: NextRequest) => {
           message: "It seems you were not shortlisted for any role. Make sure you use the phone number you applied with."
         }
       }, { status: 400 })
+    } else if (dbFeedback === "savingError") {
+      return NextResponse.json({
+        errors: {
+          message: "Error registering you. Please check your connection and make sure you're not sending a duplicate entry."
+        }
+      }, { status: 400 })
     }
-    console.log("successfully registered........")
+    const s3Res = await s3.send(command)
+    console.log(s3Res)
+
+    if (s3Res.$metadata.httpStatusCode !== 200) {
+      return NextResponse.json( {
+        errors: {
+          message: "Error uploading photo"
+        }
+      }, { status: 500 })
+    }
+
+    console.log("ID successfully uploaded to storage........")
 
     return NextResponse.json({
       success: {
-        message:  "Congratulations! You have successfully been registered."
+        message:  "success"
       }
     }, 
       { status: 200 }
@@ -232,7 +252,7 @@ export const POST = async (request: NextRequest) => {
     console.log("errorr oooo........")
 
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { errors: "Internal Server Error" },
       { status: 500 }
     )
   }
