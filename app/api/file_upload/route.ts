@@ -4,7 +4,6 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
 import { Prisma, PrismaClient } from "@prisma/client";
-import { redirect } from 'next/navigation';
 import { shortlistedSchema, FieldErrorMsgs } from "@/zod_schema"
 import { DefaultArgs } from "@prisma/client/runtime/library";
 
@@ -143,14 +142,13 @@ export const POST = async (request: NextRequest) => {
     const lowerFirstName = filledForm.get("firstname")?.toString().toLowerCase() || "";
     const lowerLastName = filledForm.get("lastname")?.toString().toLowerCase() || "";
     const validatedForm = shortlistedSchema.safeParse(castedForm);
-
-    console.log(filledForm)
-    console.log(castedForm)
+    
 
     if (!validatedForm.success) {
       const formErrors = validatedForm.error.flatten().fieldErrors;
-      // console.log(formErrors)
 
+      console.log(formErrors)
+      
       return NextResponse.json( {
         errors: {
           firstname: formErrors?.firstname,
@@ -164,7 +162,6 @@ export const POST = async (request: NextRequest) => {
         }
       }, { status: 400 })
     }
-
 
     // ---------------------remove next line after validation testing!!!
     // console.log(filledForm)
@@ -201,6 +198,7 @@ export const POST = async (request: NextRequest) => {
     console.log(s3Res)
 
     delete (castedForm as any).id_file;
+    console.log(castedForm)
     const dbFeedback = await saveToDb(castedForm, imageFileName)
     if (dbFeedback === "Invalid") {
       return NextResponse.json({

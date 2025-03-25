@@ -292,7 +292,7 @@ const FormTemplate = (props: IEVFormProps) => {
       </form> 
       { isPending ? 
       <div className="fixed top-0 left-0 flex flex-col justify-center items-center w-screen h-screen bg-neutral-900/85">
-        <div className="text-lg text-white font-bold mb-2">Please wait while we verify your application</div>
+        <div className="text-center text-lg text-white font-bold mb-6">Please wait while we verify your application</div>
         <div className="p-12 sm:px-20 bg-gray-100 rounded-lg font-bold text-xl text-center max-w-md">
           <ClockLoader color="#169285" />
         </div>
