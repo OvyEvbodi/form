@@ -114,12 +114,12 @@ const saveToDb = async (form: CastedFormInterface, imageFileName: string) => {
   }
 };
 
-const getNewName: (oldFilename: string, id: string, firstName: string, lastName: string) => string = (oldFilename: string, id: string, firstName: string, lastName: string) => {
+const getNewName: (oldFilename: string, id: string, phoneNumber: string) => string = (oldFilename: string, id: string, phoneNumber: string) => {
   let newFileName = "";
-  if (oldFilename.endsWith(".pdf")) newFileName = `${firstName}-${lastName}-${id}.pdf`;
-  if (oldFilename.endsWith(".png")) newFileName = `${firstName}-${lastName}-${id}.png`;
-  if (oldFilename.endsWith(".jpg")) newFileName = `${firstName}-${lastName}-${id}.jpg`;
-  if (oldFilename.endsWith(".jpeg")) newFileName = `${firstName}-${lastName}-${id}.jpeg`;
+  if (oldFilename.endsWith(".pdf")) newFileName = `${phoneNumber}-${id}.pdf`;
+  if (oldFilename.endsWith(".png")) newFileName = `${phoneNumber}-${id}.png`;
+  if (oldFilename.endsWith(".jpg")) newFileName = `${phoneNumber}-${id}.jpg`;
+  if (oldFilename.endsWith(".jpeg")) newFileName = `${phoneNumber}-${id}.jpeg`;
 
   return newFileName
 };
@@ -151,8 +151,6 @@ export const POST = async (request: NextRequest) => {
       middlename: filledForm.get("middlename") as string || "",
     };
 
-    const lowerFirstName = filledForm.get("firstname")?.toString().toLowerCase() || "";
-    const lowerLastName = filledForm.get("lastname")?.toString().toLowerCase() || "";
     const validatedForm = shortlistedSchema.safeParse(castedForm);
     
 
@@ -184,7 +182,7 @@ export const POST = async (request: NextRequest) => {
     const idFile: File | null = filledForm.get("id_file") as unknown as File;
     if (!idFile) return // add message
     const originalFileName = idFile!.name;  // rename file here!!! I'm tired abeg
-    const imageFileName: string = getNewName(originalFileName, id, lowerFirstName, lowerLastName);
+    const imageFileName: string = getNewName(originalFileName, id, castedForm.phone_number);
     console.log(filledForm)
     console.log(imageFileName)
     // s3 upload
