@@ -10,6 +10,8 @@ import { POST } from "@/app/api/file_upload/route";
 import { ievShortlistData, IEVFormProps } from "@/data/shortlisted_questions";
 import InputField, { InputProps, RadioField, RadioProps, SelectField, SelectProps } from "@/components/Input";
 import { useRouter } from "next/navigation";
+import { ErrorBoundary } from "react-error-boundary";
+
 
 // create asterisks component
 
@@ -318,7 +320,9 @@ const IEVForm = () => {
   
   return (
     <div className="md:bg-light_grey min-h-screen flex justify-center items-center">
-      <FormTemplate {...ievShortlistData}/>
+      <ErrorBoundary fallback={<div>Something's not right. Please refresh the page and make sure your file is under 2mb and that you haven't registered before.</div>}>
+        <FormTemplate {...ievShortlistData}/>
+      </ErrorBoundary>
     </div>
   )
 };
