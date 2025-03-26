@@ -175,7 +175,7 @@ const FormTemplate = (props: IEVFormProps) => {
             ))
           }
           <div className="flex flex-col gap- p-4">
-            <p className="font-bold text-md mb-4 lg:mb-6">If yes above, are you willing to be deployed to a ward other than ward of residence? <span className="text-red-600">&#10038;</span></p>
+            <p className="font-bold text-md mb-4 lg:mb-6">Are you willing to be deployed to a ward other than ward of residence? <span className="text-red-600">&#10038;</span></p>
             <div className="mb-4 font-medium" >
               <input onChange={() => handleRedeployChange(true)} required={true} type="radio" name="willing_to_be_redeployed" value="Yes" className="mr-3"/>
               <label  className="mb-4 font-medium " htmlFor="willing_to_be_redeployed">Yes</label>
