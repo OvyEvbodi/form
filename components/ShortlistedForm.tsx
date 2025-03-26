@@ -95,15 +95,19 @@ const FormTemplate = (props: IEVFormProps) => {
     setSecondChoice(event.target.value)
   };
 
+  const fileSizeInMB = (size: number) => (size / (1024 * 1024));
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const idFile = event.target.files?.[0];
     setFileName(idFile?.name ?? "")
-    setFileSize(Math.trunc(idFile!.size))
+    const calculatedSize = fileSizeInMB(idFile!.size);
+    setFileSize(calculatedSize)
   };
 
   const handleChooseFile = (event: React.MouseEvent<HTMLDivElement>) => {
     uploadInputRef.current?.click()
   };
+
 
   const wards = lga ? lgaWardsMap[lga] : [];
 
@@ -218,7 +222,8 @@ const FormTemplate = (props: IEVFormProps) => {
           <div className="p-2 mb-4">
             <input ref={uploadInputRef} type="file" name="id_file" onChange={handleFileChange} className="absolute right-[999999999px]" />
             <div onClick={handleChooseFile} className="bg-cyan-800 max-w-max py-2 px-8 text-white font-semibold hover:bg-gray-700">Upload file (max: 2MB)<span className="text-red-700">&#10038;</span></div>
-            <span className="my-1 text-sm text-gray-500">{fileName}</span>
+            <span className={fileSize > 2.00 ? "my-1 text-sm text-red-500" : "my-1 text-sm text-gray-500"}>{fileName} {fileSize > 0 && `(File size: ${fileSize.toFixed(2)}MB)`}</span>
+            {fileSize > 2.00 ? <div className="my-1 text-sm text-red-500">This file is too large! Max size: 2MB</div> : <div></div>}
             {
               state?.errors?.id_file && 
               (
