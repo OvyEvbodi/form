@@ -153,7 +153,7 @@ export const POST = async (request: NextRequest) => {
       middlename: filledForm.get("middlename") as string || "",
     };
 
-    const validatedForm = shortlistedSchema.safeParse(castedForm);
+    const validatedForm = await shortlistedSchema.safeParse(castedForm);
     
 
     if (!validatedForm.success) {
