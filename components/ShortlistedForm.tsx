@@ -223,7 +223,7 @@ const FormTemplate = (props: IEVFormProps) => {
               state?.errors?.id_file && 
               (
               <div className="my-2 text-sm text-red-700">
-                {state.errors?.id_file}
+                {state.errors?.id_file[0]}
               </div>
               )
             }
