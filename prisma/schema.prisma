@@ -104,3 +104,27 @@ model shortlisted_applicant_form {
   middlename                          String?
   initial_role                        String
 }
+
+model dataclerk_qualified_applicant {
+  name         String
+  phone_number String  @unique
+
+  // Maps to the PostgreSQL materialized view
+  @@map("dataclerk_qualified_applicant")
+}
+
+model lga_qualified_applicant {
+  name         String
+  phone_number String  @unique
+
+  // Maps to the PostgreSQL materialized view
+  @@map("lga_qualified_applicant")
+}
+
+model ward_qualified_applicant {
+  name         String
+  phone_number String  @unique
+
+  // Maps to the PostgreSQL materialized view
+  @@map("ward_qualified_applicant")
+}

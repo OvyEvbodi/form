@@ -42,9 +42,9 @@ const verifiedApplicant: (
    dbClient: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>
   ) => {
     const listOfRoles = [
-      "lga_supervisor_application", 
-      "ward_supervisor_application", 
-      "data_clerk_application"
+      "lga_qualified_applicant", 
+      "ward_qualified_applicant", 
+      "dataclerk_qualified_applicant"
     ] as const;
 
     type RoleTable = (typeof listOfRoles)[number];
@@ -53,7 +53,7 @@ const verifiedApplicant: (
       const applicantData = await Promise.all(
         listOfRoles.map(async (roleTable) => {
           const result = await (dbClient[roleTable as keyof typeof dbClient] as any).findFirst({
-            where: { AND: [{ phone_number: phoneNumber }, { status: "Qualified" } ]}
+            where: { phone_number: phoneNumber }
           });
 
           if (result !== null) {
