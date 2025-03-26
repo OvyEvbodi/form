@@ -32,27 +32,13 @@ interface DbResponse extends Response {
     message: string;
     phoneNumber: string;
   };
+  castedForm?: any;
 
 }
 
 
-const handleSubmit: (prevState: any, formData: FormData) => Promise<DbResponse> = async (prevState: any, formData: FormData) => {
-  const saveData: DbResponse = await fetch("/api/file_upload", {
-    method: "POST",
-    body: formData
-  })
-  const feedback = await saveData.json();
-
-    return {
-      errors: feedback.errors || null,
-      success: feedback.success || null,
-      notShortlisted: feedback.notShortlisted || null
-    } as DbResponse
-  
-};
 
 const FormTemplate = (props: IEVFormProps) => {
-  const [state, action, isPending] = useActionState(handleSubmit, undefined);
   const [page, setPage] = useState(1);
   const [lga, setLga] = useState("");
   const [ward, setWard] = useState("");
@@ -63,7 +49,28 @@ const FormTemplate = (props: IEVFormProps) => {
   const [fileSize, setFileSize] = useState(0);
   const [redeploy, setRedeploy] = useState(false);
 
+
   const router = useRouter();
+
+  const handleSubmit: (prevState: any, formData: FormData) => Promise<DbResponse> = async (prevState: any, formData: FormData) => {
+    const saveData: DbResponse = await fetch("/api/file_upload", {
+      method: "POST",
+      body: formData
+    })
+
+    const feedback = await saveData.json();
+    
+    feedback.castedForm && sessionStorage.setItem('userData', JSON.stringify(feedback.castedForm));
+      return {
+        errors: feedback.errors || null,
+        success: feedback.success || null,
+        notShortlisted: feedback.notShortlisted || null
+      } as DbResponse
+    
+  };
+
+  const [state, action, isPending] = useActionState(handleSubmit, undefined);
+
 
   if (state?.success?.message) {
     router.push("/thank-you")
@@ -289,9 +296,9 @@ const FormTemplate = (props: IEVFormProps) => {
             )
           }
           {
-            state?.errors && (
-              <div className="my-3 text-white font-medium p-2 bg-red-800">{state?.errors.message}</div>
-            )
+            state?.errors && Object.entries(state.errors).map(([key, value]) => (
+              <div key={key} className="my-3 text-white font-medium p-2 bg-red-800">{value[0]}</div>
+            ))
           }
           <div className="flex gap-4 mt-4">
             <Button props={props.buttonInfo} />

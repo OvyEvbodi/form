@@ -82,7 +82,7 @@ const bioTextFieldsData: InputProps[] = [
     type: "date",
     required: true,
     max: "2007-03-01",
-    errorMessage: "Please enter a valid date of birth"
+    errorMessage: "Please enter a valid date of birth (dd/mm/yyyy)"
   },
   {
     tag: "Phone Number (must be same phone number used during application)",
@@ -94,7 +94,7 @@ const bioTextFieldsData: InputProps[] = [
     type: "tel",
     required: true,
     pattern:"^0[0-9]{10}",
-    errorMessage: "Please enter a valid phone number"
+    errorMessage: "Number must start with 0 and be 11 digits"
   },
   {
     tag: "Email Address",
@@ -173,7 +173,7 @@ const bankTextFieldsData: InputProps[] = [
     type: "tel",
     required: true,
     pattern:"[0-9]{10}",
-    errorMessage: "Please enter a valid account number format"
+    errorMessage: "Please enter a valid (10 digits) account number format"
   },
   {
     tag: "Confirm Account Number",

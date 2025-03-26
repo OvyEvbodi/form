@@ -24,11 +24,10 @@ interface CastedFormInterface {
   name_of_bank: string;
   bank_acct_name: string;
   bank_acct_no: string;
-  confirm_bank_acct_no: string;
+  confirm_bank_acct_no?: string;
   gender: string;
   id_file?: File;
   middlename?: string;
-  initial_role?: string;
 };
 
 const id = uuidv4();
@@ -132,7 +131,7 @@ export const POST = async (request: NextRequest) => {
     // validate data
     const filledForm = await request.formData();
 
-    const castedForm = {
+    const castedForm: CastedFormInterface = {
       firstname: filledForm.get("firstname") as string || "",
       lastname: filledForm.get("lastname") as string || "",
       dob: filledForm.get("dob") as string || "",
@@ -148,8 +147,8 @@ export const POST = async (request: NextRequest) => {
       id_type: filledForm.get("id_type") as string || "",
       name_of_bank: filledForm.get("name_of_bank") as string || "",
       bank_acct_name: filledForm.get("bank_acct_name") as string || "",
-      bank_acct_no: filledForm.get("bank_acct_no") as string || "",
       confirm_bank_acct_no: filledForm.get("confirm_bank_acct_no") as string || "",
+      bank_acct_no: filledForm.get("bank_acct_no") as string || "",
       gender: filledForm.get("gender") as string || "",
       id_file: filledForm.get("id_file") as File,
       middlename: filledForm.get("middlename") as string || "",
@@ -172,10 +171,11 @@ export const POST = async (request: NextRequest) => {
           full_address: formErrors?.full_address,
           bank_acct_name: formErrors?.bank_acct_name,
           bank_acct_no: formErrors?.bank_acct_no,
-          confirm_bank_acct_no: formErrors?.bank_acct_no,
+          confirm_bank_acct_no: formErrors?.confirm_bank_acct_no,
           id_file: formErrors?.id_file,
           message: ""
-        }
+        },
+        castedForm
       }, { status: 400 })
     }
 
@@ -214,6 +214,8 @@ export const POST = async (request: NextRequest) => {
     // console.log(s3Res)
 
     delete (castedForm as any).id_file;
+    delete (castedForm as any).confirm_bank_acct_no;
+
     console.log(castedForm)
     const dbFeedback = await saveToDb(castedForm, imageFileName);
     if (dbFeedback === "Invalid") {

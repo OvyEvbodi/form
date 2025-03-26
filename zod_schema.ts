@@ -7,7 +7,7 @@ export const FieldErrorMsgs = {
   full_address: "Address must be longer than 10 characters",
   bank_acct_name: "Please check that name is more than 3 characters",
   id_file: "Please upload a valid ID of the type you chose above",
-  confirm_bank_acct_no: "Please ensure it matches the account number above"
+  confirm_bank_acct_no: "Please confirm account number in both fields"
 };
 
 export const shortlistedSchema = z.object({
@@ -27,7 +27,7 @@ export const shortlistedSchema = z.object({
     .string({required_error: "Bank account number is required"})
     .length(10, {message: FieldErrorMsgs.bank_acct_no }),
   confirm_bank_acct_no: z.
-    string({required_error: "Please confirm account number"})
+    string({required_error: "Please confirm account number in both fields"})
     .length(10, {message: FieldErrorMsgs.confirm_bank_acct_no }),
 
   id_file: z.instanceof(File, { message: "Please choose a file" })
