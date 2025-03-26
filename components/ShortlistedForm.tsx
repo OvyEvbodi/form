@@ -320,7 +320,7 @@ const IEVForm = () => {
   
   return (
     <div className="md:bg-light_grey min-h-screen flex justify-center items-center">
-      <ErrorBoundary fallback={<div>Something's not right. Please refresh the page and make sure your file is under 2mb and that you haven't registered before.</div>}>
+      <ErrorBoundary fallback={<div className="text-center">Something's not right. Please refresh the page and make sure your file is under 2mb and that you haven't registered before.</div>}>
         <FormTemplate {...ievShortlistData}/>
       </ErrorBoundary>
     </div>
