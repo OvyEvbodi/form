@@ -5,8 +5,6 @@ import { useActionState, useState, useRef } from "react";
 import { lgaList, lgaWardsMap } from "@/data";
 import BeatLoader from "react-spinners/BeatLoader";
 import ClockLoader from "react-spinners/ClockLoader";
-import Link from "next/link";
-import { POST } from "@/app/api/file_upload/route";
 import { ievShortlistData, IEVFormProps } from "@/data/shortlisted_questions";
 import InputField, { InputProps, RadioField, RadioProps, SelectField, SelectProps } from "@/components/Input";
 import { useRouter } from "next/navigation";

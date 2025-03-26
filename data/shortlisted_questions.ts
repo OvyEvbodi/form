@@ -174,9 +174,20 @@ const bankTextFieldsData: InputProps[] = [
     required: true,
     pattern:"[0-9]{10}",
     errorMessage: "Please enter a valid account number format"
+  },
+  {
+    tag: "Confirm Account Number",
+    placeholder: "",
+    FieldError: false,
+    name: "confirm_bank_acct_no",
+    id: "confirm_bank_acct_no",
+    iconUrl: "",
+    type: "tel",
+    required: true,
+    pattern:"[0-9]{10}",
+    errorMessage: "Please ensure it matches the account number above"
   }
 ];
-
 
 const bankSelectFieldsData: SelectProps [] = [
   {

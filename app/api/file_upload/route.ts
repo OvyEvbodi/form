@@ -24,6 +24,7 @@ interface CastedFormInterface {
   name_of_bank: string;
   bank_acct_name: string;
   bank_acct_no: string;
+  confirm_bank_acct_no: string;
   gender: string;
   id_file?: File;
   middlename?: string;
@@ -148,6 +149,7 @@ export const POST = async (request: NextRequest) => {
       name_of_bank: filledForm.get("name_of_bank") as string || "",
       bank_acct_name: filledForm.get("bank_acct_name") as string || "",
       bank_acct_no: filledForm.get("bank_acct_no") as string || "",
+      confirm_bank_acct_no: filledForm.get("confirm_bank_acct_no") as string || "",
       gender: filledForm.get("gender") as string || "",
       id_file: filledForm.get("id_file") as File,
       middlename: filledForm.get("middlename") as string || "",
@@ -170,7 +172,8 @@ export const POST = async (request: NextRequest) => {
           full_address: formErrors?.full_address,
           bank_acct_name: formErrors?.bank_acct_name,
           bank_acct_no: formErrors?.bank_acct_no,
-          id_file: formErrors.id_file,
+          confirm_bank_acct_no: formErrors?.bank_acct_no,
+          id_file: formErrors?.id_file,
           message: ""
         }
       }, { status: 400 })
