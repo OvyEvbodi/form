@@ -41,10 +41,14 @@ const verifiedApplicant: (
   phoneNumber: string,
    dbClient: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>
   ) => {
+    // const listOfRoles = [
+    //   "lga_qualified_applicant", 
+    //   "ward_qualified_applicant", 
+    //   "dataclerk_qualified_applicant"
+    // ] as const;
+
     const listOfRoles = [
-      "lga_qualified_applicant", 
-      "ward_qualified_applicant", 
-      "dataclerk_qualified_applicant"
+      "lga_qualified_applicant"
     ] as const;
 
     type RoleTable = (typeof listOfRoles)[number];
