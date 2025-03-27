@@ -66,7 +66,6 @@ const FormTemplate = (props: IEVFormProps) => {
         success: feedback.success || null,
         notShortlisted: feedback.notShortlisted || null
       } as DbResponse
-    
   };
 
   const [state, action, isPending] = useActionState(handleSubmit, undefined);
@@ -292,12 +291,12 @@ const FormTemplate = (props: IEVFormProps) => {
           }
           {
             state?.notShortlisted && (
-              <div className="my-3 text-white font-medium p-2 bg-red-800">{state?.notShortlisted.message}<br/> Your number is: {state?.notShortlisted.phoneNumber}</div>
+              <div className="my-3 text-red-900 font-medium p-3 bg-red-200">{state?.notShortlisted.message}<br/> Your number is: {state?.notShortlisted.phoneNumber}</div>
             )
           }
           {
             state?.errors && Object.entries(state.errors).map(([key, value]) => (
-              <div key={key} className="my-3 text-white font-medium p-2 bg-red-800">{value[0]}</div>
+              <div key={key} className="my-3 text-red-900 font-medium p-3 bg-red-200">{value[0]}</div>
             ))
           }
           <div className="flex gap-4 mt-4">
