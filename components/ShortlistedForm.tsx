@@ -192,8 +192,8 @@ const FormTemplate = (props: IEVFormProps) => {
           </div>
           {/* ------------------2 dropdowns not dynamic -------------- */}
           <div className={redeploy ? "mb-2" : "hidden"}>
-            <label htmlFor="first_choice" className="font-bold text-md mb-1">Select first choice</label>
-            <select  name="first_choice" value={firstChoice} disabled={!lga} onChange={handleFirstChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
+            <label htmlFor="first_choice" className="font-bold text-md mb-1">Select first choice<span className="text-red-700">&#10038;</span></label>
+            <select  name="first_choice" required={redeploy} value={firstChoice} disabled={!lga} onChange={handleFirstChoiceChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
               <option value="">Choose your first choice</option>
               {
                 wards.map((item: string, index: number) => (
