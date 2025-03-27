@@ -30,7 +30,7 @@ interface CastedFormInterface {
   middlename?: string;
 };
 
-const id = uuidv4();
+
 var initialRole = "";
 // implement not allowed methods
 
@@ -85,6 +85,7 @@ const verifiedApplicant: (
 };
 
 const saveToDb = async (form: CastedFormInterface, imageFileName: string) => {
+  const id = uuidv4();
   try {
     const created_at = new Date();
 
@@ -109,23 +110,35 @@ const saveToDb = async (form: CastedFormInterface, imageFileName: string) => {
         ...dbData
       }
     });
+    
     console.log(addEntry)
     if (addEntry === null) return "savingError"
     console.log("Congratulations! You have successfully been registered.")
   } catch (error) {
     console.error(error)
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // Specific handling for phone_number unique violation
+      if (error.code === 'P2002' && ( error.meta?.target as string[] ).includes('phone_number')) {
+        return "duplicatePhone";
+      }
+    } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // Specific handling for phone_number unique violation
+      if (error.code === 'P2002' && ( error.meta?.target as string[] ).includes('id')) {
+        return "duplicateId";
+      }
+    }
     return "savingError" // add message, and propagate feedback
   } finally {
     // redirect workaround
   }
 };
 
-const getNewName: (oldFilename: string, id: string, phoneNumber: string) => string = (oldFilename: string, id: string, phoneNumber: string) => {
+const getNewName: (oldFilename: string, phoneNumber: string) => string = (oldFilename: string, phoneNumber: string) => {
   let newFileName = "";
-  if (oldFilename.endsWith(".pdf")) newFileName = `${phoneNumber}-${id}.pdf`;
-  if (oldFilename.endsWith(".png")) newFileName = `${phoneNumber}-${id}.png`;
-  if (oldFilename.endsWith(".jpg")) newFileName = `${phoneNumber}-${id}.jpg`;
-  if (oldFilename.endsWith(".jpeg")) newFileName = `${phoneNumber}-${id}.jpeg`;
+  if (oldFilename.endsWith(".pdf")) newFileName = `${phoneNumber}.pdf`;
+  if (oldFilename.endsWith(".png")) newFileName = `${phoneNumber}.png`;
+  if (oldFilename.endsWith(".jpg")) newFileName = `${phoneNumber}.jpg`;
+  if (oldFilename.endsWith(".jpeg")) newFileName = `${phoneNumber}.jpeg`;
 
   return newFileName
 };
@@ -167,7 +180,7 @@ export const POST = async (request: NextRequest) => {
       console.log(formErrors)
       
       return NextResponse.json( {
-        errors: {
+        zodErrors: {
           firstname: formErrors?.firstname,
           lastname: formErrors?.lastname,
           dob: formErrors?.dob,
@@ -192,7 +205,7 @@ export const POST = async (request: NextRequest) => {
     const idFile: File | null = filledForm.get("id_file") as unknown as File;
     if (!idFile) return // add message
     const originalFileName = idFile!.name;  // rename file here!!! I'm tired abeg
-    const imageFileName: string = getNewName(originalFileName, id, castedForm.phone_number);
+    const imageFileName: string = getNewName(originalFileName, castedForm.phone_number);
     console.log(filledForm)
     console.log(imageFileName)
     // s3 upload
@@ -230,6 +243,18 @@ export const POST = async (request: NextRequest) => {
         }
       }, { status: 400 })
     } else if (dbFeedback === "savingError") {
+      return NextResponse.json({
+        errors: {
+          message: "Error registering you. Please check your connection and make sure you're not sending a duplicate entry."
+        }
+      }, { status: 400 })
+    } else if (dbFeedback === "duplicatePhone") {
+      return NextResponse.json({
+        errors: {
+          message: "Error. You have already been registered"
+        }
+      }, { status: 400 })
+    } else if (dbFeedback === "duplicateId") {
       return NextResponse.json({
         errors: {
           message: "Error registering you. Please check your connection and make sure you're not sending a duplicate entry."

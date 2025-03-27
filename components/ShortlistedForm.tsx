@@ -14,7 +14,7 @@ import { ErrorBoundary } from "react-error-boundary";
 // create asterisks component
 
 interface DbResponse extends Response {
-  errors?: {
+  zodErrors?: {
     firstname: string;
     lastname: string;
     dob: string;
@@ -25,6 +25,9 @@ interface DbResponse extends Response {
     id_file: string;
     message?: string;
   };
+  errors?: {
+    message: string;
+  }
   success?: {
     message: string;
   };
@@ -64,7 +67,8 @@ const FormTemplate = (props: IEVFormProps) => {
       return {
         errors: feedback.errors || null,
         success: feedback.success || null,
-        notShortlisted: feedback.notShortlisted || null
+        notShortlisted: feedback.notShortlisted || null,
+        zodErrors: feedback.zodErrors || null,
       } as DbResponse
   };
 
@@ -231,10 +235,10 @@ const FormTemplate = (props: IEVFormProps) => {
             <span className={fileSize > 2.00 ? "my-1 text-sm text-red-700" : "my-1 text-sm text-gray-500"}>{fileName} {fileSize > 0 && `(File size: ${fileSize.toFixed(2)}MB)`}</span>
             {fileSize > 2.00 ? <div className="my-1 text-sm text-red-700">This file is too large! Max size: 2MB</div> : <div></div>}
             {
-              state?.errors?.id_file && 
+              state?.zodErrors?.id_file && 
               (
               <div className="my-2 text-sm text-red-700">
-                {state.errors?.id_file[0]}
+                {state.zodErrors?.id_file[0]}
               </div>
               )
             }
@@ -296,6 +300,11 @@ const FormTemplate = (props: IEVFormProps) => {
           }
           {
             state?.errors && Object.entries(state.errors).map(([key, value]) => (
+              <div key={key} className="my-3 text-red-900 font-medium p-3 bg-red-200">{value}</div>
+            ))
+          }
+          {
+            state?.zodErrors && Object.entries(state.zodErrors).map(([key, value]) => (
               <div key={key} className="my-3 text-red-900 font-medium p-3 bg-red-200">{value[0]}</div>
             ))
           }
