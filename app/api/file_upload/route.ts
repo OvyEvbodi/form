@@ -135,10 +135,10 @@ const saveToDb = async (form: CastedFormInterface, imageFileName: string) => {
 
 const getNewName: (oldFilename: string, phoneNumber: string) => string = (oldFilename: string, phoneNumber: string) => {
   let newFileName = "";
-  if (oldFilename.endsWith(".pdf")) newFileName = `${phoneNumber}.pdf`;
-  if (oldFilename.endsWith(".png")) newFileName = `${phoneNumber}.png`;
-  if (oldFilename.endsWith(".jpg")) newFileName = `${phoneNumber}.jpg`;
-  if (oldFilename.endsWith(".jpeg")) newFileName = `${phoneNumber}.jpeg`;
+  if ( oldFilename.endsWith(".pdf") || oldFilename.endsWith(".PDF") ) newFileName = `${phoneNumber}.pdf`;
+  if ( oldFilename.endsWith(".png") || oldFilename.endsWith(".PNG") ) newFileName = `${phoneNumber}.png`;
+  if ( oldFilename.endsWith(".jpg") || oldFilename.endsWith(".JPG") ) newFileName = `${phoneNumber}.jpg`;
+  if (oldFilename.endsWith(".jpeg") || oldFilename.endsWith(".JPEG") ) newFileName = `${phoneNumber}.jpeg`;
 
   return newFileName
 };
@@ -221,7 +221,7 @@ export const POST = async (request: NextRequest) => {
     })
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: imageFileName,
+      Key: imageFileName || castedForm.phone_number,
       Body: new Uint8Array(await idFile!.arrayBuffer()),
       ContentType: idFile!.type
     };
