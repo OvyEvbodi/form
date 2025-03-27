@@ -231,7 +231,7 @@ const FormTemplate = (props: IEVFormProps) => {
           }
           <div className="p-2 mb-4">
             <input ref={uploadInputRef} type="file" name="id_file" onChange={handleFileChange} className="absolute right-[999999999px]" />
-            <div onClick={handleChooseFile} className="bg-cyan-800 max-w-max py-2 px-8 text-white font-semibold hover:bg-gray-700">Upload ID Card Selected Above (max: 2MB)<span className="text-red-700">&#10038;</span></div>
+            <div onClick={handleChooseFile} className="bg-cyan-800 max-w-max py-2 px-8 text-white font-semibold hover:bg-gray-700">You must click here to upload ID card selected (max: 2MB)<span className="text-red-700">&#10038;</span></div>
             <span className={fileSize > 2.00 ? "my-1 text-sm text-red-700" : "my-1 text-sm text-gray-500"}>{fileName} {fileSize > 0 && `(File size: ${fileSize.toFixed(2)}MB)`}</span>
             {fileSize > 2.00 ? <div className="my-1 text-sm text-red-700">This file is too large! Max size: 2MB</div> : <div></div>}
             {
