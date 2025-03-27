@@ -236,25 +236,29 @@ export const POST = async (request: NextRequest) => {
     console.log(castedForm)
     const dbFeedback = await saveToDb(castedForm, imageFileName);
     if (dbFeedback === "Invalid") {
+      console.error("Not shortlisted")
       return NextResponse.json({
         notShortlisted: {
           phoneNumber: castedForm.phone_number,
-          message: "It seems you were not shortlisted for any role. Make sure you use the phone number you applied with."
+          message: "It appears you were not shortlisted for this role. Make sure you use the phone number you applied with."
         }
       }, { status: 400 })
     } else if (dbFeedback === "savingError") {
+      console.error("Error registering")
       return NextResponse.json({
         errors: {
           message: "Error registering you. Please check your connection and make sure you're not sending a duplicate entry."
         }
-      }, { status: 400 })
+      }, { status: 500 })
     } else if (dbFeedback === "duplicatePhone") {
+      console.log("duplicate phone number")
       return NextResponse.json({
         errors: {
-          message: "Error. You have already been registered"
+          message: "Duplicate entry. You have already been registered"
         }
       }, { status: 400 })
     } else if (dbFeedback === "duplicateId") {
+      console.error("duplicateId")
       return NextResponse.json({
         errors: {
           message: "Error registering you. Please check your connection and make sure you're not sending a duplicate entry."
@@ -265,6 +269,7 @@ export const POST = async (request: NextRequest) => {
     console.log(s3Res)
 
     if (s3Res.$metadata.httpStatusCode !== 200) {
+      console.error("Error uploading photo to s3")
       return NextResponse.json( {
         errors: {
           message: "Error uploading photo"

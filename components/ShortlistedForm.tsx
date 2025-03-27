@@ -295,7 +295,7 @@ const FormTemplate = (props: IEVFormProps) => {
           }
           {
             state?.notShortlisted && (
-              <div className="my-3 text-red-900 font-medium p-3 bg-red-200">{state?.notShortlisted.message}<br/> Your number is: {state?.notShortlisted.phoneNumber}</div>
+              <div className="my-3 text-red-900 font-medium p-3 bg-red-200">{state?.notShortlisted.message}<br/> Your current number is: {state?.notShortlisted.phoneNumber}</div>
             )
           }
           {
