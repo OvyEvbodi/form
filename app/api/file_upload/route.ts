@@ -12,6 +12,7 @@ interface CastedFormInterface {
   lastname: string;
   dob: string;
   phone_number: string;
+  whatsapp: string;
   email?: string;
   lga: string;
   ward: string;
@@ -41,14 +42,10 @@ const verifiedApplicant: (
   phoneNumber: string,
    dbClient: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>
   ) => {
-    // const listOfRoles = [
-    //   "lga_qualified_applicant", 
-    //   "ward_qualified_applicant", 
-    //   "dataclerk_qualified_applicant"
-    // ] as const;
-
     const listOfRoles = [
-      "lga_qualified_applicant"
+      "lga_qualified_applicant", 
+      "ward_qualified_applicant", 
+      "dataclerk_qualified_applicant"
     ] as const;
 
     type RoleTable = (typeof listOfRoles)[number];
@@ -153,6 +150,7 @@ export const POST = async (request: NextRequest) => {
       lastname: filledForm.get("lastname") as string || "",
       dob: filledForm.get("dob") as string || "",
       phone_number: filledForm.get("phone_number") as string || "",
+      whatsapp: filledForm.get("whatsapp") as string || "",
       email: filledForm.get("email") as string || "",
       lga: filledForm.get("lga") as string || "",
       ward: filledForm.get("ward") as string || "",
@@ -185,10 +183,12 @@ export const POST = async (request: NextRequest) => {
           lastname: formErrors?.lastname,
           dob: formErrors?.dob,
           phone_number: formErrors?.phone_number,
+          whatsapp: formErrors?.whatsapp,
           full_address: formErrors?.full_address,
           bank_acct_name: formErrors?.bank_acct_name,
           bank_acct_no: formErrors?.bank_acct_no,
           confirm_bank_acct_no: formErrors?.confirm_bank_acct_no,
+          // first_choice: formErrors?.first_choice,
           id_file: formErrors?.id_file,
           message: ""
         },
@@ -236,7 +236,7 @@ export const POST = async (request: NextRequest) => {
     console.log(castedForm)
     const dbFeedback = await saveToDb(castedForm, imageFileName);
     if (dbFeedback === "Invalid") {
-      console.error("Not shortlisted")
+      console.warn("Not shortlisted")
       return NextResponse.json({
         notShortlisted: {
           phoneNumber: castedForm.phone_number,
@@ -251,7 +251,7 @@ export const POST = async (request: NextRequest) => {
         }
       }, { status: 500 })
     } else if (dbFeedback === "duplicatePhone") {
-      console.log("duplicate phone number")
+      console.warn("duplicate phone number")
       return NextResponse.json({
         errors: {
           message: "Duplicate entry. You have already been registered"

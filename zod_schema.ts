@@ -3,11 +3,13 @@ import { z } from "zod";
 export const FieldErrorMsgs = {
   dob: "Please enter a valid date of birth",
   phone_number: "Phone number must start with a '0' and be 11 digits",
+  whatsapp: "WhatsApp must start with a '0' and be 11 digits",
   bank_acct_no: "Account number must be 10 digits",
   full_address: "Address must be longer than 10 characters",
   bank_acct_name: "Please check that name is more than 3 characters",
   id_file: "Please upload a valid ID of the type you chose above",
-  confirm_bank_acct_no: "Please confirm account number in both fields"
+  confirm_bank_acct_no: "Please confirm account number in both fields",
+  first_choice: "Please choose a first choice for redeployment"
 };
 
 export const shortlistedSchema = z.object({
@@ -17,6 +19,9 @@ export const shortlistedSchema = z.object({
   phone_number: z
     .string({required_error: "Phone number is required"})
     .length(11, {message: FieldErrorMsgs.phone_number }),
+  whatsapp: z
+    .string({required_error: "WhatsApp number is required"})
+    .length(11, {message: FieldErrorMsgs.whatsapp }),
   full_address: z
     .string({required_error: "Address is required"})
     .min(1, {message: FieldErrorMsgs.full_address }),
@@ -29,6 +34,9 @@ export const shortlistedSchema = z.object({
   confirm_bank_acct_no: z.
     string({required_error: "Please confirm account number in both fields"})
     .length(10, {message: FieldErrorMsgs.confirm_bank_acct_no }),
+  // first_choice: z
+  //   .string({required_error: "Please choose a first choice for redeployment"})
+  //   .trim().min(1, {message: FieldErrorMsgs.first_choice }),
 
   id_file: z.instanceof(File, { message: "Please choose a file" })
     .refine(file => file.size <= 2 * 1024 * 1024, {message: "File size must be 2MB or less"})

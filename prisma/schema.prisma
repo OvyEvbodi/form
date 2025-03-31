@@ -94,7 +94,7 @@ model shortlisted_applicant_form {
   name_of_bank                        String
   bank_acct_name                      String
   bank_acct_no                        String
-  id                                  String   @id(map: "successful_applicant_id_pkey") @unique @db.Uuid
+  id                                  String   @id @unique @db.Uuid
   created_at                          DateTime @db.Timestamptz(6)
   gender                              String
   file_name                           String
@@ -103,6 +103,7 @@ model shortlisted_applicant_form {
   willing_to_be_redeployed            String
   middlename                          String?
   initial_role                        String
+  whatsapp                            String?
 }
 
 model dataclerk_qualified_applicant {

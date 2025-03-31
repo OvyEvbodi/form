@@ -15,14 +15,16 @@ import { ErrorBoundary } from "react-error-boundary";
 
 interface DbResponse extends Response {
   zodErrors?: {
-    firstname: string;
-    lastname: string;
-    dob: string;
-    phone_number: string;
-    address: string;
-    bank_acct_name: string;
-    bank_acct_no: string;
-    id_file: string;
+    firstname?: string;
+    lastname?: string;
+    dob?: string;
+    phone_number?: string;
+    whatsapp?: string;
+    address?: string;
+    bank_acct_name?: string;
+    bank_acct_no?: string;
+    id_file?: string;
+    first_choice?: string;
     message?: string;
   };
   errors?: {

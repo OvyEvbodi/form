@@ -97,6 +97,18 @@ const bioTextFieldsData: InputProps[] = [
     errorMessage: "Number must start with 0 and be 11 digits"
   },
   {
+    tag: "WhatsApp Number",
+    placeholder: "e.g 08045678910",
+    FieldError: false,
+    name: "whatsapp",
+    id: "whatsapp",
+    iconUrl: "/number_icon.png",
+    type: "tel",
+    required: true,
+    pattern:"^0[0-9]{10}",
+    errorMessage: "Number must start with 0 and be 11 digits"
+  },
+  {
     tag: "Email Address",
     placeholder: "Enter your email",
     FieldError: false,
