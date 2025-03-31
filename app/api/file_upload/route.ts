@@ -17,7 +17,7 @@ interface CastedFormInterface {
   lga: string;
   ward: string;
   full_address: string;
-  willing_to_be_reassigned: string;
+  //willing_to_be_reassigned?: string;
   willing_to_be_redeployed: string;
   first_choice_ward_for_redeployment?: string;
   second_choice_ward_for_redeployment?: string;
@@ -155,7 +155,7 @@ export const POST = async (request: NextRequest) => {
       lga: filledForm.get("lga") as string || "",
       ward: filledForm.get("ward") as string || "",
       full_address: filledForm.get("full_address") as string || "",
-      willing_to_be_reassigned: filledForm.get("willing_to_be_reassigned") as string || "",
+      //willing_to_be_reassigned: filledForm.get("willing_to_be_reassigned") as string || "",
       willing_to_be_redeployed: filledForm.get("willing_to_be_redeployed") as string || "",
       first_choice_ward_for_redeployment: filledForm.get("first_choice") as string || "",
       second_choice_ward_for_redeployment: filledForm.get("second_choice") as string || "",
