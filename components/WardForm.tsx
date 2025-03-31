@@ -221,7 +221,7 @@ const FormTemplate = (props: IEVFormProps) => {
             </select>
           </div>
           <div className="mb-2">
-            <label htmlFor="ward" className="font-bold text-md mb-1">Name of Ward</label><span className="text-red-700">&#10038;</span>
+            <label htmlFor="ward" className="font-bold text-md mb-1">Ward of Residence</label><span className="text-red-700">&#10038;</span>
             <select  name="ward" value={ward} required disabled={!lga} onChange={handleWardChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
               {/* <option value="">Choose a ward</option> */}
               {
