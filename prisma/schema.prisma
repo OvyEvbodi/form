@@ -89,7 +89,7 @@ model shortlisted_applicant_form {
   lga                                 String
   ward                                String
   full_address                        String
-  willing_to_be_reassigned            String
+  willing_to_be_reassigned            String?
   id_type                             String
   name_of_bank                        String
   bank_acct_name                      String
