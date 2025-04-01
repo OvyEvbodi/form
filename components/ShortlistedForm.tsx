@@ -65,13 +65,16 @@ const FormTemplate = (props: IEVFormProps) => {
 
     const feedback = await saveData.json();
     
+    console.log(feedback)
+
     feedback.castedForm && sessionStorage.setItem('userData', JSON.stringify(feedback.castedForm));
-      return {
-        errors: feedback.errors || null,
-        success: feedback.success || null,
-        notShortlisted: feedback.notShortlisted || null,
-        zodErrors: feedback.zodErrors || null,
-      } as DbResponse
+    setFileName("")
+    return {
+      errors: feedback.errors || null,
+      success: feedback.success || null,
+      notShortlisted: feedback.notShortlisted || null,
+      zodErrors: feedback.zodErrors || null,
+    } as DbResponse
   };
 
   const [state, action, isPending] = useActionState(handleSubmit, undefined);
@@ -297,17 +300,17 @@ const FormTemplate = (props: IEVFormProps) => {
           }
           {
             state?.notShortlisted && (
-              <div className={!state?.notShortlisted ? "" : "my-3 text-red-900 font-medium p-3 bg-red-200"}>{state.notShortlisted.message}<br/> Your current number is: {state?.notShortlisted.phoneNumber}</div>
+              <div className={!state?.notShortlisted ? "" : "my-3 text-red-900 font-medium p-3 bg-red-200 border rounded-sm border-red-900"}>{state.notShortlisted.message}<br/> Your current number is: {state?.notShortlisted.phoneNumber}</div>
             )
           }
           {
             state?.errors && (
-              <div className="my-3 text-red-900 font-medium p-3 bg-red-200">{state.errors.message}</div>
+              <div className="my-3 text-red-900 font-medium p-3 bg-red-200 border rounded-sm border-red-900">{state.errors.message}</div>
             )
           }
           {
             state?.zodErrors && Object.entries(state.zodErrors).map(([key, value]) => (
-              <div key={key} className="my-3 text-red-900 font-medium p-3 bg-red-200">{value[0]}</div>
+              <div key={key} className="my-3 text-red-900 font-medium p-3 bg-red-200 border rounded-sm border-red-900">{value[0]}</div>
             ))
           }
           <div className="flex gap-4 mt-4">

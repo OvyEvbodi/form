@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
-  swcMinify: true,
+  // swcMinify: true,
 
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -17,11 +17,11 @@ const nextConfig: NextConfig = {
 
     return config;
   },
-  api: {
-    bodyParser: {
-      sizeLimit: "3mb",  // Limit request body size to 3MB
-    },
-  },
+  // api: {
+  //   bodyParser: {
+  //     sizeLimit: "3mb",  // Limit request body size to 3MB
+  //   },
+  // },
 };
 
 export default nextConfig;

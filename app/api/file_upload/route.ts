@@ -119,7 +119,7 @@ const saveToDb = async (form: CastedFormInterface, imageFileName: string) => {
         return "duplicatePhone";
       }
     } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      // Specific handling for phone_number unique violation
+      // Specific handling for id unique violation
       if (error.code === 'P2002' && ( error.meta?.target as string[] ).includes('id')) {
         return "duplicateId";
       }
@@ -254,7 +254,7 @@ export const POST = async (request: NextRequest) => {
       console.warn("duplicate phone number")
       return NextResponse.json({
         errors: {
-          message: "Duplicate entry. You have already been registered"
+          message: "Duplicate entry. You have already been registered."
         }
       }, { status: 400 })
     } else if (dbFeedback === "duplicateId") {
