@@ -69,6 +69,7 @@ const FormTemplate = (props: IEVFormProps) => {
 
     feedback.castedForm && sessionStorage.setItem('userData', JSON.stringify(feedback.castedForm));
     setFileName("")
+    setFileSize(0)
     return {
       errors: feedback.errors || null,
       success: feedback.success || null,
