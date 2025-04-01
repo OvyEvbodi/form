@@ -151,16 +151,16 @@ const bioRadioFieldsData: RadioProps [] = [
   }
 ];
 
-const roleSelectFieldsData: SelectProps [] = [
-  {
-    title: "Are you willing to be reassigned to a role other than the one applied for?",
-    tag: "willing_to_be_reassigned",
-    FieldError: false,
-    name: "willing_to_be_reassigned",
-    options: ["Yes", "No"],
-    required: true
-  },
-];
+// const roleSelectFieldsData: SelectProps [] = [
+//   {
+//     title: "Are you willing to be reassigned to a role other than the one applied for?",
+//     tag: "willing_to_be_reassigned",
+//     FieldError: false,
+//     name: "willing_to_be_reassigned",
+//     options: ["Yes", "No"],
+//     required: true
+//   },
+// ];
 
 const bankTextFieldsData: InputProps[] = [
   {
@@ -252,7 +252,7 @@ export const ievShortlistData: IEVFormProps = {
   firstTextFields: bioTextFieldsData,
   secondTextFields: bankTextFieldsData,
   firstRadioFields: bioRadioFieldsData,
-  firstSelectFields: roleSelectFieldsData,
+  // firstSelectFields: roleSelectFieldsData,
   secondSelectFields: bankSelectFieldsData,
   buttonInfo: buttonInfoData,
   footerText: "Are you experiencing any technical issues? ",

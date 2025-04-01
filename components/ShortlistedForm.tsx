@@ -297,13 +297,13 @@ const FormTemplate = (props: IEVFormProps) => {
           }
           {
             state?.notShortlisted && (
-              <div className="my-3 text-red-900 font-medium p-3 bg-red-200">{state?.notShortlisted.message}<br/> Your current number is: {state?.notShortlisted.phoneNumber}</div>
+              <div className={!state?.notShortlisted ? "" : "my-3 text-red-900 font-medium p-3 bg-red-200"}>{state.notShortlisted.message}<br/> Your current number is: {state?.notShortlisted.phoneNumber}</div>
             )
           }
           {
-            state?.errors && Object.entries(state.errors).map(([key, value]) => (
-              <div key={key} className="my-3 text-red-900 font-medium p-3 bg-red-200">{value}</div>
-            ))
+            state?.errors && (
+              <div className="my-3 text-red-900 font-medium p-3 bg-red-200">{state.errors.message}</div>
+            )
           }
           {
             state?.zodErrors && Object.entries(state.zodErrors).map(([key, value]) => (
