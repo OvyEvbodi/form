@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Prisma, PrismaClient } from "@prisma/client";
-
+import { PrismaClient } from "@prisma/client";
 
 
 export const POST = async (request: NextRequest) => {
@@ -39,7 +38,9 @@ export const POST = async (request: NextRequest) => {
     
     if (!hasValidEntry) {
       return NextResponse.json({
-        message: "Not found! Invalid applicant. Please check the phone number and try again."
+        error: {
+          message: "Not found! Invalid applicant. Please check the phone number and try again."
+        }
       }, {status: 400})
     }
 
@@ -52,7 +53,6 @@ export const POST = async (request: NextRequest) => {
     }) || null;
 
     console.log(regInfo)
-
     return NextResponse.json({
       data: {
         initialEntry,
@@ -60,7 +60,6 @@ export const POST = async (request: NextRequest) => {
         regInfo
       }
     }, {status: 200})
-
 
   } catch(error) {
     console.warn("Unable to fetch applicant")
