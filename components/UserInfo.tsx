@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react";
-import getApplicant from "@/utils/displayUser";
 
 
 const UserInfo = () => {
@@ -14,9 +13,14 @@ const UserInfo = () => {
   };
 
 
-  const HandleGetApplicant = () => {
-    const data = getApplicant(phoneNumber)
-    console.log(data)
+  const HandleGetApplicant = async () => {
+    const saveData = await fetch("/api/user_search", {
+      method: "POST",
+      body: JSON.stringify(phoneNumber)
+    })
+
+    const feedback = await saveData.json();
+    console.log(feedback.data)
   };
 
   return (
