@@ -195,6 +195,15 @@ export const POST = async (request: NextRequest) => {
         castedForm
       }, { status: 400 })
     }
+    if (castedForm.willing_to_be_redeployed === "Yes") {
+      if (castedForm.first_choice_ward_for_redeployment == "") {
+        return NextResponse.json({
+          errors: {
+            message: "Please choose at least one ward for redeployment!"
+          }
+        })
+      }
+    }
 
     // ---------------------remove next line after validation testing!!!
     // console.log(filledForm)
