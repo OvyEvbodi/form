@@ -249,9 +249,9 @@ export interface IEVFormProps {
   cautionText?: string;
 } // add select fields props later
 
-export const ievShortlistData: IEVFormProps = {
+export const attendanceData: IEVFormProps = {
   title: "Attendance Form LGA Assistants",
-  description: "Please complete the form below to finalize the second-level assessment. If successful, you will receive a confirmation message. Good luck!",
+  description: "Please complete the attendance form below as validation.",
   logoUrl: "",
   firstSectionTitle: bioSectionTitle,
   firstSectionDescription: bioSectionDesc,
