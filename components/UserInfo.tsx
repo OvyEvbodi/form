@@ -66,7 +66,7 @@ const UserInfo = () => {
 
   return (
     <div className=" text-gray-800 min-h-screen md:flex bg-gray-200">
-      <div className="bg-cyan-800 text-cyan-950 md:w-1/4 p-4 md:p-8 ">
+      <div className="bg-cyan-800 text-cyan-950 lg:w-1/4 p-4 md:p-8 ">
         <div className="bg-cyan-50 p-2 rounded-sm">
           <input onChange={handlePhoneNumber} name="phoneNumber" type="text" placeholder="Enter a number" className="px-2 " />
           <button onClick={HandleGetApplicant}>go</button>
@@ -75,7 +75,7 @@ const UserInfo = () => {
       {
         userData && userData.regInfo !== null ?
         (
-          <div className=" md:w-3/4 p-4 md:p-10 ">
+        <div className=" lg:w-3/4 p-4 md:p-10 ">
         <h2 className="text-2xl font-extrabold text-cyan-900">user profile</h2>
         <div className="flex flex-wrap gap-4 md:gap-10">
           <div>
