@@ -1,10 +1,12 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["attendance", "public"]
 }
 
 /// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
@@ -30,6 +32,8 @@ model lga_supervisor_application {
   device               String
   valid_bank           String
   years_experience     String
+
+  @@schema("public")
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -54,6 +58,8 @@ model ward_supervisor_application {
   id                   String    @id @unique @db.Uuid
   valid_bank           String
   years_experience     String
+
+  @@schema("public")
 }
 
 model data_clerk_application {
@@ -77,6 +83,8 @@ model data_clerk_application {
   submission_time      DateTime? @db.Timestamptz(6)
   valid_bank           String
   years_experience     String
+
+  @@schema("public")
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -104,6 +112,32 @@ model shortlisted_applicant_form {
   middlename                          String?
   initial_role                        String
   whatsapp                            String?
+
+  @@schema("public")
+}
+
+model lga_assistant_20250403 {
+  id             String   @id @db.Uuid
+  firstname      String
+  lastname       String
+  middlename     String?
+  dob            String
+  phone_number   String   @unique
+  email          String?
+  lga            String
+  ward           String
+  full_address   String
+  id_type        String
+  name_of_bank   String
+  bank_acct_name String
+  bank_acct_no   String
+  created_at     DateTime @db.Timestamptz(6)
+  gender         String
+  file_name      String
+  whatsapp       String?
+  network        String
+
+  @@schema("attendance")
 }
 
 model dataclerk_qualified_applicant {
@@ -112,6 +146,8 @@ model dataclerk_qualified_applicant {
 
   // Maps to the PostgreSQL materialized view
   @@map("dataclerk_qualified_applicant")
+
+  @@schema("public")
 }
 
 model lga_qualified_applicant {
@@ -120,6 +156,8 @@ model lga_qualified_applicant {
 
   // Maps to the PostgreSQL materialized view
   @@map("lga_qualified_applicant")
+
+  @@schema("public")
 }
 
 model ward_qualified_applicant {
@@ -128,4 +166,6 @@ model ward_qualified_applicant {
 
   // Maps to the PostgreSQL materialized view
   @@map("ward_qualified_applicant")
+
+  @@schema("public")
 }
