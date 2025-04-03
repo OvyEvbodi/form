@@ -3,13 +3,13 @@ import { redirect } from "next/navigation";
 import { ErrorBoundary } from "react-error-boundary";
 
 
-interface AuthPageProps {
-  searchParams: {
-    error?: string;
-  };
-}
+// interface AuthPageProps {
+//   searchParams: {
+//     error?: string;
+//   };
+// }
 
-export default async function IEVAuth({ searchParams }: AuthPageProps) {
+export default async function IEVAuth({ searchParams }: any) {
   // First await the session check
   const session = await getSession();
   if (session) redirect("/application/admin");
