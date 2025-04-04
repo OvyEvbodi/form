@@ -33,7 +33,7 @@ const UserInfo = () => {
     } 
 
     if (saveData.status === 400) {
-      //error mess here
+      setMessage("Invalid applicant! Please check the number and try again")
     }
 
     console.log(userData)
@@ -48,8 +48,8 @@ const UserInfo = () => {
           <button onClick={HandleGetApplicant} className="bg-cyan-900 text-white font-extrabold px-3 rounded-sm cursor-pointer hover:bg-cyan-700" >GO!</button>
         </div>
         <div className="flex md:flex-col flex-wrap gap-2 md:gap-6 ">
-          <button onClick={() => setView("shortlisted")} className="text-cyan-900 p-2 cursor-pointer bg-cyan-50 text-xs md:text-base rounded-sm hover:bg-gray-200 uppercase font-bold transition-all ease-in-out" >registration <span>&gt;</span></button>
-          <button onClick={() => setView("applied")} className="text-cyan-900 p-2 cursor-pointer bg-cyan-50 text-xs md:text-base  rounded-sm hover:bg-gray-200 uppercase font-bold transition-all ease-in-out" >application <span>&gt;</span></button>
+          <button onClick={() => setView("shortlisted")} className={`text-cyan-900 p-2 cursor-pointer bg-cyan-50 text-xs md:text-base rounded-sm hover:bg-gray-200 uppercase font-bold transition-all ease-in-out ${view === "shortlisted" && "bg-gray-400 border border-cyan-300 hover:bg-gray-400 hover:cursor-not-allowed"}` }>registration <span>&gt;</span></button>
+          <button onClick={() => setView("applied")} className={`text-cyan-900 p-2 cursor-pointer bg-cyan-50 text-xs md:text-base rounded-sm hover:bg-gray-200 uppercase font-bold transition-all ease-in-out ${view === "applied" && "bg-gray-400 border border-cyan-300 hover:bg-gray-400 hover:cursor-not-allowed"}` }>application <span>&gt;</span></button>
         </div>
       </div>
       {
@@ -77,6 +77,9 @@ const UserInfo = () => {
       </div> :
       <div>
       </div>}
+      {
+        message && message
+      }
     </div>
   )
 };

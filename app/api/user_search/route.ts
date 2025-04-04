@@ -7,7 +7,6 @@ export const POST = async (request: NextRequest) => {
 
   try {
     const phoneNumber = await request.json();
-    console.log(phoneNumber)
 
     const db = new PrismaClient();
 
@@ -37,6 +36,7 @@ export const POST = async (request: NextRequest) => {
     );
     
     if (!hasValidEntry) {
+      console.log(`No record found for ${phoneNumber}`)
       return NextResponse.json({
         error: {
           message: "Not found! Invalid applicant. Please check the phone number and try again."
