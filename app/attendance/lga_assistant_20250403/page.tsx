@@ -2,14 +2,14 @@ import AttendanceForm from "@/components/AttendanceForm";
 import Link from "next/link";
 
 const AttendancePage = () => {
-  const isDeactivated = false;
+  const isDeactivated = true;
 
   return (
     <div className="bg_img_holder flex flex-col justify-center items-center min-h-screen p-6 -px-2 gap-6 lg:gap-16 lg:p-12 font-[family-name:var(--font-geist-sans)]">
       {
         !isDeactivated &&
           <div className={ isDeactivated ? "hidden" : "flex flex-col justify-center items-center" }>
-            <AttendanceForm />
+            //<AttendanceForm />
           </div>
       }
       {
@@ -19,7 +19,7 @@ const AttendancePage = () => {
               {/* <Image src={checkIcon} height={80} width={80} alt="check-icon"/> */}
               <div className="mb-6 p-10 md:p-20 bg-cyan-800/80 text-white text-base sm:text-lg text-center">
                 <p>
-                  This page has been deactivated.
+                  Attendance is now closed.
                 </p>
                 <Link href="/" className="block m-3 text-gray-400 underline hover:text-gray-200">Go back home</Link>
               </div>
