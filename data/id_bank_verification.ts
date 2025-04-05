@@ -141,7 +141,7 @@ const buttonInfoData: ButtonProps = {
   additionalStyle: "w-full"
 };
 
-export interface IEVFormProps {
+export interface IDBankVerificationFormProps {
   logoUrl?: string;
   title: string;
   description?: string;
