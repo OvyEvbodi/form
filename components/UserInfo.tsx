@@ -77,9 +77,6 @@ const UserInfo = () => {
       </div> :
       <div>
       </div>}
-      {
-        message && message
-      }
     </div>
   )
 };
