@@ -155,6 +155,22 @@ model ajingi {
   @@schema("bank_validation")
 }
 
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model sumaila {
+  id             BigInt @id @default(autoincrement())
+  name           String
+  ward           String
+  designation    String
+  bank_name      String
+  bank_code      String
+  account_number String
+  phone_number   String @unique
+
+  @@index([account_number], map: "idx_sumaila_account_number")
+  @@index([phone_number], map: "idx_sumaila_phone_number")
+  @@schema("bank_validation")
+}
+
 model dataclerk_qualified_applicant {
   name         String
   phone_number String  @unique
