@@ -81,3 +81,28 @@ export const attendanceSchema = z.object({
   })
 })
 .refine(form => form.confirm_bank_acct_no === form.bank_acct_no, {message: FieldErrorMsgs.confirm_bank_acct_no, path: ["confirm_bank_acct_no"]});
+
+export const idUploadForPaymentSchema = z.object({
+  phone_number: z
+    .string({required_error: "Phone number is required"})
+    .length(11, {message: FieldErrorMsgs.phone_number }),
+  whatsapp: z
+    .string({required_error: "WhatsApp number is required"})
+    .length(11, {message: FieldErrorMsgs.whatsapp }),
+  bank_acct_name: z
+    .string({required_error: "Bank account name is required"})
+    .trim().min(1, {message: FieldErrorMsgs.bank_acct_name }),
+  bank_acct_no: z
+    .string({required_error: "Bank account number is required"})
+    .length(10, {message: FieldErrorMsgs.bank_acct_no }),
+  confirm_bank_acct_no: z.
+    string({required_error: "Please confirm account number in both fields"})
+    .length(10, {message: FieldErrorMsgs.confirm_bank_acct_no }),
+
+  id_file: z.instanceof(File, { message: "Please choose a file" })
+    .refine(file => file.size <= 4 * 1024 * 1024, {message: "File size must be 4MB or less"})
+    .refine((file) => ["image/jpeg", "image/png", "image/jpg", "application/pdf"].includes(file.type), {
+      message: "Please upload a valid file: JPG, PDF, PNG, or JPEG",
+  })
+})
+.refine(form => form.confirm_bank_acct_no === form.bank_acct_no, {message: FieldErrorMsgs.confirm_bank_acct_no, path: ["confirm_bank_acct_no"]});
