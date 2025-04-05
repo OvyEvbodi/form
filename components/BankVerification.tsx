@@ -60,10 +60,11 @@ const BankVerification = () => {
             }
           </select>
           <button
-            type="submit" 
-            className="lg:min-w-[227px] sm:min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-800 rounded-lg hover:bg-cyan-900 transition-all"
+            type="submit"
+            disabled={isPending}
+            className={`"lg:min-w-[227px] sm:min-h-[46px] cursor-pointer py-[11px] px-[27px] text-white font-semibold capitalize bg-cyan-800 rounded-lg hover:bg-cyan-900 transition-all ${isPending && "hover:bg-gray-700 hover:text-gray-300 hover:cursor-not-allowed"}`}
           >
-            Verify
+            {isPending ? "Checking details...." : "Verify"}
           </button>
         </form>
         {
@@ -75,7 +76,7 @@ const BankVerification = () => {
           state.data && 
             state.data.map((entry: any, idx: any) => (
               <div key={idx} className="my-6">
-                <div className={entry.message !== "successful" ? "text-red-800" : ""}>{JSON.stringify(entry, null, 4)}</div>
+                <div className={entry.message !== "Valid" ? "text-red-800" : ""}>{JSON.stringify(entry, null, 4)}</div>
               </div>
             )
           )

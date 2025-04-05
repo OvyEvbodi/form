@@ -3,12 +3,15 @@ import { PrismaClient } from "@prisma/client";
 import { lgaBankDetailsList } from "@/data/bank_dummy_data";
 import axios from "axios";
 
-interface BankDataType {
+export interface BankDataType {
   phone_number: string;
   bank_code: string;
   account_number: string;
   name: string;
   bank_name: string;
+  nuban_bank_name?: string;
+  nuban_acc_name?: string;
+  message?: string;
 }
 
 export const POST = async (request: NextRequest) => {
@@ -56,12 +59,12 @@ export const POST = async (request: NextRequest) => {
             ...userDetails,
             nuban_bank_name: nubanBankName,
             nuban_acc_name: nubanAccName,
-            message: "successful"
+            message: "Valid"
           }
         } else {
           return {
             ...userDetails,
-            message: "Unable to retrieve account details"
+            message: "Invalid"
           }
         }
         // console.log(data)
@@ -73,15 +76,6 @@ export const POST = async (request: NextRequest) => {
       }
     }))
     console.log(nubanResponse)
-
-    // get an lga from req
-    // replace space with underscore, make all lowercase
-    // query their lga table
-
-    // create a list of bank account and bank code obj
-    // map that list and query api
-    // understand result and return all invalid accounts
-    // search for corresponding entries against the initial data from db (no second db trip!)
 
     return NextResponse.json({
       succeess: `Successfully verified bank details for ${lgaEntry} LGA.`,
