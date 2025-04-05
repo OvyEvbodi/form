@@ -53,19 +53,15 @@ export const POST = async (request: NextRequest) => {
           const nubanAccName = data[0].account_name;
           // understand result and return all accounts
           return {
-            [userDetails.phone_number]: {
             ...userDetails,
             nuban_bank_name: nubanBankName,
             nuban_acc_name: nubanAccName,
             message: "successful"
-            }
           }
         } else {
           return {
-            [userDetails.phone_number]: {
             ...userDetails,
             message: "Unable to retrieve account details"
-            }
           }
         }
         // console.log(data)

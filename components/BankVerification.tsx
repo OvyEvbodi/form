@@ -75,7 +75,7 @@ const BankVerification = () => {
           state.data && 
             state.data.map((entry: any, idx: any) => (
               <div key={idx} className="my-6">
-                <div>{JSON.stringify(entry, null, 4)}</div>
+                <div className={entry.message !== "successful" ? "text-red-800" : ""}>{JSON.stringify(entry, null, 4)}</div>
               </div>
             )
 
