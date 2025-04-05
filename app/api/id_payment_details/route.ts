@@ -203,7 +203,7 @@ const runValidate = async (form: CastedFormInterface, imageFileName: string) => 
   try {
     const db = new PrismaClient();
 
-    const result = await verifiedApplicant(form.bank_acct_no, db);
+    const result = await verifiedApplicant(form.lga, form.bank_acct_no, db);
     console.log(result)
     if(!result) {
       return "Invalid"
