@@ -3,7 +3,7 @@
 import { lgaList } from "@/data";
 import { useActionState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import BankInfo from "@/components/BankInfo";
+import BankInfo, { InvalidBankInfo } from "@/components/BankInfo";
 import { BankDataType } from "@/app/api/bank_verification/route";
 
 
@@ -34,9 +34,10 @@ const BankVerification = () => {
     } as BankVerResponse
   };
 
+  
   const initialState: any = {};
   const [ state, action, isPending ] = useActionState(handleBankVerification, initialState);
-
+  const invalidEntries  = state?.data?.filter((item: BankDataType) => item.message === "Invalid") || null;
   return (
     <div className="bg-gray-300 flex flex-col gap-8 flex-wrap justify-center items-center min-h-screen min-w-screen p-6">
       <ErrorBoundary fallback={<div className="text-center">Something went wrong. Please refresh the page.</div>}>
@@ -70,11 +71,39 @@ const BankVerification = () => {
             {isPending ? "Checking details...." : "Verify"}
           </button>
         </form>
-        {
-          state.lga && !state.error && (
-            <div>{`${state.lga} LGA Bank Verifification Summary`}</div>
-          )
-        }
+          {
+            state.lga && !state.error && (
+              <div>{`${state.lga} LGA Bank Verifification Summary`}</div>
+            )
+          }
+          {
+            invalidEntries && 
+            <table>
+              <thead>
+              <tr>
+                  <th>serial no.</th>
+                  <th>phone number</th>
+                  <th>account number</th>
+                  <th>account name</th>
+                  <th>bank name</th>
+                  <th>status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  invalidEntries.map((entry: BankDataType, idx: any) => {
+                    const numberedEntry: BankDataType = {
+                      ...entry,
+                      idx
+                    };
+                    return (
+                      <InvalidBankInfo props={numberedEntry}  key={idx}/>
+                    )
+                  })
+                }
+              </tbody>
+            </table>
+          }
           {
             state.data && 
             (
@@ -93,7 +122,6 @@ const BankVerification = () => {
               </thead>
               <tbody>
                 {
-
                   state.data.map((entry: BankDataType, idx: any) => {
                     const numberedEntry: BankDataType = {
                       ...entry,
@@ -102,16 +130,14 @@ const BankVerification = () => {
                     return (
                       <BankInfo props={numberedEntry}  key={idx}/>
                     )
-                    
                   })
-  
                 }
               </tbody>
               </table>
             )
           }
         {
-          state.error && (
+          state.error && !isPending && (
             <div className="text-red-500 bg-red-50 px-4 py-4 rounded-md max-w-md text-center mb-4">{state.error}</div>
           )
         }
