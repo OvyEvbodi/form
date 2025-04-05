@@ -43,12 +43,17 @@ const verifiedApplicant: (
 
     try {
       const applicantData = await Promise.all(
-        listOfLGAs.map(async (roleTable) => {
-          const result = await (dbClient[roleTable as keyof typeof dbClient] as any).findFirst({
+        listOfLGAs.map(async (lgaTable) => {
+          const result = await (dbClient[lgaTable as keyof typeof dbClient] as any).findFirst({
             where: { account_number: bank_acct_no }
           });
 
-          return {[roleTable]: result};
+          if (result !== null) {
+            initialRole = lgaTable.split("_")[0];
+            console.log(initialRole)
+          }
+
+          return {[lgaTable]: result};
         })
       );
 

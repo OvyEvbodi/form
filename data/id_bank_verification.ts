@@ -129,7 +129,7 @@ export interface IDBankVerificationFormProps {
 } // add select fields props later
 
 export const idBankVerificationData: IDBankVerificationFormProps = {
-  title: "ID Upload form for payment validation for data clerks and local guides",
+  title: "ID Upload Form for Payment Validation of Data Clerks and Local Guides Details",
   description: "Please complete the form below as validation.",
   logoUrl: "",
   firstSectionTitle: bioSectionTitle,
