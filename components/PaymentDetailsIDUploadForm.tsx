@@ -244,7 +244,7 @@ const FormTemplate = (props: IDBankVerificationFormProps) => {
           }
           {
             state?.notShortlisted && (
-              <div className={!state?.notShortlisted ? "" : "my-3 text-red-900 font-medium p-3 bg-red-200 border rounded-sm border-red-900"}>{state.notShortlisted.message}<br/> Your current number is: {state?.notShortlisted.phoneNumber}</div>
+              <div className={!state?.notShortlisted ? "" : "my-3 text-red-900 font-medium p-3 bg-red-200 border rounded-sm border-red-900"}>{state.notShortlisted.message}<br/> Your current number is: {state?.notShortlisted.accountNumber}</div>
             )
           }
           {
