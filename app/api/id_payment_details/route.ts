@@ -8,9 +8,6 @@ import { idUploadForPaymentSchema } from "@/zod_schema"
 import { DefaultArgs } from "@prisma/client/runtime/library";
 
 interface CastedFormInterface {
-  phone_number: string;
-  whatsapp: string;
-  email?: string;
   lga: string;
   id_type: string;
   name_of_bank: string;
@@ -71,7 +68,7 @@ const verifiedApplicant: (
 
 };
 
-const getNewName: (oldFilename: string, phoneNumber: string) => string = (oldFilename: string, accountNumber: string) => {
+const getNewName: (oldFilename: string, accountNumber: string) => string = (oldFilename: string, accountNumber: string) => {
   let newFileName = "";
   if ( oldFilename.endsWith(".pdf") || oldFilename.endsWith(".PDF") ) newFileName = `${accountNumber}.pdf`;
   if ( oldFilename.endsWith(".png") || oldFilename.endsWith(".PNG") ) newFileName = `${accountNumber}.png`;
@@ -87,9 +84,6 @@ export const POST = async (request: NextRequest) => {
     const filledForm = await request.formData();
 
     const castedForm: CastedFormInterface = {
-      phone_number: filledForm.get("phone_number") as string || "",
-      whatsapp: filledForm.get("whatsapp") as string || "",
-      email: filledForm.get("email") as string || "",
       lga: filledForm.get("lga") as string || "",
       id_type: filledForm.get("id_type") as string || "",
       name_of_bank: filledForm.get("name_of_bank") as string || "",
@@ -109,8 +103,6 @@ export const POST = async (request: NextRequest) => {
       
       return NextResponse.json( {
         zodErrors: {
-          phone_number: formErrors?.phone_number,
-          whatsapp: formErrors?.whatsapp,
           bank_acct_name: formErrors?.bank_acct_name,
           bank_acct_no: formErrors?.bank_acct_no,
           confirm_bank_acct_no: formErrors?.confirm_bank_acct_no,

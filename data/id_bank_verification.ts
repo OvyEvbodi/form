@@ -36,41 +36,6 @@ const bankList: string[] = [
 ];
 
 const bioTextFieldsData: InputProps[] = [
-  {
-    tag: "Phone Number (must be the same number used during registration)",
-    placeholder: "e.g 08045678910",
-    FieldError: false,
-    name: "phone_number",
-    id: "phone_number",
-    iconUrl: "/number_icon.png",
-    type: "tel",
-    required: true,
-    pattern:"^0[0-9]{10}",
-    errorMessage: "Number must start with 0 and be 11 digits"
-  },
-  {
-    tag: "WhatsApp Number",
-    placeholder: "e.g 08045678910",
-    FieldError: false,
-    name: "whatsapp",
-    id: "whatsapp",
-    iconUrl: "/number_icon.png",
-    type: "tel",
-    required: true,
-    pattern:"^0[0-9]{10}",
-    errorMessage: "Number must start with 0 and be 11 digits"
-  },
-  {
-    tag: "Email Address",
-    placeholder: "Enter your email",
-    FieldError: false,
-    name: "email",
-    id: "email",
-    iconUrl: "",
-    type: "email",
-    required: false,
-    errorMessage: "Please enter a valid email"
-  }
 ];
 
 const bioRadioFieldsData: RadioProps [] = [

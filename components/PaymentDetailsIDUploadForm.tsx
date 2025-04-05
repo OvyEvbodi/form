@@ -15,8 +15,8 @@ import { ErrorBoundary } from "react-error-boundary";
 
 interface DbResponse extends Response {
   zodErrors?: {
-    phone_number?: string;
-    whatsapp?: string;
+    //phone_number?: string;
+    //whatsapp?: string;
     bank_acct_name?: string;
     bank_acct_no?: string;
     id_file?: string;
@@ -35,7 +35,6 @@ interface DbResponse extends Response {
   castedForm?: any;
 
 }
-
 
 
 const FormTemplate = (props: IDBankVerificationFormProps) => {
