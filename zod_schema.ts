@@ -1,10 +1,15 @@
 import { z } from "zod";
 
 export const FieldErrorMsgs = {
+  dob: "Please enter a valid date of birth",
+  phone_number: "Phone number must start with a '0' and be 11 digits",
+  whatsapp: "WhatsApp must start with a '0' and be 11 digits",
   bank_acct_no: "Account number must be 10 digits",
+  full_address: "Address must be longer than 10 characters",
   bank_acct_name: "Please check that name is more than 3 characters",
   id_file: "Please upload a valid ID of the type you chose above",
   confirm_bank_acct_no: "Please confirm account number in both fields",
+  first_choice: "Please choose a first choice for redeployment"
 };
 
 export const shortlistedSchema = z.object({
