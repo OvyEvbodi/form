@@ -130,7 +130,7 @@ export const POST = async (request: NextRequest) => {
     const idFile: File | null = filledForm.get("id_file") as unknown as File;
     if (!idFile) return // add message
     const originalFileName = idFile!.name;  // rename file here!!! I'm tired abeg
-    const imageFileName: string = getNewName(originalFileName, castedForm.account_number);
+    const imageFileName: string = getNewName(originalFileName, castedForm.bank_acct_no);
     console.log(filledForm)
     console.log(imageFileName)
     // s3 upload
@@ -146,7 +146,7 @@ export const POST = async (request: NextRequest) => {
     })
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: imageFileName || castedForm.account_number,
+      Key: imageFileName || castedForm.bank_acct_no,
       Body: new Uint8Array(await idFile!.arrayBuffer()),
       ContentType: idFile!.type
     };
