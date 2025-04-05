@@ -161,8 +161,8 @@ export const POST = async (request: NextRequest) => {
       console.warn("Not shortlisted")
       return NextResponse.json({
         notShortlisted: {
-          phoneNumber: castedForm.phone_number,
-          message: "It appears you were not shortlisted for this role. Make sure you use the phone number you applied with."
+          accountNumber: castedForm.bank_acct_no,
+          message: "We can't see to find your record. Make sure you use the account number you filled during training."
         }
       }, { status: 400 })
     }
