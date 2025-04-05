@@ -67,7 +67,7 @@ const BankVerification = () => {
           </button>
         </form>
         {
-          state.lga && (
+          state.lga && !state.error && (
             <div>{`${state.lga} LGA Bank Verifification Summary`}</div>
           )
         }
@@ -78,8 +78,12 @@ const BankVerification = () => {
                 <div className={entry.message !== "successful" ? "text-red-800" : ""}>{JSON.stringify(entry, null, 4)}</div>
               </div>
             )
-
-            )
+          )
+        }
+        {
+          state.error && (
+            <div className="text-red-500 bg-red-50 px-4 py-4 rounded-md max-w-md text-center mb-4">{state.error}</div>
+          )
         }
       </ErrorBoundary>
     </div>
