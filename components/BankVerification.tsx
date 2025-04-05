@@ -73,7 +73,7 @@ const BankVerification = () => {
         </form>
           {
             state.lga && !state.error && (
-              <div>{`${state.lga} LGA Bank Verifification Summary`}</div>
+              <div className="font-bold sm:text-2xl text-cyan-900">{`${state.lga} LGA Bank Verification Summary`}</div>
             )
           }
           {

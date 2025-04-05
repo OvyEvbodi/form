@@ -37,6 +37,7 @@ td, th {
 th {
   background-color: #0b676c;
   text-align: left;
+  text-transform: uppercase;
 }
 
 @media screen and (max-width: 600px) {
