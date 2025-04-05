@@ -3,12 +3,15 @@
 import { lgaList } from "@/data";
 import { useActionState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import BankInfo from "@/components/BankInfo";
+import { BankDataType } from "@/app/api/bank_verification/route";
+
 
 interface BankVerResponse extends Response {
   error?: string;
   success?: string;
   lga?: string;
-  data?: any;
+  data?: BankDataType;
 }
 
 const BankVerification = () => {
@@ -72,15 +75,41 @@ const BankVerification = () => {
             <div>{`${state.lga} LGA Bank Verifification Summary`}</div>
           )
         }
-        {
-          state.data && 
-            state.data.map((entry: any, idx: any) => (
-              <div key={idx} className="my-6">
-                <div className={entry.message !== "Valid" ? "text-red-800" : ""}>{JSON.stringify(entry, null, 4)}</div>
-              </div>
+          {
+            state.data && 
+            (
+              <table className="p-4">
+              <thead>
+                <tr>
+                  <th>serial no.</th>
+                  <th>phone number</th>
+                  <th>account number</th>
+                  <th>account name</th>
+                  <th>nuban account name</th>
+                  <th>bank name</th>
+                  <th>nuban bank name</th>
+                  <th>status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+
+                  state.data.map((entry: BankDataType, idx: any) => {
+                    const numberedEntry: BankDataType = {
+                      ...entry,
+                      idx
+                    }; 
+                    return (
+                      <BankInfo props={numberedEntry}  key={idx}/>
+                    )
+                    
+                  })
+  
+                }
+              </tbody>
+              </table>
             )
-          )
-        }
+          }
         {
           state.error && (
             <div className="text-red-500 bg-red-50 px-4 py-4 rounded-md max-w-md text-center mb-4">{state.error}</div>

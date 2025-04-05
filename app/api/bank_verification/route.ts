@@ -12,6 +12,7 @@ export interface BankDataType {
   nuban_bank_name?: string;
   nuban_acc_name?: string;
   message?: string;
+  idx?: number;
 }
 
 export const POST = async (request: NextRequest) => {
