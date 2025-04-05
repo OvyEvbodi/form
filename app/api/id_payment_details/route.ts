@@ -156,6 +156,16 @@ export const POST = async (request: NextRequest) => {
     delete (castedForm as any).confirm_bank_acct_no;
 
     console.log(castedForm)
+    const dbFeedback = await runValidate(castedForm, imageFileName);
+    if (dbFeedback === "Invalid") {
+      console.warn("Not shortlisted")
+      return NextResponse.json({
+        notShortlisted: {
+          phoneNumber: castedForm.phone_number,
+          message: "It appears you were not shortlisted for this role. Make sure you use the phone number you applied with."
+        }
+      }, { status: 400 })
+    }
 
     const s3Res = await s3.send(command)
     console.log(s3Res)
@@ -188,3 +198,26 @@ export const POST = async (request: NextRequest) => {
     )
   }
 };
+
+const runValidate = async (form: CastedFormInterface, imageFileName: string) => {
+  try {
+    const db = new PrismaClient();
+
+    const result = await verifiedApplicant(form.bank_acct_no, db);
+    console.log(result)
+    if(!result) {
+      return "Invalid"
+    }
+
+    console.log("Verification complete!")
+  } catch (error) {
+    console.error(error)
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    }
+    return "savingError" // add message, and propagate feedback
+  } finally {
+    // redirect workaround
+  }
+};
+
