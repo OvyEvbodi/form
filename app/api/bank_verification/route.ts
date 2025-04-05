@@ -91,7 +91,7 @@ export const POST = async (request: NextRequest) => {
   } catch (error){
     console.error(error)
     return NextResponse.json({
-      error: "Error verifying bank details for this LGA. Please try again."
+      error: "Error verifying bank details for this LGA. Please try again later."
     }, {status: 500})
   }
 };
