@@ -49,10 +49,10 @@ const BankVerification = () => {
           </label>
           <select 
             name="lga" 
-            required 
+            required
             className="block mt-2 w-full bg-gray-200 p-2 rounded-md outline-none border-b-2 border-cyan-700"
           >
-            <option>Please choose lga to verify </option>
+            <option value="">Please choose lga to verify </option>
             {
               lgaList.map((lga, idx) => (
                 <option key={idx}>{lga}</option>

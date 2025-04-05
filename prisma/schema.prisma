@@ -6,7 +6,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["attendance", "public"]
+  schemas  = ["attendance", "bank_validation", "public"]
 }
 
 /// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
@@ -138,6 +138,21 @@ model lga_assistant_20250403 {
   network        String
 
   @@schema("attendance")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model ajingi {
+  id             BigInt @id @default(autoincrement())
+  name           String
+  ward           String
+  designation    String
+  bank_name      String
+  bank_code      String
+  account_number String
+  phone_number   String @unique
+
+  @@index([phone_number], map: "idx_phone_number")
+  @@schema("bank_validation")
 }
 
 model dataclerk_qualified_applicant {

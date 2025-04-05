@@ -3,6 +3,13 @@ import { PrismaClient } from "@prisma/client";
 import { lgaBankDetailsList } from "@/data/bank_dummy_data";
 import axios from "axios";
 
+interface BankDataType {
+  phone_number: string;
+  bank_code: string;
+  account_number: string;
+  name: string;
+  bank_name: string;
+}
 
 export const POST = async (request: NextRequest) => {
 
@@ -18,27 +25,27 @@ export const POST = async (request: NextRequest) => {
     console.log(lgaName)
 
     // query their lga table
-    // const db = new PrismaClient();
+    const db = new PrismaClient();
 
-    // const result = await (db[lgaName as keyof typeof db] as any).findMany({
-    //   select: {
-    //     phone_number: true,
-    //     bank_code: true,
-    //     banck_acc_no: true,
-    //     name: true,
-
-    //   },
-    // })
+    const result = await (db[lgaName as keyof typeof db] as any).findMany({
+      select: {
+        phone_number: true,
+        bank_code: true,
+        account_number: true,
+        name: true,
+        bank_name: true
+      },
+    })
     // console.log(result)
 
     // create a list of bank account and bank code obj
     // we should already have a list from the db query
-    const bankDetailsList = [];
+    const bankDetailsList: BankDataType [] = result;
 
     // map that list and query api
-    const nubanResponse = await Promise.all( lgaBankDetailsList.map( async (userDetails) => {
+    const nubanResponse = await Promise.all( bankDetailsList.map( async (userDetails) => {
       // query
-      const url = `https://app.nuban.com.ng/api/${process.env.NUBAN_API_KEY}?bank_code=${userDetails.bank_code}&acc_no=${userDetails.bank_acc_no}`;
+      const url = `https://app.nuban.com.ng/api/${process.env.NUBAN_API_KEY}?bank_code=${userDetails.bank_code}&acc_no=${userDetails.account_number}`;
       const {data, status} = await axios.get(url);
       if (status === 200) {
         if (data instanceof Array) {
@@ -48,8 +55,8 @@ export const POST = async (request: NextRequest) => {
           return {
             [userDetails.phone_number]: {
             ...userDetails,
-            bank_name: nubanBankName,
-            acc_name: nubanAccName,
+            nuban_bank_name: nubanBankName,
+            nuban_acc_name: nubanAccName,
             message: "successful"
             }
           }
