@@ -72,9 +72,14 @@ const BankVerification = () => {
           )
         }
         {
-          state.data && (
-            <div>{JSON.stringify(state.data, null, 4)}</div>
-          )
+          state.data && 
+            state.data.map((entry: any, idx: any) => (
+              <div key={idx} className="my-6">
+                <div>{JSON.stringify(entry, null, 4)}</div>
+              </div>
+            )
+
+            )
         }
       </ErrorBoundary>
     </div>
