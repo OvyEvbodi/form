@@ -76,7 +76,7 @@ export const POST = async (request: NextRequest) => {
         }
       }
     }))
-    console.log(nubanResponse)
+    // console.log(nubanResponse)
 
     return NextResponse.json({
       succeess: `Successfully verified bank details for ${lgaEntry} LGA.`,
