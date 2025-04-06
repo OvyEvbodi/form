@@ -142,13 +142,12 @@ model lga_assistant_20250403 {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model ajingi {
-  id             BigInt @id @default(autoincrement())
   name           String
   ward           String
   designation    String
   bank_name      String
   bank_code      String
-  account_number String
+  account_number String @id
   phone_number   String @unique
 
   @@index([phone_number], map: "idx_phone_number")
@@ -157,13 +156,12 @@ model ajingi {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model sumaila {
-  id             BigInt @id @default(autoincrement())
   name           String
   ward           String
   designation    String
   bank_name      String
   bank_code      String
-  account_number String
+  account_number String @id @unique
   phone_number   String @unique
 
   @@index([account_number], map: "idx_sumaila_account_number")
