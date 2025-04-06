@@ -94,7 +94,7 @@ const BankVerification = () => {
                   invalidEntries.map((entry: BankDataType, idx: any) => {
                     const numberedEntry: BankDataType = {
                       ...entry,
-                      idx
+                      idx: idx + 1
                     };
                     return (
                       <InvalidBankInfo props={numberedEntry}  key={idx}/>
@@ -125,7 +125,7 @@ const BankVerification = () => {
                   state.data.map((entry: BankDataType, idx: any) => {
                     const numberedEntry: BankDataType = {
                       ...entry,
-                      idx
+                      idx: idx + 1
                     }; 
                     return (
                       <BankInfo props={numberedEntry}  key={idx}/>
