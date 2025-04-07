@@ -267,6 +267,20 @@ model makoda {
   @@schema("bank_validation")
 }
 
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model kunchi {
+  name           String
+  ward           String
+  designation    String
+  bank_name      String
+  bank_code      String
+  account_number String  @id
+  phone_number   String?
+
+  @@index([phone_number], map: "idx_kunchi_phone_number")
+  @@schema("bank_validation")
+}
+
 model dataclerk_qualified_applicant {
   name         String
   phone_number String  @unique
