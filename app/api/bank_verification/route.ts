@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { lgaBankDetailsList } from "@/data/bank_dummy_data";
 import axios from "axios";
 
 export interface BankDataType {
