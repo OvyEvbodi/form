@@ -408,6 +408,20 @@ model kura {
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model kibiya {
+  name           String
+  ward           String
+  designation    String
+  bank_name      String
+  bank_code      String
+  account_number String @id
+  phone_number   String @unique
+
+  @@index([phone_number], map: "idx_kibiya_phone_number")
+  @@schema("bank_validation")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model kiru {
   name           String
   ward           String
@@ -422,7 +436,7 @@ model kiru {
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model kibiya {
+model kumbotso_lg {
   name           String
   ward           String
   designation    String
@@ -431,7 +445,7 @@ model kibiya {
   account_number String @id
   phone_number   String @unique
 
-  @@index([phone_number], map: "idx_kibiya_phone_number")
+  @@index([phone_number], map: "idx_kumbotsolg_phone_number")
   @@schema("bank_validation")
 }
 
@@ -464,3 +478,4 @@ model ward_qualified_applicant {
 
   @@schema("public")
 }
+
