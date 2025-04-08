@@ -40,6 +40,22 @@ th {
   text-transform: uppercase;
 }
 
+.support_img_wrap {
+  background-image: url("/support_bg.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+@media screen and (max-width: 600px) {
+  .support_img_wrap {
+    background-image: url("/support_bg.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .sm_img_holder {
     background-image: url("/form_img.jpeg");
