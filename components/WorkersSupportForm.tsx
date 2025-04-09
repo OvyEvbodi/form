@@ -82,7 +82,7 @@ const WorkersSupportForm = () => {
   return (
     <div className="sm:min-h-8/12 sm:min-w-2/3 text-gray-700 text-sm lg:max-w-[860px] p-4 sm:p-10 rounded-md max-w-screen bg-linear-to-b from-cyan-100/70 via-gray-300/80 to-gray-200/80">
       <div>
-        <h1 className="py-2 sm:py-6 text-cyan-800 text-lg sm:text-3xl font-bold">Kano-IEV Workers Support Form</h1>
+        <h1 className="py-2 sm:py-6 text-cyan-800 text-lg sm:text-3xl font-bold">Kano-IEV Supervisors Complaint Form</h1>
       </div>
       <form action={action}>
        
@@ -92,8 +92,39 @@ const WorkersSupportForm = () => {
                   <h2 className="py-2 sm:pb-5 text-lg sm:text-xl font-bold">Demographics</h2>
                 </div>
                 <div>
+
                   <div className="mb-2">
-                    <label htmlFor="lga" className="font-bold text-md mb-1">LGA of Residence</label><span className=" ml-1 text-red-700">&#10038;</span>
+                    <label htmlFor="name" className="font-bold text-md mb-1">Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
+                      placeholder="Enter your name"
+                    />
+                  </div>
+
+                  <div className="mb-2">
+                    <label htmlFor="phone_number" className="font-bold text-md mb-1">Phone Number</label>
+                    <input
+                      type="text"
+                      name="phone_number"
+                      className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
+                      placeholder="Enter phone number"
+                    />
+                  </div>
+
+                  <div className="mb-2">
+                    <label htmlFor="org" className="font-bold text-md mb-1">Organization</label>
+                    <input
+                      type="text"
+                      name="org"
+                      className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
+                      placeholder="Enter your organization"
+                    />
+                  </div>
+
+                  <div className="mb-2">
+                    <label htmlFor="lga" className="font-bold text-md mb-1">Affected LGA</label><span className=" ml-1 text-red-700">&#10038;</span>
                     <select name="lga" value={lga} required onChange={ handleLgaChange } className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
                       <option value="">Select LGA</option>
                       {lgaList.map((item: string, index: number) => (
@@ -104,7 +135,7 @@ const WorkersSupportForm = () => {
                   </div>
 
                   <div className="mb-2">
-                    <label htmlFor="ward" className="font-bold text-md mb-1">Ward of Residence</label><span className=" ml-1 text-red-700">&#10038;</span>
+                    <label htmlFor="ward" className="font-bold text-md mb-1">Affected Ward</label><span className=" ml-1 text-red-700">&#10038;</span>
                     <select  name="ward" value={ward} required disabled={!lga} onChange={handleWardChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
                       <option value="">Choose a ward</option>
                       {
@@ -117,22 +148,12 @@ const WorkersSupportForm = () => {
                   </div>
 
                   <div className="mb-2">
-                    <label htmlFor="designation" className="font-bold text-md mb-1">Designation</label>
-                    <select name="designation" className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
-                      <option value="">Select Designation</option>
-                      <option value="Local Guide">Local Guide</option>
-                      <option value="Data Clerk">Data Clerk</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-
-                  <div className="mb-2">
-                    <label htmlFor="teamCode" className="font-bold text-md mb-1">Team Code</label>
+                    <label htmlFor="settlement" className="font-bold text-md mb-1">Affected Settlement</label>
                     <input
                       type="text"
-                      name="teamCode"
+                      name="settlement"
                       className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
-                      placeholder="Enter your team code"
+                      placeholder="Enter affected settlement name"
                     />
                   </div>
 
@@ -244,10 +265,25 @@ const WorkersSupportForm = () => {
                         Software Glitches
                       </label>
                     </div>
+
+                    <div>
+                      <input 
+                        name="Technology" 
+                        value="Mismatch" 
+                        type="checkbox" 
+                        onChange={handleFormPreview}
+                      />
+                      <label 
+                        htmlFor="Technology" 
+                        className="pl-2"
+                      >
+                        Team code does not match settlement
+                      </label>
+                    </div>
                   </div>
 
                   <div className="mb-2">
-                    <h6 className="font-bold text-md mb-1">Community Resistance</h6>
+                    <h6 className="font-bold text-md mb-1">Stakeholder Response</h6>
                     <div>
                       <input 
                         name="Resistance" 
@@ -273,8 +309,38 @@ const WorkersSupportForm = () => {
                         htmlFor="Resistance" 
                         className="pl-2"
                       >
-                        Religious/Traditional Hinderance
+                        Poor Cooperation from Religious/Traditional leaders
                       </label>
+                    </div>
+
+                    <div>
+                      <input 
+                        name="Resistance" 
+                        value="Community" 
+                        type="checkbox" 
+                        onChange={handleFormPreview}
+                        />
+                      <label 
+                        htmlFor="Resistance" 
+                        className="pl-2"
+                        >
+                          Poor cooperation from community leaders
+                        </label>
+                    </div>
+
+                    <div>
+                      <input 
+                        name="Resistance" 
+                        value="lga_team" 
+                        type="checkbox" 
+                        onChange={handleFormPreview}
+                        />
+                      <label 
+                        htmlFor="Resistance" 
+                        className="pl-2"
+                        >
+                          Poor cooperation from LGA team
+                        </label>
                     </div>
                   </div>
 
