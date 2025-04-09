@@ -4,10 +4,10 @@ import logo from '@/public/logo.jpeg'
 
 const NavBar = () => {
   return (
-    <div className="min-h-[10vh] flex justify-between items-center gap-4 p-2 md:pl-8 min-w-screen">
+    <Link href="/" className="bg-white min-h-[10vh] flex justify-center items-center gap-4 p-3 md:pl-8 min-w-screen">
       <Image src={logo} height={40} width={40} alt="nphcda logo" />
-      <Link href="/" className="text-cyan-800 hover:underline">Go Home</Link>
-    </div>
+      <div className="text-cyan-800 font-extrabold hover:underline">Home</div>
+    </Link>
   )
 }
 
