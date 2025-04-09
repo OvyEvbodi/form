@@ -11,6 +11,10 @@ export interface WorkerComplaintResponse extends Response  {
   success?: string;
   data?: WorkerComplaintType;
 }
+type FormPreviewType = {
+  [key: string]: string[];
+};
+
 
 const WorkersSupportForm = () => {
   const initialState: any = {};
@@ -21,7 +25,7 @@ const WorkersSupportForm = () => {
   const wards = lga ? lgaWardsMap[lga] : [];
   const [ lgaError, setLgaError ] = useState(false);
   const [ wardError, setWardError ] = useState(false);
-  const [ formPreview, setFormPreview ] = useState<any>({
+  const [ formPreview, setFormPreview ] = useState<FormPreviewType>({
     Data: [],
     Fieldwork: [],
     Technology: [],
@@ -68,15 +72,30 @@ const WorkersSupportForm = () => {
   };
 
   const handleFormPreview = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    console.log(event.target.name, event.target.value)
-    setFormPreview({
-      ...formPreview,
-      [event.target.name]: [...formPreview[event.target.name], event.target.title]
-    })
+    const index = formPreview[event.target.name].indexOf(event.target.title);
+    if (index === -1) { 
+      // add item
+      setFormPreview({
+        ...formPreview,
+        [event.target.name]: [
+          ...formPreview[event.target.name], 
+          event.target.title 
+        ]
+      });
+    } else { 
+      // remove item
+      setFormPreview({
+        ...formPreview,
+        [event.target.name]: formPreview[event.target.name].filter(
+          (_: any, i: any) => i !== index
+        )
+      });
+    }
+
   };
 
   useEffect(() => {
-    console.log('Updated form:', formPreview); 
+    console.log("Change updated!")
   }, [ formPreview ]); 
 
   return (
@@ -98,6 +117,7 @@ const WorkersSupportForm = () => {
                     <input
                       type="text"
                       name="name"
+                      required
                       className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
                       placeholder="Enter your name"
                     />
@@ -108,6 +128,7 @@ const WorkersSupportForm = () => {
                     <input
                       type="text"
                       name="phone_number"
+                      required
                       className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
                       placeholder="Enter phone number"
                     />
@@ -379,11 +400,20 @@ const WorkersSupportForm = () => {
                 <div>
                 <h2 className="py-2 sm:pb-1 text-lg sm:text-xl font-bold">Complaint review</h2>
                 <div>
-                  {
-                    lga && (
-                      <div>{JSON.stringify(formPreview, null, 2)}</div>
-                    )
-                  }
+                <div>
+    {lga && Object.entries(formPreview)
+      .filter(([_, val]) => val.length > 0)
+      .map(([key, val]) => (
+        <div key={key}>
+          <h3>{key}</h3>
+          <ul className="list-disc list-inside ml-4">
+            {val.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+  </div>
                 </div>
                 </div>
                 <div>
