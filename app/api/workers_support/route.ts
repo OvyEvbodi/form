@@ -24,7 +24,6 @@ export const POST = async (request: NextRequest) => {
 
   try {
     const date = new Date().toLocaleDateString();
-    const id = uuidv4();
     console.log(date)
     const formEntry = await request.formData();
 
@@ -42,8 +41,7 @@ export const POST = async (request: NextRequest) => {
       phone_number: formEntry.get("phone_number") as string || "",
       organization: formEntry.get("org:") as string || "",
       settlement: formEntry.get("settlement") as string || "",
-      date,
-      id
+      date
     };
 
     // console.log(formEntry)
@@ -56,11 +54,14 @@ export const POST = async (request: NextRequest) => {
       console.log(entry)
       for (const key in entry) {
         const problem = entry[key].toString();
+        const id = uuidv4();
+        if (!problem) continue;
         console.log(problem)
         console.log(key)
         const addEntry = await db.complaints.create({ 
           data: {
             ...bioForm,
+            id,
             type: key,
             problem
           }
