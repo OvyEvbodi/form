@@ -109,7 +109,7 @@ const WorkersSupportForm = () => {
               <div>
                 <div>
                   <h2 className="py-2 sm:pb-5 text-lg sm:text-xl font-bold">Complaint</h2>
-                  <p>Check all that apply</p>
+                  <h3 className="py-2 sm:pb-5 text-lg sm:text-xl font-bold">Check all that apply</h3>
                 </div>
                 <div>
                   <div className="mb-2">
