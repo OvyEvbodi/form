@@ -495,12 +495,59 @@ model dambatta {
 model complaints {
   lga          String
   ward         String
-  designation  String
-  team_code    String?
-  phone_number String?
+  organization String
+  name         String
+  phone_number String
   type         String?
   problem      String?
+  date         String
+  id           String  @id @db.Uuid
+  settlement   String
 
   @@ignore
   @@schema("field_support")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model dawakin_tofa {
+  name           String
+  ward           String
+  designation    String
+  bank_name      String
+  bank_code      String
+  account_number String @id
+  phone_number   String @unique
+
+  @@index([phone_number], map: "idx_dtofa_phone_number")
+  @@schema("bank_validation")
+}
+
+model dataclerk_qualified_applicant {
+  name         String
+  phone_number String  @unique
+
+  // Maps to the PostgreSQL materialized view
+  @@map("dataclerk_qualified_applicant")
+
+  @@schema("public")
+}
+
+model lga_qualified_applicant {
+  name         String
+  phone_number String  @unique
+
+  // Maps to the PostgreSQL materialized view
+  @@map("lga_qualified_applicant")
+
+  @@schema("public")
+}
+
+model ward_qualified_applicant {
+  name         String
+  phone_number String  @unique
+
+  // Maps to the PostgreSQL materialized view
+  @@map("ward_qualified_applicant")
+
+  @@schema("public")
 }
