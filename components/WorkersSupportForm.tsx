@@ -3,7 +3,7 @@
 import { WorkerComplaintType } from "@/app/api/workers_support/route";
 import { lgaList, lgaWardsMap } from "@/data";
 import { redirect } from "next/navigation";
-import { useActionState, useState } from "react"
+import { useActionState, useEffect, useState } from "react"
 
 
 export interface WorkerComplaintResponse extends Response  {
@@ -39,11 +39,19 @@ const WorkersSupportForm = () => {
   const wards = lga ? lgaWardsMap[lga] : [];
   const [ lgaError, setLgaError ] = useState(false);
   const [ wardError, setWardError ] = useState(false);
-
+  const [ formPreview, setFormPreview ] = useState<any>({
+    Data: [],
+    Fieldwork: [],
+    Technology: [],
+    Resistance: [],
+    Administrative: []
+  });
 
   const handleView = (view: number) => {
-    if (!lga) setLgaError(true)
-      else if (!ward) setWardError(true)
+    if (!lga && !ward) {
+      setLgaError(true)
+      setWardError(true)
+    } else if (!ward) setWardError(true)
     else setView(view)
   };
 
@@ -57,6 +65,19 @@ const WorkersSupportForm = () => {
     setWardError(false)
     setWard(event.target.value)
   };
+
+  const handleFormPreview = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    console.log(event.target.name, event.target.value)
+    setFormPreview({
+      ...formPreview,
+      [event.target.name]: [...formPreview[event.target.name], event.target.title]
+    })
+    console.log(formPreview)
+  };
+
+  useEffect(() => {
+    console.log('Updated form:', formPreview); 
+  }, [ formPreview ]); 
 
   return (
     <div className="sm:min-h-8/12 sm:min-w-2/3 text-gray-700 text-sm lg:max-w-[860px] p-4 sm:p-10 rounded-md max-w-screen bg-linear-to-b from-cyan-100/70 via-gray-300/80 to-gray-200/80">
@@ -135,60 +156,157 @@ const WorkersSupportForm = () => {
                   <div className="mb-2">
                     <h6 className="font-bold text-md mb-1">Data Collection Challenges</h6>
                     <div>
-                      <input name="data" value="reluctance" type="checkbox" />
-                      <label htmlFor="data" className="pl-2">Reluctance to Share Information</label>
+                      <input 
+                        name="Data" 
+                        value="reluctance" 
+                        type="checkbox" 
+                        onChange={handleFormPreview}
+                      />
+                      <label htmlFor="Data" 
+                        className="pl-2">Reluctance to Share Information
+                      </label>
                     </div>
                     <div>
-                      <input name="data" value="Inaccurate" type="checkbox" />
-                      <label htmlFor="data" className="pl-2">Inaccurate or Incomplete Responses</label>
+                      <input 
+                        name="Data" 
+                        value="Inaccurate" 
+                        type="checkbox"
+                        onChange={handleFormPreview} 
+                      />
+                      <label 
+                        htmlFor="Data" 
+                        className="pl-2"
+                      >
+                        Inaccurate or Incomplete Responses
+                      </label>
                     </div>
                   </div>
 
                   <div className="mb-2">
                     <h6 className="font-bold text-md mb-1">Fieldwork Difficulties</h6>
                     <div>
-                      <input name="Fieldwork" value="Logistical" type="checkbox" />
-                      <label htmlFor="Fieldwork" className="pl-2">Logistical Issues</label>
+                      <input 
+                        name="Fieldwork" 
+                        value="Logistical" 
+                        type="checkbox" 
+                        onChange={handleFormPreview}
+                      />
+                      <label 
+                        htmlFor="Fieldwork" 
+                        className="pl-2"
+                      >
+                        Logistical Issues
+                      </label>
                     </div>
                     <div>
-                      <input name="Fieldwork" value="Safety" type="checkbox" />
-                      <label htmlFor="Fieldwork" className="pl-2">Safety Concerns</label>
+                      <input 
+                        name="Fieldwork" 
+                        value="Safety" 
+                        type="checkbox" 
+                        onChange={handleFormPreview}
+                      />
+                      <label 
+                        htmlFor="Fieldwork" 
+                        className="pl-2"
+                      >
+                        Safety Concerns
+                      </label>
                     </div>
                   </div>
 
                   <div className="mb-2">
                     <h6 className="font-bold text-md mb-1">Technology & Tools Problems</h6>
                     <div>
-                      <input name="Technology" value="Device" type="checkbox" />
-                      <label htmlFor="Technology" className="pl-2">Device Failures</label>
+                      <input 
+                        name="Technology" 
+                        value="Device" 
+                        type="checkbox" 
+                        onChange={handleFormPreview}
+                      />
+                      <label 
+                        htmlFor="Technology" 
+                        className="pl-2"
+                      >
+                        Device Failures
+                      </label>
                     </div>
                     <div>
-                      <input name="Technology" value="Software" type="checkbox" />
-                      <label htmlFor="Technology" className="pl-2">Software Glitches</label>
+                      <input 
+                        name="Technology" 
+                        value="Software" 
+                        type="checkbox" 
+                        onChange={handleFormPreview}
+                      />
+                      <label 
+                        htmlFor="Technology" 
+                        className="pl-2"
+                      >
+                        Software Glitches
+                      </label>
                     </div>
                   </div>
 
                   <div className="mb-2">
                     <h6 className="font-bold text-md mb-1">Community Resistance</h6>
                     <div>
-                      <input name="Resistance" value="Suspicion" type="checkbox" />
-                      <label htmlFor="Resistance" className="pl-2">Suspicion of Motives</label>
+                      <input 
+                        name="Resistance" 
+                        value="Suspicion" 
+                        type="checkbox" 
+                        onChange={handleFormPreview}
+                        />
+                      <label 
+                        htmlFor="Resistance" 
+                        className="pl-2"
+                        >
+                          Suspicion of Motives
+                        </label>
                     </div>
                     <div>
-                      <input name="Resistance" value="Religious" type="checkbox" />
-                      <label htmlFor="Resistance" className="pl-2">Religious/Traditional Hinderance</label>
+                      <input 
+                        name="Resistance" 
+                        value="Religious" 
+                        type="checkbox" 
+                        onChange={handleFormPreview} 
+                      />
+                      <label 
+                        htmlFor="Resistance" 
+                        className="pl-2"
+                      >
+                        Religious/Traditional Hinderance
+                      </label>
                     </div>
                   </div>
 
                   <div className="mb-2">
                     <h6 className="font-bold text-md mb-1">Administrative & Systemic Issues</h6>
                     <div>
-                      <input name="Administrative" value="Incentives" type="checkbox" />
-                      <label htmlFor="Administrative" className="pl-2">Poor Incentives</label>
+                      <input 
+                        name="Administrative"   
+                        value="Incentives" 
+                        title="Poor Incentives"
+                        type="checkbox" 
+                        onChange={handleFormPreview}
+                      />
+                      <label 
+                        htmlFor="Administrative" 
+                        className="pl-2"
+                      >
+                        Poor Incentives
+                      </label>
                     </div>
                     <div>
-                      <input name="Administrative" value="Validation" type="checkbox" />
-                      <label htmlFor="Administrative" className="pl-2">Slow Feedback</label>
+                      <input 
+                        name="Administrative" 
+                        value="Validation" 
+                        type="checkbox" onChange={handleFormPreview}
+                      />
+                      <label 
+                        htmlFor="Administrative" 
+                        className="pl-2"
+                      >
+                        Slow Feedback
+                      </label>
                     </div>
                   </div>
 
@@ -216,7 +334,13 @@ const WorkersSupportForm = () => {
               <div>
                 <div>
                 <h2 className="py-2 sm:pb-1 text-lg sm:text-xl font-bold">Complaint review</h2>
-                <p className="py-2 sm:pb-2">selected options appear here after I get the questions</p>
+                <div>
+                  {
+                    lga && (
+                      <div>{JSON.stringify(formPreview, null, 4)}</div>
+                    )
+                  }
+                </div>
                 </div>
                 <div>
                 <div className="mb-2">

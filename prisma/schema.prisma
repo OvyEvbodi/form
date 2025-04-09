@@ -6,7 +6,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["attendance", "bank_validation", "public"]
+  schemas  = ["attendance", "bank_validation", "field_support", "public"]
 }
 
 /// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
@@ -491,32 +491,16 @@ model dambatta {
   @@schema("bank_validation")
 }
 
-model dataclerk_qualified_applicant {
-  name         String
-  phone_number String  @unique
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model complaints {
+  lga          String
+  ward         String
+  designation  String
+  team_code    String?
+  phone_number String?
+  type         String?
+  problem      String?
 
-  // Maps to the PostgreSQL materialized view
-  @@map("dataclerk_qualified_applicant")
-
-  @@schema("public")
-}
-
-model lga_qualified_applicant {
-  name         String
-  phone_number String  @unique
-
-  // Maps to the PostgreSQL materialized view
-  @@map("lga_qualified_applicant")
-
-  @@schema("public")
-}
-
-model ward_qualified_applicant {
-  name         String
-  phone_number String  @unique
-
-  // Maps to the PostgreSQL materialized view
-  @@map("ward_qualified_applicant")
-
-  @@schema("public")
+  @@ignore
+  @@schema("field_support")
 }
