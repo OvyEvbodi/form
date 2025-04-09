@@ -44,10 +44,14 @@ export const POST = async (request: NextRequest) => {
       date
     };
 
-    // console.log(formEntry)
-    // console.log(complaintForm)
+    const typeFields: any = {
+      data: "Data Collection Challenges",
+      fieldWork: "Fieldwork Difficulties",
+      technology: "Technology & Tools Problems",
+      resistance: "Stakeholder Response"
+    };
 
-    // save to db (after table creation by Chee-zaram)
+    // save to db 
     const db = new PrismaClient();
 
     for(const entry of complaintForm) {
@@ -56,13 +60,15 @@ export const POST = async (request: NextRequest) => {
         const problem = entry[key].toString();
         const id = uuidv4();
         if (!problem) continue;
-        console.log(problem)
-        console.log(key)
+
+        const type: string = typeFields[key];
+        console.log(key, type)
+
         const addEntry = await db.complaints.create({ 
           data: {
             ...bioForm,
             id,
-            type: key,
+            type,
             problem
           }
         });
