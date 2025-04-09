@@ -180,6 +180,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Data" 
                         value="reluctance" 
+                        title="Reluctance to Share Information"
                         type="checkbox" 
                         onChange={handleFormPreview}
                       />
@@ -191,6 +192,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Data" 
                         value="Inaccurate" 
+                        title="Inaccurate or Incomplete Responses"
                         type="checkbox"
                         onChange={handleFormPreview} 
                       />
@@ -209,6 +211,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Fieldwork" 
                         value="Logistical" 
+                        title="Logistical Issues"
                         type="checkbox" 
                         onChange={handleFormPreview}
                       />
@@ -223,6 +226,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Fieldwork" 
                         value="Safety" 
+                        title="Safety Concerns"
                         type="checkbox" 
                         onChange={handleFormPreview}
                       />
@@ -241,6 +245,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Technology" 
                         value="Device" 
+                        title="Device Failures"
                         type="checkbox" 
                         onChange={handleFormPreview}
                       />
@@ -255,6 +260,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Technology" 
                         value="Software" 
+                        title="Software Glitches"
                         type="checkbox" 
                         onChange={handleFormPreview}
                       />
@@ -270,6 +276,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Technology" 
                         value="Mismatch" 
+                        title="Team code does not match settlement"
                         type="checkbox" 
                         onChange={handleFormPreview}
                       />
@@ -288,6 +295,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Resistance" 
                         value="Suspicion" 
+                        title="Suspicion of Motives"
                         type="checkbox" 
                         onChange={handleFormPreview}
                         />
@@ -302,6 +310,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Resistance" 
                         value="Religious" 
+                        title="Poor cooperation from Religious/Traditional leaders"
                         type="checkbox" 
                         onChange={handleFormPreview} 
                       />
@@ -309,7 +318,7 @@ const WorkersSupportForm = () => {
                         htmlFor="Resistance" 
                         className="pl-2"
                       >
-                        Poor Cooperation from Religious/Traditional leaders
+                        Poor cooperation from Religious/Traditional leaders
                       </label>
                     </div>
 
@@ -317,6 +326,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Resistance" 
                         value="Community" 
+                        title="Poor cooperation from community leaders"
                         type="checkbox" 
                         onChange={handleFormPreview}
                         />
@@ -332,6 +342,7 @@ const WorkersSupportForm = () => {
                       <input 
                         name="Resistance" 
                         value="lga_team" 
+                        title="Poor cooperation from LGA team"
                         type="checkbox" 
                         onChange={handleFormPreview}
                         />
@@ -343,39 +354,6 @@ const WorkersSupportForm = () => {
                         </label>
                     </div>
                   </div>
-
-                  <div className="mb-2">
-                    <h6 className="font-bold text-md mb-1">Administrative & Systemic Issues</h6>
-                    <div>
-                      <input 
-                        name="Administrative"   
-                        value="Incentives" 
-                        title="Poor Incentives"
-                        type="checkbox" 
-                        onChange={handleFormPreview}
-                      />
-                      <label 
-                        htmlFor="Administrative" 
-                        className="pl-2"
-                      >
-                        Poor Incentives
-                      </label>
-                    </div>
-                    <div>
-                      <input 
-                        name="Administrative" 
-                        value="Validation" 
-                        type="checkbox" onChange={handleFormPreview}
-                      />
-                      <label 
-                        htmlFor="Administrative" 
-                        className="pl-2"
-                      >
-                        Slow Feedback
-                      </label>
-                    </div>
-                  </div>
-
 
                 </div>
               </div>
