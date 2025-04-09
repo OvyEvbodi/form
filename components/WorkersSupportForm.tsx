@@ -95,6 +95,26 @@ const WorkersSupportForm = () => {
                     {wardError && (<span className="my-2 text-xs text-red-700">Please select a ward</span>)}
                   </div>
 
+                  <div className="mb-2">
+                    <label htmlFor="designation" className="font-bold text-md mb-1">Designation</label>
+                    <select name="designation" className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
+                      <option value="">Select Designation</option>
+                      <option value="Local Guide">Local Guide</option>
+                      <option value="Data Clerk">Data Clerk</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+
+                  <div className="mb-2">
+                    <label htmlFor="teamCode" className="font-bold text-md mb-1">Team Code</label>
+                    <input
+                      type="text"
+                      name="teamCode"
+                      className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
+                      placeholder="Enter your team code"
+                    />
+                  </div>
+
                 </div>
               </div>
               <div
