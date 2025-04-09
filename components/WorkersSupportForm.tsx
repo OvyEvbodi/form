@@ -81,6 +81,7 @@ const WorkersSupportForm = () => {
                     </select>
                     {lgaError && (<span className="my-2 text-xs text-red-700">Please select an LGA</span>)}
                   </div>
+
                   <div className="mb-2">
                     <label htmlFor="ward" className="font-bold text-md mb-1">Ward of Residence</label><span className=" ml-1 text-red-700">&#10038;</span>
                     <select  name="ward" value={ward} required disabled={!lga} onChange={handleWardChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
@@ -93,6 +94,7 @@ const WorkersSupportForm = () => {
                     </select>
                     {wardError && (<span className="my-2 text-xs text-red-700">Please select a ward</span>)}
                   </div>
+
                 </div>
               </div>
               <div
@@ -118,11 +120,7 @@ const WorkersSupportForm = () => {
                     </div>
                     <div>
                       <input name="data" value="Inaccurate" type="checkbox" />
-                      <label htmlFor="data" className="pl-2">Inaccurate or Incomplete Data</label>
-                    </div>
-                    <div>
-                      <input name="data" value="Duplicate" type="checkbox" />
-                      <label htmlFor="data" className="pl-2">Duplicate Entries</label>
+                      <label htmlFor="data" className="pl-2">Inaccurate or Incomplete Responses</label>
                     </div>
                   </div>
 
@@ -136,10 +134,6 @@ const WorkersSupportForm = () => {
                       <input name="Fieldwork" value="Safety" type="checkbox" />
                       <label htmlFor="Fieldwork" className="pl-2">Safety Concerns</label>
                     </div>
-                    <div>
-                      <input name="Fieldwork" value="Long_Working" type="checkbox" />
-                      <label htmlFor="Fieldwork" className="pl-2">Long Working Hours</label>
-                    </div>
                   </div>
 
                   <div className="mb-2">
@@ -152,42 +146,17 @@ const WorkersSupportForm = () => {
                       <input name="Technology" value="Software" type="checkbox" />
                       <label htmlFor="Technology" className="pl-2">Software Glitches</label>
                     </div>
-                    <div>
-                      <input name="Technology" value="Training" type="checkbox" />
-                      <label htmlFor="Technology" className="pl-2">Lack of Training</label>
-                    </div>
-                  </div>
-
-
-                  <div className="mb-2">
-                    <h6 className="font-bold text-md mb-1">Software difficulties</h6>
-                    <div>
-                      <input name="tool" value="reluctance" type="checkbox" />
-                      <label htmlFor="tool" className="pl-2">ODK Collect</label>
-                    </div>
-                    <div>
-                      <input name="tool" value="Inaccurate" type="checkbox" />
-                      <label htmlFor="tool" className="pl-2">KOBO COLLEKT</label>
-                    </div>
-                    <div>
-                      <input name="tool" value="Duplicate" type="checkbox" />
-                      <label htmlFor="tool" className="pl-2">COMMCARE</label>
-                    </div>
                   </div>
 
                   <div className="mb-2">
                     <h6 className="font-bold text-md mb-1">Community Resistance</h6>
-                    <div>
-                      <input name="Resistance" value="Hesitancy" type="checkbox" />
-                      <label htmlFor="Resistance" className="pl-2">Vaccine Hesitancy</label>
-                    </div>
                     <div>
                       <input name="Resistance" value="Suspicion" type="checkbox" />
                       <label htmlFor="Resistance" className="pl-2">Suspicion of Motives</label>
                     </div>
                     <div>
                       <input name="Resistance" value="Religious" type="checkbox" />
-                      <label htmlFor="Resistance" className="pl-2">Religious/traditional</label>
+                      <label htmlFor="Resistance" className="pl-2">Religious/Traditional Hinderance</label>
                     </div>
                   </div>
 
@@ -198,12 +167,8 @@ const WorkersSupportForm = () => {
                       <label htmlFor="Administrative" className="pl-2">Poor Incentives</label>
                     </div>
                     <div>
-                      <input name="Administrative" value="Inadequate" type="checkbox" />
-                      <label htmlFor="Administrative" className="pl-2">Inadequate Supervision</label>
-                    </div>
-                    <div>
                       <input name="Administrative" value="Validation" type="checkbox" />
-                      <label htmlFor="Administrative" className="pl-2">Data Validation Delays</label>
+                      <label htmlFor="Administrative" className="pl-2">Slow Feedback</label>
                     </div>
                   </div>
 
