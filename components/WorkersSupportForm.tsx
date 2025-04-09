@@ -13,25 +13,7 @@ export interface WorkerComplaintResponse extends Response  {
 }
 
 const WorkersSupportForm = () => {
-  const handleSubmitComplaint: (prevState: WorkerComplaintType, formData: FormData) => Promise<WorkerComplaintResponse> = async (prevState: WorkerComplaintType, formData: FormData) => {
-    const result = await fetch("/api/workers_support", {
-      method: "POST",
-      body: formData
-    });
-    const feedback = await result.json();
-
-    if (result.status === 200) redirect("/thank-you")
-   
-    return {
-      error: feedback.error || null,
-      success: feedback.success || null,
-      data: feedback.data || null,
-    } as WorkerComplaintResponse
-  };
-
-
   const initialState: any = {};
-  const [ state, action, isPending ] = useActionState(handleSubmitComplaint, initialState);
   const [ validForm, setValidForm ] = useState(false);
   const [ view, setView ] = useState(1);
   const [ lga, setLga ] = useState("");
@@ -43,15 +25,34 @@ const WorkersSupportForm = () => {
     Data: [],
     Fieldwork: [],
     Technology: [],
-    Resistance: [],
-    Administrative: []
+    Resistance: []
   });
+
+  const handleSubmitComplaint: (prevState: WorkerComplaintType, formData: FormData) => Promise<WorkerComplaintResponse> = async (prevState: WorkerComplaintType, formData: FormData) => {
+    const result = await fetch("/api/workers_support", {
+      method: "POST",
+      body: formData
+    });
+
+    const feedback = await result.json();
+
+    if (result.status === 200) redirect("/thank-you")
+   
+    return {
+      error: feedback.error || null,
+      success: feedback.success || null,
+      data: feedback.data || null,
+    } as WorkerComplaintResponse
+  };
+  const [ state, action, isPending ] = useActionState(handleSubmitComplaint, initialState);
+
 
   const handleView = (view: number) => {
     if (!lga && !ward) {
       setLgaError(true)
       setWardError(true)
     } else if (!ward) setWardError(true)
+    // else if (view === 2 && formPreview empty ) handle empty entries & set error
     else setView(view)
   };
 
@@ -72,7 +73,6 @@ const WorkersSupportForm = () => {
       ...formPreview,
       [event.target.name]: [...formPreview[event.target.name], event.target.title]
     })
-    console.log(formPreview)
   };
 
   useEffect(() => {
@@ -381,7 +381,7 @@ const WorkersSupportForm = () => {
                 <div>
                   {
                     lga && (
-                      <div>{JSON.stringify(formPreview, null, 4)}</div>
+                      <div>{JSON.stringify(formPreview, null, 2)}</div>
                     )
                   }
                 </div>
@@ -405,8 +405,8 @@ const WorkersSupportForm = () => {
                 </div>
                 <button
                   type="submit"
-                  disabled={isPending || validForm}
-                  className={`"inline-block cursor-pointer py-2 px-6 md:px-12 text-white font-semibold capitalize bg-cyan-800 rounded-sm hover:bg-cyan-900 transition-all ${isPending || !validForm && "hover:bg-gray-700 hover:text-gray-300 hover:cursor-not-allowed"}`}
+                  disabled={isPending}
+                  className={`"inline-block cursor-pointer py-2 px-6 md:px-12 text-white font-semibold capitalize bg-cyan-800 rounded-sm hover:bg-cyan-900 transition-all ${isPending && "hover:bg-gray-700 hover:text-gray-300 hover:cursor-not-allowed"}`}
                 >
                   {isPending ? "Submitting..." : "Submit"}
                 </button>

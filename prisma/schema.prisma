@@ -491,7 +491,6 @@ model dambatta {
   @@schema("bank_validation")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model complaints {
   lga          String
   ward         String
@@ -504,7 +503,6 @@ model complaints {
   id           String  @id @db.Uuid
   settlement   String
 
-  @@ignore
   @@schema("field_support")
 }
 
