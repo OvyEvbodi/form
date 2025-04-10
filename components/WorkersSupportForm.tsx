@@ -214,7 +214,7 @@ const WorkersSupportForm = () => {
                   </div>
 
                   <div className="mb-2">
-                    <label htmlFor="settlement" className="font-bold text-md mb-1">Affected Settlement</label>
+                    <label htmlFor="settlement" className="font-bold text-md mb-1">Affected Settlement</label><span className=" ml-1 text-red-700">&#10038;</span>
                     <input
                       type="text"
                       name="settlement"
