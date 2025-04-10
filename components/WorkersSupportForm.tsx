@@ -100,10 +100,7 @@ const WorkersSupportForm = () => {
   const handlePhoneChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhoneError(false)
     setPhone(event.target.value.trim())
-    console.log(phone.length)
-    console.log(phone)
-    
-    console.log(phone.length)
+
   };
   const handleNameChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameError(false)
@@ -140,7 +137,6 @@ const WorkersSupportForm = () => {
 
   useEffect(() => {
     console.log("Change updated!")
-    console.log(phone.length)
   }, [ formPreview, view, phone ]); 
 
   return (
@@ -149,7 +145,6 @@ const WorkersSupportForm = () => {
         <h1 className="py-2 sm:py-6 text-cyan-800 text-lg sm:text-3xl font-bold">Kano-IEV Supervisors Complaint Form</h1>
       </div>
       <form action={action}>
-       
             <section className={view !== 1 ? "hidden" : "flex flex-col gap-6"}>
               <div>
                 <div>
