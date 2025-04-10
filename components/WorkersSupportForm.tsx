@@ -22,9 +22,20 @@ const WorkersSupportForm = () => {
   const [ view, setView ] = useState(1);
   const [ lga, setLga ] = useState("");
   const [ ward, setWard ] = useState("");
+  const [ org, setOrg ] = useState("");
+  const [ name, setName ] = useState("");
+  const [ phone, setPhone ] = useState("");
+  const [ settlement, setSettlement ] = useState("");
   const wards = lga ? lgaWardsMap[lga] : [];
   const [ lgaError, setLgaError ] = useState(false);
   const [ wardError, setWardError ] = useState(false);
+  const [ orgError, setOrgError ] = useState(false);
+  const [ nameError, setNameError ] = useState(false);
+  const [ phoneError, setPhoneError ] = useState(false);
+  const [ settlementError, setSettlementError ] = useState(false);
+  const [ complaintError, setComplaintError ] = useState(false);
+
+
   const [ formPreview, setFormPreview ] = useState<FormPreviewType>({
     Data: [],
     Fieldwork: [],
@@ -51,13 +62,26 @@ const WorkersSupportForm = () => {
   const [ state, action, isPending ] = useActionState(handleSubmitComplaint, initialState);
 
 
-  const handleView = (view: number) => {
-    if (!lga && !ward) {
+  const handleView = (viewRequest: number) => {
+    if (!lga && !ward && !org && !name && !phone && !settlement && view === 1) {
       setLgaError(true)
       setWardError(true)
-    } else if (!ward) setWardError(true)
-    // else if (view === 2 && formPreview empty ) handle empty entries & set error
-    else setView(view)
+      setOrgError(true)
+      setNameError(true)
+      setPhoneError(true)
+      setSettlementError(true)
+    } 
+    else if (!lga && viewRequest === 2) setLgaError(true)
+    else if (!ward && viewRequest === 2) setWardError(true)
+    else if (!org && viewRequest === 2) setOrgError(true)
+    else if (!name && viewRequest === 2) setNameError(true)
+    else if (!phone && viewRequest === 2 || phone.length !== 11 || phone[0] !== '0' || Number.isNaN(Number(phone))) setPhoneError(true)
+    else if (!settlement && viewRequest === 2) setSettlementError(true)
+    else if (viewRequest === 2) setView(viewRequest)
+
+    if (viewRequest === 3 && !(Object.values(formPreview).some(arr => arr.length > 0)) ) setComplaintError(true)
+    else if (viewRequest !== 2) setView(viewRequest)
+
   };
 
   const handleLgaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -65,13 +89,33 @@ const WorkersSupportForm = () => {
     setLga(event.target.value)
     setWard('')
   };
-
   const handleWardChange  = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setWardError(false)
     setWard(event.target.value)
   };
+  const handleOrgChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOrgError(false)
+    setOrg(event.target.value)
+  };
+  const handlePhoneChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneError(false)
+    setPhone(event.target.value.trim())
+    console.log(phone.length)
+    console.log(phone)
+    
+    console.log(phone.length)
+  };
+  const handleNameChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNameError(false)
+    setName(event.target.value)
+  };
+  const handleSettlementChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSettlementError(false)
+    setSettlement(event.target.value)
+  };
 
   const handleFormPreview = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setComplaintError(false)
     const index = formPreview[event.target.name].indexOf(event.target.title);
     if (index === -1) { 
       // add item
@@ -96,7 +140,8 @@ const WorkersSupportForm = () => {
 
   useEffect(() => {
     console.log("Change updated!")
-  }, [ formPreview ]); 
+    console.log(phone.length)
+  }, [ formPreview, view, phone ]); 
 
   return (
     <div className="sm:min-h-8/12 sm:min-w-2/3 text-gray-700 text-sm lg:max-w-[860px] p-4 sm:p-10 rounded-md max-w-screen bg-linear-to-b from-cyan-100/70 via-gray-300/80 to-gray-200/80">
@@ -113,35 +158,40 @@ const WorkersSupportForm = () => {
                 <div>
 
                   <div className="mb-2">
-                    <label htmlFor="name" className="font-bold text-md mb-1">Name</label>
+                    <label htmlFor="name" className="font-bold text-md mb-1">Name</label><span className=" ml-1 text-red-700">&#10038;</span>
                     <input
                       type="text"
                       name="name"
-                      required
+                      onChange={handleNameChange}
                       className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
                       placeholder="Enter your name"
                     />
+                    {nameError && (<span className="my-2 text-xs text-red-700">Please enter your name</span>)}
                   </div>
 
                   <div className="mb-2">
-                    <label htmlFor="phone_number" className="font-bold text-md mb-1">Phone Number</label>
+                    <label htmlFor="phone_number" className="font-bold text-md mb-1">Phone Number</label><span className=" ml-1 text-red-700">&#10038;</span>
                     <input
                       type="text"
                       name="phone_number"
-                      required
+                      onChange={handlePhoneChange}
                       className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
                       placeholder="Enter phone number"
                     />
+                    {phoneError && (<span className="my-2 text-xs text-red-700">Please enter your 11-digit phone number</span>)}
                   </div>
 
                   <div className="mb-2">
-                    <label htmlFor="org" className="font-bold text-md mb-1">Organization</label>
+                    <label htmlFor="org" className="font-bold text-md mb-1">Organization</label><span className=" ml-1 text-red-700">&#10038;</span>
                     <input
                       type="text"
                       name="org"
+                      onChange={ handleOrgChange }
                       className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
                       placeholder="Enter your organization"
                     />
+                    {orgError && (<span className="my-2 text-xs text-red-700">Please enter an organization</span>)}
+
                   </div>
 
                   <div className="mb-2">
@@ -173,9 +223,11 @@ const WorkersSupportForm = () => {
                     <input
                       type="text"
                       name="settlement"
+                      onChange={handleSettlementChange}
                       className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700"
                       placeholder="Enter affected settlement name"
                     />
+                    {settlementError && (<span className="my-2 text-xs text-red-700">Please fill in the settlement</span>)}
                   </div>
 
                 </div>
@@ -200,13 +252,13 @@ const WorkersSupportForm = () => {
                     <div>
                       <input 
                         name="Data" 
-                        value="Reluctance to share information"
-                        title="Reluctance to share information"
+                        value="reluctance" 
+                        title="Reluctance to Share Information"
                         type="checkbox" 
                         onChange={handleFormPreview}
                       />
                       <label htmlFor="Data" 
-                        className="pl-2">Reluctance to share information
+                        className="pl-2">Reluctance to Share Information
                       </label>
                     </div>
                     <div>
@@ -323,38 +375,6 @@ const WorkersSupportForm = () => {
                         Team code does not match settlement
                       </label>
                     </div>
-
-                    <div>
-                      <input 
-                        name="Technology" 
-                        value="Missing settlement" 
-                        title="Missing settlement"
-                        type="checkbox" 
-                        onChange={handleFormPreview}
-                      />
-                      <label 
-                        htmlFor="Technology" 
-                        className="pl-2"
-                      >
-                        Missing settlement
-                      </label>
-                    </div>
-                    
-                    <div>
-                      <input 
-                        name="Technology" 
-                        value="Wrong spelling of settlement" 
-                        title="Wrong spelling of settlement"
-                        type="checkbox" 
-                        onChange={handleFormPreview}
-                      />
-                      <label 
-                        htmlFor="Technology"
-                        className="pl-2"
-                      >
-                        Wrong spelling of settlement
-                      </label>
-                    </div>
                   </div>
 
                   <div className="mb-2">
@@ -422,7 +442,7 @@ const WorkersSupportForm = () => {
                         </label>
                     </div>
                   </div>
-
+                  {complaintError && (<span className="my-2 text-xs text-red-700">You have not chosen any of the issues!</span>)}
                 </div>
               </div>
               <div className="flex justify-between">
@@ -447,20 +467,20 @@ const WorkersSupportForm = () => {
                 <div>
                 <h2 className="py-2 sm:pb-1 text-lg sm:text-xl font-bold">Complaint review</h2>
                 <div>
-                <div>
-    {lga && Object.entries(formPreview)
-      .filter(([_, val]) => val.length > 0)
-      .map(([key, val]) => (
-        <div key={key}>
-          <h3>{key}</h3>
-          <ul className="list-disc list-inside ml-4">
-            {val.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
-  </div>
+                  <div>
+                    {lga && Object.entries(formPreview)
+                      .filter(([_, val]) => val.length > 0)
+                      .map(([key, val]) => (
+                        <div key={key}>
+                          <h3>{key}</h3>
+                          <ul className="list-disc list-inside ml-4">
+                            {val.map((item, index) => (
+                              <li key={index}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                    ))}
+                  </div>
                 </div>
                 </div>
                 <div>
