@@ -39,7 +39,7 @@ export const POST = async (request: NextRequest) => {
       ward: formEntry.get("ward") as string || "",
       name: formEntry.get("name") as string || "",
       phone_number: formEntry.get("phone_number") as string || "",
-      organization: formEntry.get("org:") as string || "",
+      organization: formEntry.get("org") as string || "",
       settlement: formEntry.get("settlement") as string || "",
       date
     };
