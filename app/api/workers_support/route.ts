@@ -62,6 +62,7 @@ export const POST = async (request: NextRequest) => {
         if (!problem) continue;
 
         const type: string = typeFields[key];
+        const refinedProblem = problem.replace(/,/g, ', ');
         console.log(key, type)
 
         const addEntry = await db.complaints.create({ 
@@ -69,7 +70,7 @@ export const POST = async (request: NextRequest) => {
             ...bioForm,
             id,
             type,
-            problem
+            problem: refinedProblem
           }
         });
       }
