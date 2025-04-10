@@ -54,25 +54,30 @@ export const POST = async (request: NextRequest) => {
     // save to db 
     const db = new PrismaClient();
 
-    for(const entry of complaintForm) {
-      console.log(entry)
+    for (const entry of complaintForm) {
+      console.log(entry);
       for (const key in entry) {
-        const problem = entry[key].toString();
-        const id = uuidv4();
-        if (!problem) continue;
-
+        const problems = entry[key].toString();
         const type: string = typeFields[key];
-        const refinedProblem = problem.replace(/,/g, ', ');
-        console.log(key, type)
-
-        const addEntry = await db.complaints.create({ 
-          data: {
-            ...bioForm,
-            id,
-            type,
-            problem: refinedProblem
-          }
-        });
+        
+        if (!problems) continue;
+    
+        // Split by comma and trim whitespace from each problem
+        const problemList = problems.split(',').map(p => p.trim()).filter(p => p);
+        
+        for (const problem of problemList) {
+          const id = uuidv4();
+          const refinedProblem = problem; // No need for comma replacement now
+    
+          const addEntry = await db.complaints.create({ 
+            data: {
+              ...bioForm,
+              id,
+              type,
+              problem: refinedProblem
+            }
+          });
+        }
       }
     }
 
