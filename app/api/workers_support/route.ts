@@ -63,7 +63,9 @@ export const POST = async (request: NextRequest) => {
         if (!problems) continue;
     
         // Split by comma and trim whitespace from each problem
-        const problemList = problems.split(',').map(p => p.trim()).filter(p => p);
+        const problemList: string[] = problems.split(',')
+        .map((p: string) => p.trim())
+        .filter((p: string) => p.length > 0);
         
         for (const problem of problemList) {
           const id = uuidv4();
