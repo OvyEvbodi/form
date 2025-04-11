@@ -1,5 +1,11 @@
 import NavBar from "@/components/NavBar"
 import WorkersSupportForm from "@/components/WorkersSupportForm"
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Kano IEV Supervisor Complaint Form",
+  description: "Allows supervisors submit complaint as seen on the ground"
+};
 
 const WorkersSupportPage = () => {
   return (

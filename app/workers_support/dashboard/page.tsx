@@ -1,3 +1,10 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Supervisor Complaint Tracking Dashboard",
+  description: "Provides real-time update on the observations and complaints on the field"
+};
+
 const Dashboard = () => {
     return (
       <div>
