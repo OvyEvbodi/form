@@ -150,7 +150,7 @@ model ajingi {
   account_number String @id
   phone_number   String @unique
 
-  @@index([phone_number], map: "idx_phone_number")
+  @@index([phone_number], map: "idx_ajingi_phone_number")
   @@schema("bank_validation")
 }
 
