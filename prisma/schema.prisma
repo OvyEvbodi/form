@@ -716,6 +716,48 @@ model warawa {
   @@schema("bank_validation")
 }
 
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model bunkure {
+  name           String
+  ward           String
+  designation    String
+  bank_name      String
+  bank_code      String
+  account_number String @id
+  phone_number   String @unique
+
+  @@index([phone_number], map: "idx_bunkure_phone_number")
+  @@schema("bank_validation")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model kano_municipal {
+  name           String
+  ward           String
+  designation    String
+  bank_name      String
+  bank_code      String
+  account_number String @id
+  phone_number   String @unique
+
+  @@index([phone_number], map: "idx_kmc_phone_number")
+  @@schema("bank_validation")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model takai {
+  name           String
+  ward           String
+  designation    String
+  bank_name      String
+  bank_code      String
+  account_number String @id
+  phone_number   String @unique
+
+  @@index([phone_number], map: "idx_takai_phone_number")
+  @@schema("bank_validation")
+}
+
 model dataclerk_qualified_applicant {
   name         String
   phone_number String  @unique
