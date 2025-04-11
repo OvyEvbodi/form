@@ -1,9 +1,9 @@
-import AttendanceSheet from "@/components/AttendanceSheet";
-import UserInfo from "@/components/UserInfo"
+import AttendanceSheet, { attendanceDataInterface, AttendanceSheetInterface } from "@/components/AttendanceSheet";
 import { getSession, logout } from "@/app/(admin)/attendance/auth/lib"
 import Link from "next/link";
 import { redirect } from "next/navigation"
 import { ErrorBoundary } from "react-error-boundary";
+import { PrismaClient } from "@prisma/client";
 
 const AttendanceAdmin = async () => {
   const session = await getSession();
@@ -14,8 +14,34 @@ const AttendanceAdmin = async () => {
     await logout()
   };
 
+  const getAttendees = async (lgaEntry: string) => {
+    try {
+      // replace space with underscore, make all lowercase
+     const lgaName: string = lgaEntry.toLocaleLowerCase().replace(" ", "_")
+
+     // query their lga table
+     const db = new PrismaClient();
+
+     const result = await (db[lgaName as keyof typeof db] as any).findMany({
+       select: {
+         phone_number: true,
+         name: true
+       },
+     })
+     return result
+    } catch (error) {
+      console.error(error)
+      return //error
+    }
+  };
+  const attendeesList: AttendanceSheetInterface[] = await getAttendees(session.user.lga);
+  const attendeesData: attendanceDataInterface = {
+    lga: session.user.lga,
+    list: attendeesList
+  }
+
   return (
-    <div>
+    <div className="p-6">
       <div className="min-h-[10vh] flex justify-between items-center p-2 md:pl-8 ">
         <h1 className="font-extrabold uppercase text-cyan-900 md:text-2xl">Attendance page</h1>
         <Link href="/" className="text-cyan-800 hover:underline">Go Home</Link>
@@ -24,7 +50,7 @@ const AttendanceAdmin = async () => {
         </form>
       </div>
       <ErrorBoundary fallback={<div className="text-center">Something's not right. Please refresh the page.</div>}>
-        <AttendanceSheet />
+        <AttendanceSheet {...attendeesData}  />
       </ErrorBoundary>
     </div>
   )

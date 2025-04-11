@@ -23,11 +23,11 @@ export default async function IEVAuth({ searchParams }: any) {
     try {
       const result = await login(formData);
       
-      // if (result?.success) {
-      //   redirect("/attendance");
-      // } else {
-      //   redirect(`/attendance/auth?error=${encodeURIComponent(result?.message || "Authentication failed")}`);
-      // }
+      if (result?.success) {
+        redirect("/attendance");
+      } else {
+        redirect(`/attendance/auth?error=${encodeURIComponent(result?.message || "Authentication failed")}`);
+      }
     } catch (error) {
       redirect(`/attendance/auth?error=${encodeURIComponent("Incorrect pin for this user!")}`);
     }
