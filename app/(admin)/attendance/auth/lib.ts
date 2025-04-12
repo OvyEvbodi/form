@@ -32,7 +32,7 @@ export async function login(formData: FormData): Promise<LoginResult> {
   const adminPin = process.env[ROLE];
   const payloadPin = formData.get("lga_admin_pin");
   
-  console.log(ROLE, adminPin, payloadPin)
+  console.log(ROLE)
 
   if( adminPin !== payloadPin ) return { success: false, message: "Incorrect pin for this LGA admin user!" }
 
