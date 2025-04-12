@@ -27,7 +27,8 @@ const AttendanceAdmin = async () => {
         select: {
           phone_number: true,
           name: true,
-          ward: true
+          ward: true,
+          designation: true
         },
       })
 

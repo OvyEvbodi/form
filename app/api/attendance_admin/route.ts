@@ -13,6 +13,7 @@ export const POST = async (request: NextRequest) => {
 
   try {
     const date = new Date().toLocaleDateString();
+    const id = uuidv4();
     console.log(date)
     const formEntry = await request.formData();
 
