@@ -2,13 +2,16 @@
 
 import InputField from "@/components/Input";
 import { useRouter } from "next/navigation";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox"
+import React from "react";
+import { cn } from "@/lib/utils";
 
 
 export interface AttendanceSheetInterface {
   phone_number: string;
   name: string;
+  ward: string;
 }
 export interface attendanceDataInterface {
   lga: string;
@@ -53,8 +56,11 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
     };
     const [ state, action, isPending ] = useActionState(handleSubmitAttendance, initialState);
   
-  
-
+    const groupedByWard = props.list.reduce((acc, person) => {
+      if (!acc[person.ward]) acc[person.ward] = [];
+      acc[person.ward].push(person);
+      return acc;
+    }, {} as Record<string, AttendanceSheetInterface[]>);
 
   return (
     <div className=" shadow-gray-800 shadow-lg sm:min-h-8/12 sm:min-w-2/3 text-gray-700 text-sm lg:max-w-[860px] p-4 sm:p-10 rounded-md max-w-screen bg-linear-to-b from-cyan-50/70 via-gray-200/80 to-gray-100/80">
@@ -68,32 +74,46 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
             <tr>
               <th>status</th>
               <th>name</th>
+              <th>ward</th>
               <th>phone number</th>
             </tr>
           </thead>
           <tbody>
-            {
-              props.list.map(person => (
-                <tr key={person.phone_number}>
-                  <td>
-                  <Checkbox
-                    name="staff" 
-                    value={`${person.phone_number}-${person.name}`}
-                    title={person.name}
-                   />
+            {Object.entries(groupedByWard).map(([ward, people], i) => {
+            const [isOpen, setIsOpen] = useState(false);
+            const toggleWard = () => setIsOpen(!isOpen);
+            return (
+              <React.Fragment key={ward}>
+                <tr className="bg-gray-300 cursor-pointer" onClick={toggleWard}>
+                  <td colSpan={4} className="p-2 font-bold text-cyan-900">
+                    {ward} ({people.length}) {isOpen ? "▲" : "▼"}
                   </td>
-                  <td>
-                  <label 
-                    htmlFor="staff" 
-                    className="pl-2"
-                  >
-                    {person.name}
-                  </label>
-                  </td>
-                  <td> {person.phone_number}</td>
                 </tr>
-              ))
-            }
+                {people.map((person, idx) => (
+                <tr
+                  key={person.phone_number}
+                  className={cn(
+                    isOpen ? "" : "hidden",
+                    idx % 2 === 0 ? "bg-white" : "bg-gray-100"
+                  )}
+                >
+                  <td className="p-2">
+                    <Checkbox
+                      name="staff"
+                      value={`${person.phone_number}-${person.name}`}
+                      title={person.name}
+                    />
+                  </td>
+                  <td className="p-2">
+                    <label htmlFor="staff">{person.name}</label>
+                  </td>
+                  <td className="p-2">{person.ward}</td>
+                  <td className="p-2">{person.phone_number}</td>
+                </tr>
+                ))}
+              </React.Fragment>
+            );
+             })}
           </tbody>
         </table>
         <input type="hidden" name="lga" value={props.lga} />

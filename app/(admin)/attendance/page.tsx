@@ -5,6 +5,8 @@ import { redirect } from "next/navigation"
 import { ErrorBoundary } from "react-error-boundary";
 import { PrismaClient } from "@prisma/client";
 import NavBar from "@/components/NavBar";
+import { cache } from "react"
+
 
 const AttendanceAdmin = async () => {
   const session = await getSession();
@@ -15,26 +17,28 @@ const AttendanceAdmin = async () => {
     await logout()
   };
 
-  const getAttendees = async (lgaEntry: string) => {
+
+  const getAttendees = cache(async (lgaEntry: string) => {
     try {
-      // replace space with underscore, make all lowercase
-     const lgaName: string = lgaEntry.toLocaleLowerCase().replace(" ", "_")
+      const lgaName = lgaEntry.toLowerCase().replace(" ", "_")
+      const db = new PrismaClient()
 
-     // query their lga table
-     const db = new PrismaClient();
+      const result = await (db[lgaName as keyof typeof db] as any).findMany({
+        select: {
+          phone_number: true,
+          name: true,
+          ward: true
+        },
+      })
 
-     const result = await (db[lgaName as keyof typeof db] as any).findMany({
-       select: {
-         phone_number: true,
-         name: true
-       },
-     })
-     return result
+      await db.$disconnect()
+      return result
     } catch (error) {
-      console.error(error)
-      return //error
+      console.error("Error fetching list:", error)
+      return []
     }
-  };
+  });
+
   const attendeesList: AttendanceSheetInterface[] = await getAttendees(session.user.lga);
   const attendeesData: attendanceDataInterface = {
     lga: session.user.lga,
