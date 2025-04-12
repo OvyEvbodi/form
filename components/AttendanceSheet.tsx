@@ -1,8 +1,10 @@
 "use client"
 
 import InputField from "@/components/Input";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useActionState } from "react";
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 export interface AttendanceSheetInterface {
   phone_number: string;
@@ -60,12 +62,12 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
         {
           props.list.map(person => (
             <div key={person.phone_number}>
-              <input 
+              
+              <Checkbox
                 name="staff" 
                 value={`${person.phone_number}-${person.name}`}
                 title={person.name}
-                type="checkbox"
-              />
+               />
               <label 
                 htmlFor="staff" 
                 className="pl-2"
