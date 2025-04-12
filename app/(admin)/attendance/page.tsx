@@ -50,7 +50,9 @@ const AttendanceAdmin = async () => {
         </form>
       </div>
       <ErrorBoundary fallback={<div className="text-center">Something's not right. Please refresh the page.</div>}>
-        <AttendanceSheet {...attendeesData}  />
+        <div className="m-2 flex flex-col justify-between items-center">
+          <AttendanceSheet {...attendeesData}  />
+        </div>
       </ErrorBoundary>
     </div>
   )
