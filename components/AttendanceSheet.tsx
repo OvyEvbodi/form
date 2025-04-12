@@ -18,13 +18,14 @@ const dateString = new Date().toISOString().split("T")[0];
 
 const dateInput = {
   tag: "Pick a date to mark",
-  placeholder: "",
+  placeholder: "dd/mm/yyyy",
   FieldError: false,
   name: "attendance_date",
   id: "attendance_date",
   iconUrl: "",
   type: "date",
   required: true,
+  min: "2025-04-07",
   max: dateString,
   errorMessage: "Please enter a valid date (dd/mm/yyyy)"
 };
@@ -99,7 +100,7 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
         <button
           type="submit"
           disabled={isPending}
-          className={`"inline-block cursor-pointer mt-4 py-3 px-6 md:px-12 w-full text-white font-semibold capitalize bg-cyan-800 rounded-sm hover:bg-cyan-900 transition-all duration-500 ease-in-out ${isPending && "hover:bg-gray-700 hover:text-gray-300 hover:cursor-not-allowed"}`}
+          className={`"inline-block cursor-pointer mt-4 py-3 px-6 md:px-12 w-full text-white font-semibold capitalize bg-cyan-800 rounded-sm hover:bg-cyan-900 transition-all duration-300 ease-in-out ${isPending && "hover:bg-gray-700 hover:text-gray-300 hover:cursor-not-allowed"}`}
         >
           {isPending ? "Submitting..." : "Submit"}
         </button>
