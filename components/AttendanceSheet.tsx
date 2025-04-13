@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 export interface AttendanceSheetInterface {
   phone_number: string;
+  account_number: string;
   name: string;
   ward: string;
   designation: string;
@@ -101,7 +102,7 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
                   <td className="p-2">
                     <Checkbox
                       name="staff"
-                      value={`${person.phone_number}+${person.name}+${person.ward}+${person.designation}`}
+                      value={`${person.account_number}+`}
                       title={person.name}
                     />
                   </td>

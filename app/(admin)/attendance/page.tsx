@@ -26,6 +26,7 @@ const AttendanceAdmin = async () => {
       const result = await (db[lgaName as keyof typeof db] as any).findMany({
         select: {
           phone_number: true,
+          account_number: true,
           name: true,
           ward: true,
           designation: true

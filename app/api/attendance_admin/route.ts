@@ -12,10 +12,10 @@ export interface AttendanceDbDataType {
 export const POST = async (request: NextRequest) => {
 
   try {
-    const createdAt = new Date().toLocaleDateString();
+    const createdAt = new Date();
 
     const formEntry = await request.formData();
-    
+
 
     const attendanceData: AttendanceDbDataType = {
       attendanceList: formEntry.getAll("staff") as string [] || [],
@@ -30,25 +30,22 @@ export const POST = async (request: NextRequest) => {
     const tableName = `attendance_${attendanceData.lga.toLowerCase().replace(" ", "_")}`;
 
     attendanceData.attendanceList.forEach( async (person: string) => {
-      const separator = "+";
-      
+      const separator = "+"; // to make future addition of info easy
+
       const dailyRecord = {
-        number: person.split(separator)[0],
-        name: person.split(separator)[1],
-        ward: person.split(separator)[2],
-        designation: person.split(separator)[3],
+        account_number: person.split(separator)[0],
         created_at: createdAt,
         attendance_date: attendanceData.date,
-        id:  uuidv4()
+        id: uuidv4()
       };
 
       console.log(dailyRecord, tableName)
 
-      // const addEntry = await (db[tableName as keyof typeof db] as any).create({ 
-      //   data: {
-      //     ...dailyRecord
-      //   }
-      // });
+      const addEntry = await (db[tableName as keyof typeof db] as any).create({ 
+        data: {
+          ...dailyRecord
+        }
+      });
 
     })
 
