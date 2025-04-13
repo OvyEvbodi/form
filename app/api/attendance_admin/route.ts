@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -23,7 +23,7 @@ export const POST = async (request: NextRequest) => {
       date: formEntry.get("attendance_date") as string || ""
     };
       
-    console.log(attendanceData)
+    // console.log(attendanceData)
 
     // save to db 
     const db = new PrismaClient();
@@ -31,6 +31,7 @@ export const POST = async (request: NextRequest) => {
 
     attendanceData.attendanceList.forEach( async (person: string) => {
       const separator = "+"; // to make future addition of info easy
+      const name = person.split(separator)[1];
 
       const dailyRecord = {
         account_number: person.split(separator)[0],
@@ -39,14 +40,25 @@ export const POST = async (request: NextRequest) => {
         id: uuidv4()
       };
 
-      console.log(dailyRecord, tableName)
+      // console.log(dailyRecord, tableName)
 
-      const addEntry = await (db[tableName as keyof typeof db] as any).create({ 
-        data: {
-          ...dailyRecord
+      try {
+        const addEntry = await (db[tableName as keyof typeof db] as any).create({ 
+          data: {
+            ...dailyRecord
+          }
+        });
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          // Specific handling for phone_number + date unique violation
+          if (error.code === 'P2002' ) {
+            console.log(error.meta)
+            console.log(`Duplicate marking! ${name}'s attendance for ${dailyRecord.attendance_date} has already been marked`)
+            return "duplicate entry";
+          }
         }
-      });
-
+      }
+      
     })
 
 

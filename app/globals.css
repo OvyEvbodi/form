@@ -7,7 +7,7 @@
   --dark-color: #232323;
   --light-color: #e0dfdfeb;
   --transluscent-color: #e0e3e300;
-  --accent-color: #0b676c;
+  --accent-color: #125b71;
   --box-shadow-dark: 5px 5px 10px rgb(33, 34, 34);
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -113,6 +113,32 @@ th {
     background-attachment: fixed;
     background-position: center;
   }
+
+  thead {
+    display: none;
+  }
+  tbody {
+    position: relative;
+  }
+  #ward-head {
+    text-align: left;
+  }
+  td {
+    display: block;
+    text-align: right;
+    width: 100%;
+  }
+  td:before {
+    content: attr(data-label);
+    position: absolute;
+    width: 50%;
+    left: 8px;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent-color);
+  }
+
 }
 
 @media screen and (max-width: 600px) {
@@ -226,7 +252,7 @@ text-transform: capitalize;
 
 /* When the radio button is checked, add a coloured background */
 .container input:checked ~ .checkmark {
-  background-color: #0a8686;
+  background-color: var(--accent-color);
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -293,7 +319,7 @@ text-transform: capitalize;
 
 /* When the checkbox is checked, add a coloured background */
 .c-container input:checked ~ .c-checkmark {
-  background-color: #008B8B;
+  background-color: var(--accent-color);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */

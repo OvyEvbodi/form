@@ -65,7 +65,7 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
     }, {} as Record<string, AttendanceSheetInterface[]>);
 
   return (
-    <div className=" shadow-gray-800 shadow-lg sm:min-h-8/12 sm:min-w-2/3 text-gray-700 text-sm lg:max-w-[860px] p-4 sm:p-10 rounded-md max-w-screen bg-linear-to-b from-cyan-50/70 via-gray-200/80 to-gray-100/80">
+    <div className="shadow-gray-800 shadow-lg sm:min-h-8/12 sm:min-w-2/3 text-gray-700 text-sm lg:max-w-[860px] p-4 sm:p-10 rounded-md max-w-screen bg-linear-to-b from-cyan-50/70 via-gray-200/80 to-gray-100/80">
       <div>
         <h1 className="py-2 sm:py-6 text-cyan-800 text-lg sm:text-3xl font-bold capitalize">Kano-IEV supervisors attendance list for <span className="text-gray-700">{props.lga}</span></h1>
       </div>
@@ -76,7 +76,7 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
             <tr>
               <th>status</th>
               <th>name</th>
-              <th>ward</th>
+              <th>designation</th>
               <th>phone number</th>
             </tr>
           </thead>
@@ -87,7 +87,7 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
             return (
               <React.Fragment key={ward}>
                 <tr className="bg-gray-300 cursor-pointer" onClick={toggleWard}>
-                  <td colSpan={4} className="p-2 font-bold text-cyan-900">
+                  <td colSpan={4} id="ward-head" className="p-2 font-bold text-cyan-900">
                     {ward} ({people.length}) {isOpen ? "▲" : "▼"}
                   </td>
                 </tr>
@@ -99,18 +99,18 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
                     idx % 2 === 0 ? "bg-white" : "bg-gray-100"
                   )}
                 >
-                  <td className="p-2">
+                  <td data-label="" className="p-2">
                     <Checkbox
                       name="staff"
-                      value={`${person.account_number}+`}
+                      value={`${person.account_number}+${person.name}`}
                       title={person.name}
                     />
                   </td>
-                  <td className="p-2">
-                    <label htmlFor="staff">{person.name}</label>
+                  <td data-label="Name" className="p-2 text-xs sm:text-base">
+                    <label className="" htmlFor="staff">{person.name}</label>
                   </td>
-                  <td className="p-2">{person.ward}</td>
-                  <td className="p-2">{person.phone_number}</td>
+                  <td data-label="Designation" className="p-2 text-xs sm:text-base">{person.designation}</td>
+                  <td data-label="Telephone" className="p-2 text-xs sm:text-base">{person.phone_number}</td>
                 </tr>
                 ))}
               </React.Fragment>
