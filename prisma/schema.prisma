@@ -492,8 +492,9 @@ model tarauni {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String   @id
+  phone_number   String   @unique
+  taruni         taruni[]
 
   @@index([phone_number], map: "idx_tarauni_phone_number")
   @@schema("bank_validation")
@@ -1357,6 +1358,32 @@ model attendance_wudil {
 
   @@unique([account_number, attendance_date])
   @@map("wudil")
+  @@schema("attendance")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model new_staff {
+  id             String   @id @db.Uuid
+  lga            String
+  ward           String
+  name           String
+  phone_number   String
+  account_number String   @unique(map: "unique_account_number")
+  bank_name      String
+  created_at     DateTime @db.Date
+  designation    String
+
+  @@schema("attendance")
+}
+
+model taruni {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  tarauni         tarauni  @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
   @@schema("attendance")
 }
 

@@ -7,6 +7,48 @@ export const lgaList: string[] = [
   "Ungogo", "Warawa", "Wudil"
 ];
 
+export const bankList: Record<string, string> = {
+  "Access Bank": "044",
+  "Ecobank Plc.": "050",
+  "Fidelity Bank Plc.": "070",
+  "First Bank of Nigeria Plc.": "011",
+  "First City Monument Bank (FCMB)": "214",
+  "Guaranty Trust Bank Plc.": "058",
+  "JAIZ Bank": "301",
+  "Keystone Bank": "082",
+  "Polaris Bank": "076",
+  "Stanbic-IBTC Bank Plc": "221",
+  "Standard Chartered Bank Nigeria": "068",
+  "Sterling Bank Plc.": "232",
+  "Taj Bank": "000026",
+  "Union Bank": "032",
+  "United Bank for Africa Plc. (UBA)": "033",
+  "Unity Bank Plc.": "215",
+  "Wema Bank": "035",
+  "Zenith Bank Ltd.": "057"
+};
+
+export const bankNames: string[] = [
+  "Access Bank",
+  "Ecobank Plc.",
+  "Fidelity Bank Plc.",
+  "First Bank of Nigeria Plc.",
+  "First City Monument Bank (FCMB)",
+  "Guaranty Trust Bank Plc.",
+  "JAIZ Bank",
+  "Keystone Bank",
+  "Polaris Bank",
+  "Stanbic-IBTC Bank Plc",
+  "Standard Chartered Bank Nigeria",
+  "Sterling Bank Plc.",
+  "Taj Bank",
+  "Union Bank",
+  "United Bank for Africa Plc. (UBA)",
+  "Unity Bank Plc.",
+  "Wema Bank",
+  "Zenith Bank Ltd."
+];
+
 export const lgaWardsMap: any = { // create interface for type safety
   "Ajingi": [
     "Ajingi",

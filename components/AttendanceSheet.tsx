@@ -6,6 +6,7 @@ import { useActionState, useState, useMemo } from "react";
 import { Checkbox } from "@/components/ui/checkbox"
 import React from "react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export interface AttendanceSheetInterface {
   phone_number: string;
@@ -121,6 +122,15 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
       <div>
         <h1 className="py-2 sm:py-6 text-cyan-800 text-lg sm:text-3xl font-bold capitalize">Kano-IEV Data Clerks and Local Guides Attendance List for <span className="text-gray-700">{props.lga}</span></h1>
       </div>
+      <Link href="/new_record" >
+        <button
+          type="button"
+          disabled={isPending}
+          className={`"inline-block cursor-pointer my-4 py-3 px-6 md:px-12 w-full text-white font-semibold capitalize bg-cyan-800 rounded-sm hover:bg-cyan-900 transition-all duration-300 ease-in-out ${isPending && "hover:bg-gray-700 hover:text-gray-300 hover:cursor-not-allowed"}`}
+        >
+          Add a new record
+        </button>
+      </Link>
       <form action={action}>
         <InputField props={dateInput} />
         
