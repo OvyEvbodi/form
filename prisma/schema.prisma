@@ -162,8 +162,9 @@ model sumaila {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id @unique
-  phone_number   String @unique
+  account_number String               @id @unique
+  phone_number   String               @unique
+  sumaila        attendance_sumaila[]
 
   @@index([account_number], map: "idx_sumaila_account_number")
   @@index([phone_number], map: "idx_sumaila_phone_number")
@@ -177,8 +178,9 @@ model tsanyawa {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                @id
+  phone_number   String                @unique
+  tsanyawa       attendance_tsanyawa[]
 
   @@index([phone_number], map: "idx_tsanyawa_phone_number")
   @@schema("bank_validation")
@@ -191,8 +193,9 @@ model madobi {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  madobi         attendance_madobi[]
 
   @@index([phone_number], map: "idx_madobi_phone_number")
   @@schema("bank_validation")
@@ -205,8 +208,9 @@ model bagwai {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  bagwai         attendance_bagwai[]
 
   @@index([phone_number], map: "idx_bagwai_phone_number")
   @@schema("bank_validation")
@@ -219,8 +223,9 @@ model gaya {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String            @id
+  phone_number   String            @unique
+  gaya           attendance_gaya[]
 
   @@index([phone_number], map: "idx_gaya_phone_number")
   @@schema("bank_validation")
@@ -233,8 +238,9 @@ model kumbotso {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                @id
+  phone_number   String                @unique
+  kumbotso       attendance_kumbotso[]
 
   @@index([phone_number], map: "idx_kumbotso_phone_number")
   @@schema("bank_validation")
@@ -247,8 +253,9 @@ model gezawa {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  gezawa         attendance_gezawa[]
 
   @@index([phone_number], map: "idx_gezawa_phone_number")
   @@schema("bank_validation")
@@ -261,8 +268,9 @@ model makoda {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  makoda         attendance_makoda[]
 
   @@index([phone_number], map: "idx_makoda_phone_number")
   @@schema("bank_validation")
@@ -275,8 +283,9 @@ model kunchi {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String  @id
+  account_number String              @id
   phone_number   String?
+  kunchi         attendance_kunchi[]
 
   @@index([phone_number], map: "idx_kunchi_phone_number")
   @@schema("bank_validation")
@@ -289,8 +298,9 @@ model tudun_wada {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                  @id
+  phone_number   String                  @unique
+  tudun_wada     attendance_tudun_wada[]
 
   @@index([phone_number], map: "idx_tudunwada_phone_number")
   @@schema("bank_validation")
@@ -303,8 +313,9 @@ model tofa {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String            @id
+  phone_number   String            @unique
+  tofa           attendance_tofa[]
 
   @@index([phone_number], map: "idx_tofa_phone_number")
   @@schema("bank_validation")
@@ -317,8 +328,9 @@ model fagge {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String             @id
+  phone_number   String             @unique
+  fagge          attendance_fagge[]
 
   @@index([phone_number], map: "idx_fagge_phone_number")
   @@schema("bank_validation")
@@ -331,8 +343,9 @@ model gabasawa {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                @id
+  phone_number   String                @unique
+  gabasawa       attendance_gabasawa[]
 
   @@index([phone_number], map: "idx_gabasawa_phone_number")
   @@schema("bank_validation")
@@ -345,8 +358,9 @@ model gwale {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String             @id
+  phone_number   String             @unique
+  gwale          attendance_gwale[]
 
   @@index([phone_number], map: "idx_gwale_phone_number")
   @@schema("bank_validation")
@@ -359,8 +373,9 @@ model doguwa {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  doguwa         attendance_doguwa[]
 
   @@index([phone_number], map: "idx_doguwa_phone_number")
   @@schema("bank_validation")
@@ -373,8 +388,9 @@ model bichi {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String             @id
+  phone_number   String             @unique
+  bichi          attendance_bichi[]
 
   @@index([phone_number], map: "idx_bichi_phone_number")
   @@schema("bank_validation")
@@ -387,8 +403,9 @@ model gwarzo {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  gwarzo         attendance_gwarzo[]
 
   @@index([phone_number], map: "idx_gwarzo_phone_number")
   @@schema("bank_validation")
@@ -401,8 +418,9 @@ model kura {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String            @id
+  phone_number   String            @unique
+  kura           attendance_kura[]
 
   @@index([phone_number], map: "idx_kura_phone_number")
   @@schema("bank_validation")
@@ -415,8 +433,9 @@ model kibiya {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  kibiya         attendance_kibiya[]
 
   @@index([phone_number], map: "idx_kibiya_phone_number")
   @@schema("bank_validation")
@@ -429,8 +448,9 @@ model kiru {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String            @id
+  phone_number   String            @unique
+  kiru           attendance_kiru[]
 
   @@index([phone_number], map: "idx_kiru_phone_number")
   @@schema("bank_validation")
@@ -457,8 +477,9 @@ model garko {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String             @id
+  phone_number   String             @unique
+  garko          attendance_garko[]
 
   @@index([phone_number], map: "idx_garko_phone_number")
   @@schema("bank_validation")
@@ -485,8 +506,9 @@ model dambatta {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                @id
+  phone_number   String                @unique
+  dambatta       attendance_dambatta[]
 
   @@index([phone_number], map: "idx_dambatta_phone_number")
   @@schema("bank_validation")
@@ -514,8 +536,9 @@ model dawakin_tofa {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                    @id
+  phone_number   String                    @unique
+  dawakin_tofa   attendance_dawakin_tofa[]
 
   @@index([phone_number], map: "idx_dtofa_phone_number")
   @@schema("bank_validation")
@@ -528,8 +551,9 @@ model garun_malam {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                   @id
+  phone_number   String                   @unique
+  garun_malam    attendance_garun_malam[]
 
   @@index([phone_number], map: "idx_gmalam_phone_number")
   @@schema("bank_validation")
@@ -542,8 +566,9 @@ model kabo {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String            @id
+  phone_number   String            @unique
+  kabo           attendance_kabo[]
 
   @@index([phone_number], map: "idx_kabo_phone_number")
   @@schema("bank_validation")
@@ -556,8 +581,9 @@ model nassarawa {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                 @id
+  phone_number   String                 @unique
+  nassarawa      attendance_nassarawa[]
 
   @@index([phone_number], map: "idx_nassarawa_phone_number")
   @@schema("bank_validation")
@@ -570,8 +596,9 @@ model shanono {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String               @id
+  phone_number   String               @unique
+  shanono        attendance_shanono[]
 
   @@index([phone_number], map: "idx_shanono_phone_number")
   @@schema("bank_validation")
@@ -584,8 +611,9 @@ model bebeji {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  bebeji         attendance_bebeji[]
 
   @@index([phone_number], map: "idx_bebeji_phone_number")
   @@schema("bank_validation")
@@ -598,8 +626,9 @@ model albasu {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  albasu         attendance_albasu[]
 
   @@index([phone_number], map: "idx_albasu_phone_number")
   @@schema("bank_validation")
@@ -612,8 +641,9 @@ model rimin_gado {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                  @id
+  phone_number   String                  @unique
+  rimin_gado     attendance_rimin_gado[]
 
   @@index([phone_number], map: "idx_rgado_phone_number")
   @@schema("bank_validation")
@@ -626,8 +656,9 @@ model dala {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String            @id
+  phone_number   String            @unique
+  dala           attendance_dala[]
 
   @@index([phone_number], map: "idx_dala_phone_number")
   @@schema("bank_validation")
@@ -640,8 +671,9 @@ model rogo {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String            @id
+  phone_number   String            @unique
+  rogo           attendance_rogo[]
 
   @@index([phone_number], map: "idx_rogo_phone_number")
   @@schema("bank_validation")
@@ -654,8 +686,9 @@ model dawakin_kudu {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                    @id
+  phone_number   String                    @unique
+  dawakin_kudu   attendance_dawakin_kudu[]
 
   @@index([phone_number], map: "idx_dkudu_phone_number")
   @@schema("bank_validation")
@@ -668,8 +701,9 @@ model minjibir {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                @id
+  phone_number   String                @unique
+  minjibir       attendance_minjibir[]
 
   @@index([phone_number], map: "idx_minjibir_phone_number")
   @@schema("bank_validation")
@@ -682,8 +716,9 @@ model rano {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String            @id
+  phone_number   String            @unique
+  rano           attendance_rano[]
 
   @@index([phone_number], map: "idx_rano_phone_number")
   @@schema("bank_validation")
@@ -696,8 +731,9 @@ model wudil {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String             @id
+  phone_number   String             @unique
+  wudil          attendance_wudil[]
 
   @@index([phone_number], map: "idx_wudil_phone_number")
   @@schema("bank_validation")
@@ -710,8 +746,9 @@ model warawa {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  warawa         attendance_warawa[]
 
   @@index([phone_number], map: "idx_warawa_phone_number")
   @@schema("bank_validation")
@@ -724,8 +761,9 @@ model bunkure {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String               @id
+  phone_number   String               @unique
+  bunkure        attendance_bunkure[]
 
   @@index([phone_number], map: "idx_bunkure_phone_number")
   @@schema("bank_validation")
@@ -738,8 +776,9 @@ model kano_municipal {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String                      @id
+  phone_number   String                      @unique
+  kano_municipal attendance_kano_municipal[]
 
   @@index([phone_number], map: "idx_kmc_phone_number")
   @@schema("bank_validation")
@@ -752,8 +791,9 @@ model takai {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String             @id
+  phone_number   String             @unique
+  takai          attendance_takai[]
 
   @@index([phone_number], map: "idx_takai_phone_number")
   @@schema("bank_validation")
@@ -766,8 +806,9 @@ model karaye {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  karaye         attendance_karaye[]
 
   @@index([phone_number], map: "idx_karaye_phone_number")
   @@schema("bank_validation")
@@ -780,8 +821,9 @@ model ungogo {
   designation    String
   bank_name      String
   bank_code      String
-  account_number String @id
-  phone_number   String @unique
+  account_number String              @id
+  phone_number   String              @unique
+  ungogo         attendance_ungogo[]
 
   @@index([phone_number], map: "idx_ungogo_phone_number")
   @@schema("bank_validation")
@@ -811,6 +853,510 @@ model attendance_ajingi {
 
   @@unique([account_number, attendance_date])
   @@map("ajingi")
+  @@schema("attendance")
+}
+
+model attendance_albasu {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  albasu          albasu   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("albasu")
+  @@schema("attendance")
+}
+
+model attendance_bagwai {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  bagwai          bagwai   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("bagwai")
+  @@schema("attendance")
+}
+
+model attendance_bebeji {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  bebeji          bebeji   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("bebeji")
+  @@schema("attendance")
+}
+
+model attendance_bichi {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  bichi           bichi    @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("bichi")
+  @@schema("attendance")
+}
+
+model attendance_bunkure {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  bunkure         bunkure  @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("bunkure")
+  @@schema("attendance")
+}
+
+model attendance_dala {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  dala            dala     @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("dala")
+  @@schema("attendance")
+}
+
+model attendance_dambatta {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  dambatta        dambatta @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("dambatta")
+  @@schema("attendance")
+}
+
+model attendance_dawakin_kudu {
+  id              String       @id @db.Uuid
+  created_at      DateTime     @db.Date
+  account_number  String
+  attendance_date String
+  dawakin_kudu    dawakin_kudu @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("dawakin_kudu")
+  @@schema("attendance")
+}
+
+model attendance_dawakin_tofa {
+  id              String       @id @db.Uuid
+  created_at      DateTime     @db.Date
+  account_number  String
+  attendance_date String
+  dawakin_tofa    dawakin_tofa @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("dawakin_tofa")
+  @@schema("attendance")
+}
+
+model attendance_doguwa {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  doguwa          doguwa   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("doguwa")
+  @@schema("attendance")
+}
+
+model attendance_fagge {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  fagge           fagge    @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("fagge")
+  @@schema("attendance")
+}
+
+model attendance_gabasawa {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  gabasawa        gabasawa @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("gabasawa")
+  @@schema("attendance")
+}
+
+model attendance_garko {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  garko           garko    @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("garko")
+  @@schema("attendance")
+}
+
+model attendance_garun_malam {
+  id              String      @id @db.Uuid
+  created_at      DateTime    @db.Date
+  account_number  String
+  attendance_date String
+  garun_malam     garun_malam @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("garun_malam")
+  @@schema("attendance")
+}
+
+model attendance_gaya {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  gaya            gaya     @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("gaya")
+  @@schema("attendance")
+}
+
+model attendance_gezawa {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  gezawa          gezawa   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("gezawa")
+  @@schema("attendance")
+}
+
+model attendance_gwale {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  gwale           gwale    @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("gwale")
+  @@schema("attendance")
+}
+
+model attendance_gwarzo {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  gwarzo          gwarzo   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("gwarzo")
+  @@schema("attendance")
+}
+
+model attendance_kabo {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  kabo            kabo     @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("kabo")
+  @@schema("attendance")
+}
+
+model attendance_kano_municipal {
+  id              String         @id @db.Uuid
+  created_at      DateTime       @db.Date
+  account_number  String
+  attendance_date String
+  kano_municipal  kano_municipal @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("kano_municipal")
+  @@schema("attendance")
+}
+
+model attendance_karaye {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  karaye          karaye   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("karaye")
+  @@schema("attendance")
+}
+
+model attendance_kibiya {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  kibiya          kibiya   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("kibiya")
+  @@schema("attendance")
+}
+
+model attendance_kiru {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  kiru            kiru     @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("kiru")
+  @@schema("attendance")
+}
+
+model attendance_kumbotso {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  kumbotso        kumbotso @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("kumbotso")
+  @@schema("attendance")
+}
+
+model attendance_kunchi {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  kunchi          kunchi   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("kunchi")
+  @@schema("attendance")
+}
+
+model attendance_kura {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  kura            kura     @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("kura")
+  @@schema("attendance")
+}
+
+model attendance_madobi {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  madobi          madobi   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("madobi")
+  @@schema("attendance")
+}
+
+model attendance_makoda {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  makoda          makoda   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("makoda")
+  @@schema("attendance")
+}
+
+model attendance_minjibir {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  minjibir        minjibir @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("minjibir")
+  @@schema("attendance")
+}
+
+model attendance_nassarawa {
+  id              String    @id @db.Uuid
+  created_at      DateTime  @db.Date
+  account_number  String
+  attendance_date String
+  nassarawa       nassarawa @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("nassarawa")
+  @@schema("attendance")
+}
+
+model attendance_rano {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  rano            rano     @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("rano")
+  @@schema("attendance")
+}
+
+model attendance_rimin_gado {
+  id              String     @id @db.Uuid
+  created_at      DateTime   @db.Date
+  account_number  String
+  attendance_date String
+  rimin_gado      rimin_gado @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("rimin_gado")
+  @@schema("attendance")
+}
+
+model attendance_rogo {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  rogo            rogo     @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("rogo")
+  @@schema("attendance")
+}
+
+model attendance_shanono {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  shanono         shanono  @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("shanono")
+  @@schema("attendance")
+}
+
+model attendance_sumaila {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  sumaila         sumaila  @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("sumaila")
+  @@schema("attendance")
+}
+
+model attendance_takai {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  takai           takai    @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("takai")
+  @@schema("attendance")
+}
+
+model attendance_tofa {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  tofa            tofa     @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("tofa")
+  @@schema("attendance")
+}
+
+model attendance_tsanyawa {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  tsanyawa        tsanyawa @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("tsanyawa")
+  @@schema("attendance")
+}
+
+model attendance_tudun_wada {
+  id              String     @id @db.Uuid
+  created_at      DateTime   @db.Date
+  account_number  String
+  attendance_date String
+  tudun_wada      tudun_wada @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("tudun_wada")
+  @@schema("attendance")
+}
+
+model attendance_ungogo {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  ungogo          ungogo   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("ungogo")
+  @@schema("attendance")
+}
+
+model attendance_warawa {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  warawa          warawa   @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("warawa")
+  @@schema("attendance")
+}
+
+model attendance_wudil {
+  id              String   @id @db.Uuid
+  created_at      DateTime @db.Date
+  account_number  String
+  attendance_date String
+  wudil           wudil    @relation(fields: [account_number], references: [account_number], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([account_number, attendance_date])
+  @@map("wudil")
   @@schema("attendance")
 }
 
