@@ -65,12 +65,12 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
 
     // Improved filter function for search
     const filteredWards = Object.entries(groupedByWard)
-      .map(([ward, people]) => {
-        const filteredPeople = people.filter(person => 
+      .map(([ward, people]) => ({
+        ward,
+        people: people.filter(person => 
           person.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        return { ward, people: filteredPeople };
-      })
+        )
+      }))
       .filter(({ people }) => people.length > 0);
 
   return (
@@ -92,58 +92,70 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
           />
         </div>
         
-        <table className="w-full">
-          <thead>
-            <tr>
-              <th>status</th>
-              <th>name</th>
-              <th>designation</th>
-              <th>phone number</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredWards.map(({ ward, people }) => {
-              const [isOpen, setIsOpen] = useState(false);
-              const toggleWard = () => setIsOpen(!isOpen);
-              return (
-                <React.Fragment key={ward}>
-                  <tr className="bg-gray-300 cursor-pointer" onClick={toggleWard}>
-                    <td colSpan={4} id="ward-head" className="p-2 font-bold text-cyan-900">
-                      {ward} ({people.length}) {isOpen ? "▲" : "▼"}
-                    </td>
-                  </tr>
-                  {people.map((person, idx) => (
-                    <tr
-                      key={person.phone_number}
-                      className={cn(
-                        isOpen ? "" : "hidden",
-                        idx % 2 === 0 ? "bg-white" : "bg-gray-100"
-                      )}
-                    >
-                      <td data-label="" className="p-2">
-                        <Checkbox
-                          name="staff"
-                          value={`${person.account_number}+${person.name}`}
-                          title={person.name}
-                        />
+        {filteredWards.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            {searchTerm ? (
+              <p>No matching results found for "{searchTerm}"</p>
+            ) : (
+              <p>No attendance data available</p>
+            )}
+          </div>
+        ) : (
+          <table className="w-full">
+            <thead>
+              <tr>
+                <th>status</th>
+                <th>name</th>
+                <th>designation</th>
+                <th>phone number</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredWards.map(({ ward, people }) => {
+                const [isOpen, setIsOpen] = useState(false);
+                const toggleWard = () => setIsOpen(!isOpen);
+                return (
+                  <React.Fragment key={ward}>
+                    <tr className="bg-gray-300 cursor-pointer" onClick={toggleWard}>
+                      <td colSpan={4} id="ward-head" className="p-2 font-bold text-cyan-900">
+                        {ward} ({people.length}) {isOpen ? "▲" : "▼"}
                       </td>
-                      <td data-label="Name" className="p-2 text-xs sm:text-base">
-                        <label className="" htmlFor="staff">{person.name}</label>
-                      </td>
-                      <td data-label="Designation" className="p-2 text-xs sm:text-base">{person.designation}</td>
-                      <td data-label="Telephone" className="p-2 text-xs sm:text-base">{person.phone_number}</td>
                     </tr>
-                  ))}
-                </React.Fragment>
-              );
-            })}
-          </tbody>
-        </table>
+                    {people.map((person, idx) => (
+                      <tr
+                        key={person.phone_number}
+                        className={cn(
+                          isOpen ? "" : "hidden",
+                          idx % 2 === 0 ? "bg-white" : "bg-gray-100"
+                        )}
+                      >
+                        <td data-label="" className="p-2">
+                          <Checkbox
+                            name="staff"
+                            value={`${person.account_number}+${person.name}`}
+                            title={person.name}
+                          />
+                        </td>
+                        <td data-label="Name" className="p-2 text-xs sm:text-base">
+                          <label className="" htmlFor="staff">{person.name}</label>
+                        </td>
+                        <td data-label="Designation" className="p-2 text-xs sm:text-base">{person.designation}</td>
+                        <td data-label="Telephone" className="p-2 text-xs sm:text-base">{person.phone_number}</td>
+                      </tr>
+                    ))}
+                  </React.Fragment>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
         <input type="hidden" name="lga" value={props.lga} />
         <button
           type="submit"
-          disabled={isPending}
-          className={`"inline-block cursor-pointer mt-4 py-3 px-6 md:px-12 w-full text-white font-semibold capitalize bg-cyan-800 rounded-sm hover:bg-cyan-900 transition-all duration-300 ease-in-out ${isPending && "hover:bg-gray-700 hover:text-gray-300 hover:cursor-not-allowed"}`}
+          disabled={isPending || filteredWards.length === 0}
+          className={`inline-block cursor-pointer mt-4 py-3 px-6 md:px-12 w-full text-white font-semibold capitalize bg-cyan-800 rounded-sm hover:bg-cyan-900 transition-all duration-300 ease-in-out ${
+            (isPending || filteredWards.length === 0) ? "opacity-50 hover:bg-cyan-800 hover:cursor-not-allowed" : ""
+          }`}
         >
           {isPending ? "Submitting..." : "Submit"}
         </button>
