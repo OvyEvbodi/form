@@ -23,7 +23,7 @@ export const POST = async (request: NextRequest) => {
       date: formEntry.get("attendance_date") as string || ""
     };
       
-    // console.log(attendanceData)
+    console.log(attendanceData)
 
     // save to db 
     const db = new PrismaClient();
@@ -40,7 +40,7 @@ export const POST = async (request: NextRequest) => {
         id: uuidv4()
       };
 
-      // console.log(dailyRecord, tableName)
+      console.log(dailyRecord, tableName)
 
       try {
         const addEntry = await (db[tableName as keyof typeof db] as any).create({ 
