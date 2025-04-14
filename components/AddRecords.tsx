@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useActionState, useState } from "react";
 import { RadioField } from "@/components/Input";
+import Link from "next/link";
 
 const AddRecords = (session: any) => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const AddRecords = (session: any) => {
   const wards = lga ? lgaWardsMap[lga] : [];
   const [ wardError, setWardError ] = useState(false);
   const [ nameError, setNameError ] = useState(false);
+  const [ nubanError, setNubanError ] = useState(false);
   const [ phoneError, setPhoneError ] = useState(false);
   const [ designationError, setDesignationError] = useState(false);
 
@@ -53,10 +55,13 @@ const AddRecords = (session: any) => {
 
   const handleView = (viewRequest: number) => {
 
-    if (!accountNo && !name && view === 1) {
+    if (!accountNo && !bank && !name && view === 1) {
       setNameError(true)
       setAccountNoError(true)
+      setBankError(true)
     } 
+    else if (!bank && viewRequest === 2) setBankError(true)
+    else if (!name && viewRequest === 2) setNameError(true)
     else if (!accountNoError && name && !nameError && viewRequest === 2) setView(viewRequest)
     else if (viewRequest === 1) setView(viewRequest)
     
@@ -65,7 +70,7 @@ const AddRecords = (session: any) => {
       setPhoneError(true)
       setDesignationError(true)
     }
-    else if (viewRequest === 3 && phoneError) setPhoneError(true)
+    else if (viewRequest === 3 && (!phone || phoneError)) setPhoneError(true)
     else if (viewRequest === 3 && !ward)  setWardError(true)
     else if (viewRequest === 3 && !designation) setDesignationError(true)
     else if (viewRequest === 3) setView(viewRequest)
@@ -76,6 +81,7 @@ const AddRecords = (session: any) => {
 
     setNubanLoading(true)
     setNameError(false)
+    setNubanError(false)
     setName("")
     const bankCode = bankList[bank];
 
@@ -90,11 +96,10 @@ const AddRecords = (session: any) => {
           setName(nubanAccName)
         } else {
           console.log("Invalid")
-          setNameError(true)
+          setNubanError(true)
         }
         
       } else {
-        
         console.log("Error. Please try again.")
       }
     } catch (error) {
@@ -123,22 +128,34 @@ const AddRecords = (session: any) => {
     onChange: handleDesignationChange
   };
 
-  const handleAddNewRecord: (prevState: any, formData: FormData) => Promise<any> = async (prevState: any, formData: FormData) => {
+  interface DbResponse extends Response {
+    error?: {
+      message: string;
+    }
+    success?: {
+      message: string;
+    };
+    data?: any;
+  
+  }
+  
 
-        const result = await fetch("/api/new_record", {
+  const handleAddNewRecord: (prevState: any, formData: FormData) => Promise<DbResponse> = async (prevState: any, formData: FormData) => {
+
+        const result: DbResponse = await fetch("/api/new_record", {
           method: "POST",
           body: formData
         });
   
         const feedback = await result.json();
     
-        if (result.status === 200) router.push("/thank-you")
+        if (result.status === 200) router.push("/attendance")
        
         return {
           error: feedback.error || null,
           success: feedback.success || null,
           data: feedback.data || null,
-        } as any
+        } as DbResponse
       };
       const [ state, action, isPending ] = useActionState(handleAddNewRecord, initialState);
 
@@ -147,6 +164,11 @@ const AddRecords = (session: any) => {
       <div>
         <h1 className="py-2 sm:py-6 text-cyan-800 text-lg sm:text-3xl font-bold">New Records Form</h1>
       </div>
+      {
+        state.error && (<div className="text-red-500 bg-red-50 px-4 py-2 rounded-md max-w-md text-center mb-4">{state.error.message}
+        <Link className="underline font-bold text-gray-800 hover:text-gray-600" href="/attendance" >Click here to back to attendance page</Link>
+        </div>)
+      }
       <form action={action}>
         <section className={view !== 1 ? "hidden" : "flex flex-col gap-6"}>
           <div>
@@ -178,7 +200,8 @@ const AddRecords = (session: any) => {
               <div>
                 <input type="hidden" value={name} name="name" />
                 <div className="text-green-800">{name && name}</div>
-                <div className={`mt-1 h-4  ${nameError && "text-xs text-red-700"} `}>{nameError && "Invalid bank details. Please check and try again"}</div>
+                <div className={`mt-1 h-4  ${nameError && "text-xs text-red-700"} `}>{nameError && "Please click on 'get Name'"}</div>
+                <div className={`mt-1 h-4  ${nubanError && "text-xs text-red-700"} `}>{nubanError && "Invalid account details"}</div>
               </div>
             </div>
           </div>

@@ -56,6 +56,19 @@ export const POST = async (request: NextRequest) => {
     }, {status: 200})
   } catch (error) {
     console.error(error)
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+              // Specific handling for phone_number + date unique violation
+              if (error.code === 'P2002' ) {
+                console.log(error.meta && ( error.meta?.target as string[] ).includes('account_number'))
+                console.log()
+                return NextResponse.json({
+                  error: {
+                    message: `Duplicate record! This record has already been created. Please allow up to 24 hours for verification to be completed.`
+                  }
+                }, {status: 400})
+              }
+            }
+
     return NextResponse.json({
       error: {
         message: "Unable to add record, please try again."
