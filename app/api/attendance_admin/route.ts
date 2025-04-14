@@ -48,6 +48,7 @@ export const POST = async (request: NextRequest) => {
             ...dailyRecord
           }
         });
+        console.log("successful", addEntry)
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           // Specific handling for phone_number + date unique violation
