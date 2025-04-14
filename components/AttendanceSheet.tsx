@@ -38,8 +38,14 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
   const initialState: any = {};
+  const [selectedStaff, setSelectedStaff] = useState<Set<string>>(new Set());
 
   const handleSubmitAttendance: (prevState: any, formData: FormData) => Promise<any> = async (prevState: any, formData: FormData) => {
+      // Add all selected staff to formData
+      selectedStaff.forEach(staff => {
+        formData.append("staff", staff);
+      });
+      
       const result = await fetch("/api/attendance_admin", {
         method: "POST",
         body: formData
@@ -98,6 +104,18 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
       }));
     };
 
+    const handleCheckboxChange = (staffValue: string) => {
+      setSelectedStaff(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(staffValue)) {
+          newSet.delete(staffValue);
+        } else {
+          newSet.add(staffValue);
+        }
+        return newSet;
+      });
+    };
+
   return (
     <div className="shadow-gray-800 shadow-lg sm:min-h-8/12 sm:min-w-2/3 text-gray-700 text-sm lg:max-w-[860px] p-4 sm:p-10 rounded-md max-w-screen bg-linear-to-b from-cyan-50/70 via-gray-200/80 to-gray-100/80">
       <div>
@@ -146,50 +164,58 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
                       {ward} ({people.length}) {expandedWards[ward] ? "▲" : "▼"}
                     </td>
                   </tr>
-                  {people.map((person, idx) => (
-                    <tr
-                      key={`${ward}-${person.phone_number}`}
-                      className={cn(
-                        expandedWards[ward] ? "" : "hidden",
-                        idx % 2 === 0 ? "bg-white" : "bg-gray-100"
-                      )}
-                    >
-                      <td data-label="" className="p-2">
-                        <Checkbox
-                          name="staff"
-                          value={`${person.account_number}+${person.name}`}
-                          title={person.name}
-                        />
-                      </td>
-                      <td data-label="Name" className="p-2 text-xs sm:text-base">
-                        <label htmlFor="staff">{person.name}</label>
-                      </td>
-                      <td data-label="Designation" className="p-2 text-xs sm:text-base">
-                        {person.designation}
-                      </td>
-                      <td data-label="Telephone" className="p-2 text-xs sm:text-base">
-                        {person.phone_number}
-                      </td>
-                    </tr>
-                  ))}
+                  {people.map((person, idx) => {
+                    const staffValue = `${person.account_number}+${person.name}`;
+                    return (
+                      <tr
+                        key={`${ward}-${person.phone_number}`}
+                        className={cn(
+                          expandedWards[ward] ? "" : "hidden",
+                          idx % 2 === 0 ? "bg-white" : "bg-gray-100"
+                        )}
+                      >
+                        <td data-label="" className="p-2">
+                          <Checkbox
+                            name="staff"
+                            value={staffValue}
+                            title={person.name}
+                            checked={selectedStaff.has(staffValue)}
+                            onCheckedChange={() => handleCheckboxChange(staffValue)}
+                          />
+                        </td>
+                        <td data-label="Name" className="p-2 text-xs sm:text-base">
+                          <label htmlFor="staff">{person.name}</label>
+                        </td>
+                        <td data-label="Designation" className="p-2 text-xs sm:text-base">
+                          {person.designation}
+                        </td>
+                        <td data-label="Telephone" className="p-2 text-xs sm:text-base">
+                          {person.phone_number}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </React.Fragment>
               ))}
             </tbody>
           </table>
         )}
         <input type="hidden" name="lga" value={props.lga} />
+        <div className="mt-2 text-sm text-gray-600">
+          Selected: {selectedStaff.size} staff members
+        </div>
         <button
           type="submit"
-          disabled={isPending || filteredWards.length === 0}
+          disabled={isPending || selectedStaff.size === 0}
           className={cn(
             "inline-block mt-4 py-3 px-6 md:px-12 w-full text-white font-semibold capitalize bg-cyan-800 rounded-sm hover:bg-cyan-900 transition-all duration-300 ease-in-out",
             {
-              "opacity-50 cursor-not-allowed": isPending || filteredWards.length === 0,
-              "cursor-pointer": !isPending && filteredWards.length > 0
+              "opacity-50 cursor-not-allowed": isPending || selectedStaff.size === 0,
+              "cursor-pointer": !isPending && selectedStaff.size > 0
             }
           )}
         >
-          {isPending ? "Submitting..." : "Submit"}
+          {isPending ? "Submitting..." : `Submit (${selectedStaff.size} selected)`}
         </button>
       </form>
     </div>
