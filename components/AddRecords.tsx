@@ -29,6 +29,7 @@ const AddRecords = (session: any) => {
   
   const handleAccountNoChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAccountNoError(false)
+    setName("")
     if (event.target.value.trim().length !== 10
       || Number.isNaN(Number(event.target.value.trim())
     )) setAccountNoError(true)
@@ -46,6 +47,7 @@ const AddRecords = (session: any) => {
 
   const handleBankChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setBankError(false)
+    setName("")
     setBank(event.target.value)
   };
 
@@ -55,7 +57,7 @@ const AddRecords = (session: any) => {
       setNameError(true)
       setAccountNoError(true)
     } 
-    else if (!accountNoError && !nameError && viewRequest === 2) setView(viewRequest)
+    else if (!accountNoError && name && !nameError && viewRequest === 2) setView(viewRequest)
     else if (viewRequest === 1) setView(viewRequest)
     
     if (viewRequest === 3 && !phone && !ward && !designation ) {
