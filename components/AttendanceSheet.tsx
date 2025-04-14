@@ -2,7 +2,7 @@
 
 import InputField from "@/components/Input";
 import { useRouter } from "next/navigation";
-import { useActionState, useState } from "react";
+import { useActionState, useState, useMemo } from "react";
 import { Checkbox } from "@/components/ui/checkbox"
 import React from "react";
 import { cn } from "@/lib/utils";
@@ -57,21 +57,46 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
     };
     const [ state, action, isPending ] = useActionState(handleSubmitAttendance, initialState);
   
-    const groupedByWard = props.list.reduce((acc, person) => {
-      if (!acc[person.ward]) acc[person.ward] = [];
-      acc[person.ward].push(person);
-      return acc;
-    }, {} as Record<string, AttendanceSheetInterface[]>);
+    // Memoize the grouped data for better performance
+    const groupedByWard = useMemo(() => {
+      return props.list.reduce((acc, person) => {
+        if (!acc[person.ward]) acc[person.ward] = [];
+        acc[person.ward].push(person);
+        return acc;
+      }, {} as Record<string, AttendanceSheetInterface[]>);
+    }, [props.list]);
 
-    // Improved filter function for search
-    const filteredWards = Object.entries(groupedByWard)
-      .map(([ward, people]) => ({
-        ward,
-        people: people.filter(person => 
-          person.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      }))
-      .filter(({ people }) => people.length > 0);
+    // Memoize the filtered data
+    const filteredWards = useMemo(() => {
+      if (!searchTerm.trim()) {
+        return Object.entries(groupedByWard).map(([ward, people]) => ({
+          ward,
+          people
+        }));
+      }
+
+      const searchLower = searchTerm.toLowerCase();
+      const result = Object.entries(groupedByWard)
+        .map(([ward, people]) => ({
+          ward,
+          people: people.filter(person => 
+            person.name.toLowerCase().includes(searchLower)
+          )
+        }))
+        .filter(({ people }) => people.length > 0);
+
+      return result;
+    }, [groupedByWard, searchTerm]);
+
+    // Track expanded wards state
+    const [expandedWards, setExpandedWards] = useState<Record<string, boolean>>({});
+
+    const toggleWard = (ward: string) => {
+      setExpandedWards(prev => ({
+        ...prev,
+        [ward]: !prev[ward]
+      }));
+    };
 
   return (
     <div className="shadow-gray-800 shadow-lg sm:min-h-8/12 sm:min-w-2/3 text-gray-700 text-sm lg:max-w-[860px] p-4 sm:p-10 rounded-md max-w-screen bg-linear-to-b from-cyan-50/70 via-gray-200/80 to-gray-100/80">
@@ -111,41 +136,44 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
               </tr>
             </thead>
             <tbody>
-              {filteredWards.map(({ ward, people }) => {
-                const [isOpen, setIsOpen] = useState(false);
-                const toggleWard = () => setIsOpen(!isOpen);
-                return (
-                  <React.Fragment key={ward}>
-                    <tr className="bg-gray-300 cursor-pointer" onClick={toggleWard}>
-                      <td colSpan={4} id="ward-head" className="p-2 font-bold text-cyan-900">
-                        {ward} ({people.length}) {isOpen ? "▲" : "▼"}
+              {filteredWards.map(({ ward, people }) => (
+                <React.Fragment key={ward}>
+                  <tr 
+                    className="bg-gray-300 cursor-pointer" 
+                    onClick={() => toggleWard(ward)}
+                  >
+                    <td colSpan={4} id="ward-head" className="p-2 font-bold text-cyan-900">
+                      {ward} ({people.length}) {expandedWards[ward] ? "▲" : "▼"}
+                    </td>
+                  </tr>
+                  {people.map((person, idx) => (
+                    <tr
+                      key={`${ward}-${person.phone_number}`}
+                      className={cn(
+                        expandedWards[ward] ? "" : "hidden",
+                        idx % 2 === 0 ? "bg-white" : "bg-gray-100"
+                      )}
+                    >
+                      <td data-label="" className="p-2">
+                        <Checkbox
+                          name="staff"
+                          value={`${person.account_number}+${person.name}`}
+                          title={person.name}
+                        />
+                      </td>
+                      <td data-label="Name" className="p-2 text-xs sm:text-base">
+                        <label htmlFor="staff">{person.name}</label>
+                      </td>
+                      <td data-label="Designation" className="p-2 text-xs sm:text-base">
+                        {person.designation}
+                      </td>
+                      <td data-label="Telephone" className="p-2 text-xs sm:text-base">
+                        {person.phone_number}
                       </td>
                     </tr>
-                    {people.map((person, idx) => (
-                      <tr
-                        key={person.phone_number}
-                        className={cn(
-                          isOpen ? "" : "hidden",
-                          idx % 2 === 0 ? "bg-white" : "bg-gray-100"
-                        )}
-                      >
-                        <td data-label="" className="p-2">
-                          <Checkbox
-                            name="staff"
-                            value={`${person.account_number}+${person.name}`}
-                            title={person.name}
-                          />
-                        </td>
-                        <td data-label="Name" className="p-2 text-xs sm:text-base">
-                          <label className="" htmlFor="staff">{person.name}</label>
-                        </td>
-                        <td data-label="Designation" className="p-2 text-xs sm:text-base">{person.designation}</td>
-                        <td data-label="Telephone" className="p-2 text-xs sm:text-base">{person.phone_number}</td>
-                      </tr>
-                    ))}
-                  </React.Fragment>
-                );
-              })}
+                  ))}
+                </React.Fragment>
+              ))}
             </tbody>
           </table>
         )}
@@ -153,9 +181,13 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
         <button
           type="submit"
           disabled={isPending || filteredWards.length === 0}
-          className={`inline-block cursor-pointer mt-4 py-3 px-6 md:px-12 w-full text-white font-semibold capitalize bg-cyan-800 rounded-sm hover:bg-cyan-900 transition-all duration-300 ease-in-out ${
-            (isPending || filteredWards.length === 0) ? "opacity-50 hover:bg-cyan-800 hover:cursor-not-allowed" : ""
-          }`}
+          className={cn(
+            "inline-block mt-4 py-3 px-6 md:px-12 w-full text-white font-semibold capitalize bg-cyan-800 rounded-sm hover:bg-cyan-900 transition-all duration-300 ease-in-out",
+            {
+              "opacity-50 cursor-not-allowed": isPending || filteredWards.length === 0,
+              "cursor-pointer": !isPending && filteredWards.length > 0
+            }
+          )}
         >
           {isPending ? "Submitting..." : "Submit"}
         </button>
