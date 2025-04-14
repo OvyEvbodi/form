@@ -7,7 +7,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 import React from "react";
 import { cn } from "@/lib/utils";
 
-
 export interface AttendanceSheetInterface {
   phone_number: string;
   account_number: string;
@@ -64,13 +63,15 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
       return acc;
     }, {} as Record<string, AttendanceSheetInterface[]>);
 
-    // Filter function for search
-    const filteredWards = Object.entries(groupedByWard).map(([ward, people]) => {
-      const filteredPeople = people.filter(person => 
-        person.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      return [ward, filteredPeople];
-    }).filter(([ward, people]) => (people as AttendanceSheetInterface[]).length > 0);
+    // Improved filter function for search
+    const filteredWards = Object.entries(groupedByWard)
+      .map(([ward, people]) => {
+        const filteredPeople = people.filter(person => 
+          person.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        return { ward, people: filteredPeople };
+      })
+      .filter(({ people }) => people.length > 0);
 
   return (
     <div className="shadow-gray-800 shadow-lg sm:min-h-8/12 sm:min-w-2/3 text-gray-700 text-sm lg:max-w-[860px] p-4 sm:p-10 rounded-md max-w-screen bg-linear-to-b from-cyan-50/70 via-gray-200/80 to-gray-100/80">
@@ -101,41 +102,41 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
             </tr>
           </thead>
           <tbody>
-            {filteredWards.map(([ward, people], i) => {
-            const [isOpen, setIsOpen] = useState(false);
-            const toggleWard = () => setIsOpen(!isOpen);
-            return (
-              <React.Fragment key={ward as string}>
-                <tr className="bg-gray-300 cursor-pointer" onClick={toggleWard}>
-                  <td colSpan={4} id="ward-head" className="p-2 font-bold text-cyan-900">
-                    {ward as string} ({(people as AttendanceSheetInterface[]).length}) {isOpen ? "▲" : "▼"}
-                  </td>
-                </tr>
-                {(people as AttendanceSheetInterface[]).map((person, idx) => (
-                <tr
-                  key={person.phone_number}
-                  className={cn(
-                    isOpen ? "" : "hidden",
-                    idx % 2 === 0 ? "bg-white" : "bg-gray-100"
-                  )}
-                >
-                  <td data-label="" className="p-2">
-                    <Checkbox
-                      name="staff"
-                      value={`${person.account_number}+${person.name}`}
-                      title={person.name}
-                    />
-                  </td>
-                  <td data-label="Name" className="p-2 text-xs sm:text-base">
-                    <label className="" htmlFor="staff">{person.name}</label>
-                  </td>
-                  <td data-label="Designation" className="p-2 text-xs sm:text-base">{person.designation}</td>
-                  <td data-label="Telephone" className="p-2 text-xs sm:text-base">{person.phone_number}</td>
-                </tr>
-                ))}
-              </React.Fragment>
-            );
-             })}
+            {filteredWards.map(({ ward, people }) => {
+              const [isOpen, setIsOpen] = useState(false);
+              const toggleWard = () => setIsOpen(!isOpen);
+              return (
+                <React.Fragment key={ward}>
+                  <tr className="bg-gray-300 cursor-pointer" onClick={toggleWard}>
+                    <td colSpan={4} id="ward-head" className="p-2 font-bold text-cyan-900">
+                      {ward} ({people.length}) {isOpen ? "▲" : "▼"}
+                    </td>
+                  </tr>
+                  {people.map((person, idx) => (
+                    <tr
+                      key={person.phone_number}
+                      className={cn(
+                        isOpen ? "" : "hidden",
+                        idx % 2 === 0 ? "bg-white" : "bg-gray-100"
+                      )}
+                    >
+                      <td data-label="" className="p-2">
+                        <Checkbox
+                          name="staff"
+                          value={`${person.account_number}+${person.name}`}
+                          title={person.name}
+                        />
+                      </td>
+                      <td data-label="Name" className="p-2 text-xs sm:text-base">
+                        <label className="" htmlFor="staff">{person.name}</label>
+                      </td>
+                      <td data-label="Designation" className="p-2 text-xs sm:text-base">{person.designation}</td>
+                      <td data-label="Telephone" className="p-2 text-xs sm:text-base">{person.phone_number}</td>
+                    </tr>
+                  ))}
+                </React.Fragment>
+              );
+            })}
           </tbody>
         </table>
         <input type="hidden" name="lga" value={props.lga} />
