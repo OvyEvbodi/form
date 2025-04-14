@@ -42,24 +42,31 @@ export const POST = async (request: NextRequest) => {
 
       console.log(dailyRecord, tableName)
 
-      try {
-        const addEntry = await (db[tableName as keyof typeof db] as any).create({ 
-          data: {
-            ...dailyRecord
-          }
-        });
-        console.log("successful", addEntry)
-      } catch (error) {
-        console.error(error)
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          // Specific handling for phone_number + date unique violation
-          if (error.code === 'P2002' ) {
-            console.log(error.meta)
-            console.log(`Duplicate marking! ${name}'s attendance for ${dailyRecord.attendance_date} has already been marked`)
-            return "duplicate entry";
-          }
+      const addEntry = await (db[tableName as keyof typeof db] as any).create({ 
+        data: {
+          ...dailyRecord
         }
-      }
+      });
+      console.log("successful outsite try", addEntry)
+
+      // try {
+      //   const addEntry = await (db[tableName as keyof typeof db] as any).create({ 
+      //     data: {
+      //       ...dailyRecord
+      //     }
+      //   });
+      //   console.log("successful", addEntry)
+      // } catch (error) {
+      //   console.error(error)
+      //   if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      //     // Specific handling for phone_number + date unique violation
+      //     if (error.code === 'P2002' ) {
+      //       console.log(error.meta)
+      //       console.log(`Duplicate marking! ${name}'s attendance for ${dailyRecord.attendance_date} has already been marked`)
+      //       return "duplicate entry";
+      //     }
+      //   }
+      // }
       
     })
 
