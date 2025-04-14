@@ -50,6 +50,7 @@ export const POST = async (request: NextRequest) => {
         });
         console.log("successful", addEntry)
       } catch (error) {
+        console.error(error)
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           // Specific handling for phone_number + date unique violation
           if (error.code === 'P2002' ) {
