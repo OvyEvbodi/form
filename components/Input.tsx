@@ -25,7 +25,7 @@ export interface RadioProps {
   title: string;
   tag: string;
   FieldError?: boolean;
-  onChange?: ChangeEventHandler;
+  onChange?:  (e: React.ChangeEvent<HTMLInputElement>) => void;
   additionalStyle?: string;
   name: string;
   options: string [];
@@ -74,7 +74,7 @@ export const RadioField = ({props}: { props: RadioProps }) => {
           //   <span className="checkmark"></span>
           // </label>
           <div key={index} className="mb-4 font-medium" >
-            <input title={props.errorMessage} required={props.required} type="radio" name={props.name} value={item} className="mr-3" />
+            <input title={props.errorMessage} onChange={props.onChange} required={props.required} type="radio" name={props.name} value={item} className="mr-3" />
             <label  className="mb-4 font-medium " htmlFor={props.name}>{item} </label>
             <span className="checkmark"></span>
           </div>
