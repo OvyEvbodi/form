@@ -119,7 +119,7 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
   return (
     <div className="shadow-gray-800 shadow-lg sm:min-h-8/12 sm:min-w-2/3 text-gray-700 text-sm lg:max-w-[860px] p-4 sm:p-10 rounded-md max-w-screen bg-linear-to-b from-cyan-50/70 via-gray-200/80 to-gray-100/80">
       <div>
-        <h1 className="py-2 sm:py-6 text-cyan-800 text-lg sm:text-3xl font-bold capitalize">Kano-IEV supervisors attendance list for <span className="text-gray-700">{props.lga}</span></h1>
+        <h1 className="py-2 sm:py-6 text-cyan-800 text-lg sm:text-3xl font-bold capitalize">Kano-IEV Data Clerks and Local Guides Attendance List for <span className="text-gray-700">{props.lga}</span></h1>
       </div>
       <form action={action}>
         <InputField props={dateInput} />
