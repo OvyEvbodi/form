@@ -4,7 +4,7 @@ export const lgaList: string[] = [
   "Gaya", "Gezawa", "Gwale", "Gwarzo", "Kabo", "Kano Municipal", "Karaye", "Kibiya", "Kiru",
   "Kumbotso", "Kunchi", "Kura", "Madobi", "Makoda", "Minjibir", "Nassarawa", "Rano", "Rimin Gado",
   "Rogo", "Shanono", "Sumaila", "Takai", "Tarauni", "Tofa", "Tsanyawa", "Tudun Wada",
-  "Ungogo", "Ungogo LG", "Warawa", "Wudil"
+  "Ungogo", "Warawa", "Wudil"
 ];
 
 export const lgaWardsMap: any = { // create interface for type safety
