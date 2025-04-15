@@ -66,7 +66,7 @@ export default async function IEVAuth({ searchParams }: any) {
             name="admin_pin" 
             type="password" 
             placeholder="Enter admin pin" 
-            className="text-center w-full outline-none bg-background p-2 rounded-md" 
+            className="text-center w-full outline-none bg-background placeholder:text-foreground  p-2 rounded-md" 
           />
           <button 
             type="submit" 
