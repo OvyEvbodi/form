@@ -10,8 +10,9 @@
   --accent-color: #125b71;
   --box-shadow-dark: 5px 5px 10px rgb(33, 34, 34);
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
+  --background: #ffffff;
+  --foreground: #1e1c1c;
+  --text-on-bg: #125b71;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
@@ -85,10 +86,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* --background: #0a0a0a;
-    --foreground: #ededed; */
+    --background: #3d3c3c;
+    --foreground: #ededed;
+    --text-on-bg: #125b71;
   }
 }
+
 td, th {
   padding: 12px 12px;
 }

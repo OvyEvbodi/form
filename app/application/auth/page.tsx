@@ -56,7 +56,7 @@ export default async function IEVAuth({ searchParams }: any) {
           <select 
             name="role" 
             required 
-            className="block mt-2 w-full bg-gray-200 p-2 rounded-md outline-none border-b-2 border-cyan-700"
+            className="block mt-2 w-full bg-background p-2 rounded-md outline-none border-b-2 border-cyan-700"
           >
             <option>Admin</option>
             <option>Super Admin</option>
@@ -66,7 +66,7 @@ export default async function IEVAuth({ searchParams }: any) {
             name="admin_pin" 
             type="password" 
             placeholder="Enter admin pin" 
-            className="text-center w-full outline-none bg-gray-200 p-2 rounded-md" 
+            className="text-center w-full outline-none bg-background p-2 rounded-md" 
           />
           <button 
             type="submit" 

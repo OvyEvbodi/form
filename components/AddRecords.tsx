@@ -27,6 +27,7 @@ const AddRecords = (session: any) => {
   const [ nubanError, setNubanError ] = useState(false);
   const [ phoneError, setPhoneError ] = useState(false);
   const [ designationError, setDesignationError] = useState(false);
+  const [ success, setSuccess ] = useState(false);
 
   
   const handleAccountNoChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,7 +150,14 @@ const AddRecords = (session: any) => {
   
         const feedback = await result.json();
     
-        if (result.status === 200) router.push("/attendance")
+        if (result.status === 200) {
+          setSuccess(feedback.success)
+
+          setTimeout(() => {
+            router.push("/attendance")
+          }, 4000)
+
+        } 
        
         return {
           error: feedback.error || null,
@@ -164,11 +172,18 @@ const AddRecords = (session: any) => {
       <div>
         <h1 className="py-2 sm:py-6 text-cyan-800 text-lg sm:text-3xl font-bold">New Records Form</h1>
       </div>
+      <div className="flex justify-center">
       {
         state.error && (<div className="text-red-500 bg-red-50 px-4 py-2 rounded-md max-w-md text-center mb-4">{state.error.message}
         <Link className="underline font-bold text-gray-800 hover:text-gray-600" href="/attendance" >Click here to back to attendance page</Link>
         </div>)
       }
+      {
+        success && (<div className="text-green-700 bg-green-50 px-4 py-2 rounded-md max-w-md text-center mb-4">Record successfully added! Please allow up to 24 hours for verification.
+        <Link className="underline font-bold text-gray-800 hover:text-gray-600" href="/attendance" >Click here to back to attendance page if you're not redirected there in 5 seconds.</Link>
+        </div>)
+      }
+      </div>
       <form action={action}>
         <section className={view !== 1 ? "hidden" : "flex flex-col gap-6"}>
           <div>
