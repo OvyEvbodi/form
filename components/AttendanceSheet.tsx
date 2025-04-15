@@ -167,7 +167,7 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
               {filteredWards.map(({ ward, people }) => (
                 <React.Fragment key={ward}>
                   <tr 
-                    className="bg-gray-300 cursor-pointer" 
+                    className=" cursor-pointer" 
                     onClick={() => toggleWard(ward)}
                   >
                     <td colSpan={4} id="ward-head" className="p-2 font-bold text-cyan-800">
