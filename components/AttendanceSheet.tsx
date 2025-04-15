@@ -170,7 +170,7 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
                     className="bg-gray-300 cursor-pointer" 
                     onClick={() => toggleWard(ward)}
                   >
-                    <td colSpan={4} id="ward-head" className="p-2 font-bold text-cyan-900">
+                    <td colSpan={4} id="ward-head" className="p-2 font-bold text-cyan-800">
                       {ward} ({people.length}) {expandedWards[ward] ? "▲" : "▼"}
                     </td>
                   </tr>
