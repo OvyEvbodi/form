@@ -1,5 +1,5 @@
 export const lgaList: string[] = [
-  "Ajingi", "Albasu", "Bagwai", "Bebeji", "Bichi", "Bunkure", "Dala", "Dambatta",
+  "Ajingi", "Albasu", "Bagwai", "Bvknch", "Bebeji", "Bichi", "Bunkure", "Dala", "Dambatta",
   "Dawakin Kudu", "Dawakin Tofa", "Doguwa", "Fagge", "Gabasawa", "Garko", "Garun Malam",
   "Gaya", "Gezawa", "Gwale", "Gwarzo", "Kabo", "Kano Municipal", "Karaye", "Kibiya", "Kiru",
   "Kumbotso", "Kunchi", "Kura", "Madobi", "Makoda", "Minjibir", "Nassarawa", "Rano", "Rimin Gado",
