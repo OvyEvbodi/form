@@ -26,11 +26,11 @@ export const POST = async (request: NextRequest) => {
 
     const newRecordData: AttendanceRecordDataType = {
       name: formEntry.get("name") as string || "",
-      phone_number: formEntry.get("phone_no") as string || "",
+      phone_number: (formEntry.get("phone_no") as string).trim() || "",
       lga: formEntry.get("lga") as string || "",
       ward: formEntry.get("ward") as string || "",
       designation: formEntry.get("designation") as string || "",
-      account_number: formEntry.get("account_no") as string || "",
+      account_number: (formEntry.get("account_no") as string).trim() || "",
       bank_name: formEntry.get("bank") as string || "",
       created_at: createdAt,
       id
@@ -56,19 +56,26 @@ export const POST = async (request: NextRequest) => {
     }, {status: 200})
   } catch (error) {
     console.error(error)
+    
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-              // Specific handling for phone_number + date unique violation
-              if (error.code === 'P2002' ) {
-                console.log(error.meta && ( error.meta?.target as string[] ).includes('account_number'))
-                console.log()
-                return NextResponse.json({
-                  error: {
-                    message: `Duplicate record! This record has already been created. Please allow up to 24 hours for verification to be completed.`
-                  }
-                }, {status: 400})
-              }
-            }
-
+      // Specific handling for phone_number + date unique violation
+      if ( error.code === 'P2002' ) {
+        console.log(error.meta && ( error.meta?.target as string[] ).includes('account_number'))
+        
+        return NextResponse.json({
+          error: {
+            message: `Duplicate record! This record has already been created. Please allow up to 24 hours for verification to be completed.`
+          }
+        }, {status: 400})
+      }
+    } else if ( error instanceof Prisma.PrismaClientUnknownRequestError && error.message.includes('code: "23514"') ) {
+      console.log(`---Invalid account number---- ${error.message.includes('account_number_check')}`)
+      return NextResponse.json({
+        error: {
+          message: `Bad request! Please check the account number and try again. `
+        }
+      }, {status: 400})
+    }
     return NextResponse.json({
       error: {
         message: "Unable to add record, please try again."

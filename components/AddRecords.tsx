@@ -33,6 +33,7 @@ const AddRecords = (session: any) => {
   const handleAccountNoChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAccountNoError(false)
     setName("")
+    console.log(`[${event.target.value.trim()}] is ${event.target.value.trim().length} chars long`)
     if (event.target.value.trim().length !== 10
       || Number.isNaN(Number(event.target.value.trim())
     )) setAccountNoError(true)
@@ -79,7 +80,7 @@ const AddRecords = (session: any) => {
   };
 
   const handleCheckBankDetails = async () => {
-
+    console.log(`[${accountNo}]`)
     setNubanLoading(true)
     setNameError(false)
     setNubanError(false)
@@ -175,12 +176,13 @@ const AddRecords = (session: any) => {
       <div className="flex justify-center">
       {
         state.error && (<div className="text-red-500 bg-red-50 px-4 py-2 rounded-md max-w-md text-center mb-4">{state.error.message}
-        <Link className="underline font-bold text-gray-800 hover:text-gray-600" href="/attendance" >Click here to back to attendance page</Link>
+        <Link target="blank" className="underline font-bold text-gray-800 hover:text-gray-600" href="/new_record" > Click here to try again.</Link><br/>
+        <Link className="underline font-bold text-gray-800 hover:text-gray-600" href="/attendance" > Click here to back to attendance page</Link>
         </div>)
       }
       {
         success && (<div className="text-green-700 bg-green-50 px-4 py-2 rounded-md max-w-md text-center mb-4">Record successfully added! Please allow up to 24 hours for verification.
-        <Link className="underline font-bold text-gray-800 hover:text-gray-600" href="/attendance" >Click here to back to attendance page if you're not redirected there in 5 seconds.</Link>
+        <Link className="underline font-bold text-gray-800 hover:text-gray-600" href="/attendance" > Click here to back to attendance page if you're not redirected there in 5 seconds.</Link>
         </div>)
       }
       </div>
