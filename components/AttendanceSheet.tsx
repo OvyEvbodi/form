@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import React from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { ChevronDown, ChevronUp, ArrowUp, Users } from "lucide-react";
+import { ChevronDown, ChevronUp, ArrowUp, Users, ChevronsUpDown, ChevronsDown, ChevronsUp } from "lucide-react";
 
 export interface AttendanceSheetInterface {
   phone_number: string;
@@ -42,6 +42,8 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
   const initialState: any = {};
   const [selectedStaff, setSelectedStaff] = useState<Set<string>>(new Set());
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [allExpanded, setAllExpanded] = useState(false);
+  const [expandedWards, setExpandedWards] = useState<Record<string, boolean>>({});
 
   // Track scroll position for "Go to top" button
   useEffect(() => {
@@ -63,8 +65,30 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
     });
   };
 
+  // Expand/collapse functions
+  const expandAll = () => {
+    const expanded: Record<string, boolean> = {};
+    filteredWards.forEach(({ ward }) => {
+      expanded[ward] = true;
+    });
+    setExpandedWards(expanded);
+    setAllExpanded(true);
+  };
+
+  const collapseAll = () => {
+    setExpandedWards({});
+    setAllExpanded(false);
+  };
+
+  const toggleAll = () => {
+    if (allExpanded) {
+      collapseAll();
+    } else {
+      expandAll();
+    }
+  };
+
   const handleSubmitAttendance: (prevState: any, formData: FormData) => Promise<any> = async (prevState: any, formData: FormData) => {
-    // Add all selected staff to formData
     selectedStaff.forEach(staff => {
       formData.append("staff", staff);
     });
@@ -116,9 +140,6 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
 
     return result;
   }, [groupedByWard, searchTerm]);
-
-  // Track expanded wards state
-  const [expandedWards, setExpandedWards] = useState<Record<string, boolean>>({});
 
   const toggleWard = (ward: string) => {
     setExpandedWards(prev => ({
@@ -172,7 +193,6 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
       <form action={action}>
         <InputField props={dateInput} />
         
-        {/* Enhanced Search Bar */}
         <div className="mb-6 relative">
           <input
             type="text"
@@ -190,6 +210,33 @@ const AttendanceSheet = (props: attendanceDataInterface) => {
               ✕
             </button>
           )}
+        </div>
+
+        <div className="flex gap-2 mb-4">
+          <button
+            type="button"
+            onClick={expandAll}
+            className="flex items-center gap-1 px-3 py-1 text-sm bg-cyan-100 text-cyan-800 rounded hover:bg-cyan-200 transition-colors"
+          >
+            <ChevronsDown size={16} />
+            Expand All
+          </button>
+          <button
+            type="button"
+            onClick={collapseAll}
+            className="flex items-center gap-1 px-3 py-1 text-sm bg-cyan-100 text-cyan-800 rounded hover:bg-cyan-200 transition-colors"
+          >
+            <ChevronsUp size={16} />
+            Collapse All
+          </button>
+          <button
+            type="button"
+            onClick={toggleAll}
+            className="flex items-center gap-1 px-3 py-1 text-sm bg-cyan-100 text-cyan-800 rounded hover:bg-cyan-200 transition-colors"
+          >
+            <ChevronsUpDown size={16} />
+            Toggle All
+          </button>
         </div>
         
         {filteredWards.length === 0 ? (
