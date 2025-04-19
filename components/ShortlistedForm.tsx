@@ -128,7 +128,7 @@ const FormTemplate = (props: IEVFormProps) => {
   const wards = lga ? lgaWardsMap[lga] : [];
 
   return (
-    <div className="text-sm md:text-medium lg:max-w-[860px] opacity-[0.956] p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-50 via-gray-200 to-gray-100">
+    <div className="text-gray-900 text-sm md:text-medium lg:max-w-[860px] opacity-[0.956] p-4 lg:p-12 rounded-lg max-w-screen bg-linear-to-b from-cyan-50 via-gray-200 to-gray-100">
       <div className={page === 2 ? "hidden sm_img_holder " : "sm_img_holder "}>
         <div className="bg-cyan-800 opacity-90 rounded-md text-white p-4 md:p-0 sm:bg-transparent sm:opacity-100 sm:text-black">
           <h1 className="pt-4 my-4 text-3xl font-extrabold text-gray-800">{props.title}</h1>

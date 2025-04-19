@@ -51,11 +51,11 @@ const InputField = ({props}: { props: InputProps }) => {
   if (typeof window !== 'undefined') storedData = JSON.parse(sessionStorage.getItem('userData') || '{}');
 
   return (
-    <div className={` ${props?.FieldError && "text-red border-red"} `}>
+    <div className={`text-gray-900 ${props?.FieldError && "text-red border-red"} `}>
       <div>
        { props?.tag && <span className="text-md font-bold text-gray-900">{props.tag}</span> } {props.required && <span className="text-red-600">&#10038;</span>}
       </div>
-      <div className={`mb-6 flex gap-3 items-center  rounded-sm bg-white hover:border-b-2 border-cyan-700 p-2 px-4 group  ${props?.FieldError && "text-red border-red"}`}>
+      <div className={`mb-6 flex gap-3 items-center rounded-sm bg-white hover:border-b-2 border-cyan-700 p-2 px-4 group  ${props?.FieldError && "text-red border-red"}`}>
         {/* { props.iconUrl && <Image src={props.iconUrl} alt={props?.tag}  width={16} height={16}/> } */}
         <input defaultValue={storedData && storedData[props.name]} title={props.errorMessage} required={props.required} pattern={props?.pattern} value={props?.value} type={props.type} min={props?.min} max={props?.max} placeholder={props?.placeholder} onChange={props?.onChange && props.onChange} className={`w-full outline-none  ${props?.FieldError && "placeholder:text-red border-red"} ${props?.additionalStyle && props.additionalStyle}`} name={props?.name} id={props?.id} />
       </div>
@@ -65,7 +65,7 @@ const InputField = ({props}: { props: InputProps }) => {
 
 export const RadioField = ({props}: { props: RadioProps }) => {
   return (
-    <div className="flex flex-col gap- p-4">
+    <div className="flex flex-col gap- p-4 text-gray-900">
       <p className="font-bold text-md mb-4 lg:mb-6">{props.title} {props.required && <span className="text-red-600">&#10038;</span>}</p>
       {
         props.options.map((item: string, index) => (
@@ -75,7 +75,7 @@ export const RadioField = ({props}: { props: RadioProps }) => {
           // </label>
           <div key={index} className="mb-4 font-medium" >
             <input title={props.errorMessage} onChange={props.onChange} required={props.required} type="radio" name={props.name} value={item} className="mr-3" />
-            <label  className="mb-4 font-medium " htmlFor={props.name}>{item} </label>
+            <label  className="mb-4 font-medium" htmlFor={props.name}>{item} </label>
             <span className="checkmark"></span>
           </div>
         ))
@@ -86,7 +86,7 @@ export const RadioField = ({props}: { props: RadioProps }) => {
 
 export const SelectField = ({props}: { props: SelectProps }) => {
   return (
-    <div>
+    <div className="text-gray-900">
       <label htmlFor={props.name} className="font-bold text-md mb-1">{props.title}</label><span className="text-red-700">&#10038;</span>
       <select title={props.errorMessage} name={props.name} required onChange={props.onChange} className="block mt-2 w-full bg-white p-3 rounded-md outline-none border-b-2 border-cyan-700">
         <option value="">Select an option</option>

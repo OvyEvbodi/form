@@ -35,7 +35,7 @@ export default async function IEVAuth({ searchParams }: any) {
 
   return (
     <div className="bg-gray-300 flex flex-col gap-8 flex-wrap justify-center items-center min-h-screen min-w-screen p-6">
-      <ErrorBoundary fallback={<div className="text-center">This page displays sensitive information, so access to it is limited. You have entered the wrong pin. Please refresh the page and try with the correct pin for your user. Kindly note that you may lock the page with too many incorrect tries.</div>}>
+      <ErrorBoundary fallback={<div className="text-gray-900 text-center">This page displays sensitive information, so access to it is limited. You have entered the wrong pin. Please refresh the page and try with the correct pin for your user. Kindly note that you may lock the page with too many incorrect tries.</div>}>
         <h1 className="font-extrabold text-cyan-900 text-2xl md:text-3xl capitalize">
           Please sign in to view attendance page
         </h1>
@@ -57,7 +57,7 @@ export default async function IEVAuth({ searchParams }: any) {
           <select 
             name="lga" 
             required 
-            className="block mt-2 w-full bg-background text-foreground p-2 rounded-md outline-none border-b-2 border-cyan-700"
+            className="block mt-2 w-full text-gray-900  p-2 rounded-md outline-none border border-cyan-700"
           >
              <option value="">Please choose LGA to verify </option>
             {
@@ -70,9 +70,9 @@ export default async function IEVAuth({ searchParams }: any) {
           <input 
             required 
             name="lga_admin_pin" 
-            type="password" 
+            type="password"
             placeholder="Enter LGA admin pin" 
-            className="text-center w-full outline-none bg-background placeholder:text-foreground p-2 rounded-md" 
+            className="text-gray-900 text-center w-full outline-none placeholder:text-gray-900 border border-cyan-700 p-2 rounded-md" 
           />
           <button 
             type="submit" 

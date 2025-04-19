@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const WorkersSupportPage = () => {
   return (
-    <div className="support_img_wrap flex flex-col justify-center items-center min-h-screen p-4">
+    <div className="support_img_wrap flex flex-col justify-center items-center gap-8 min-h-screen p-4">
       <NavBar />
       <WorkersSupportForm />
     </div>
