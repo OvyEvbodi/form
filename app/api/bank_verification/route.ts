@@ -57,7 +57,8 @@ export const POST = async (request: NextRequest) => {
         },
       }
       const {data, status} = await axios.get(url, axios_config);
-      if (data.status = true) {
+      console.log(data);
+      if (data[0].status = true) {
         const nubanBankName = "";
         const nubanAccName = data.data.account_name;
         return {
