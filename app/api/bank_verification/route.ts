@@ -57,25 +57,19 @@ export const POST = async (request: NextRequest) => {
         },
       }
       const {data, status} = await axios.get(url, axios_config);
-      if (status === 200) {
-          if (data.status = true) {
-            const nubanBankName = "";
-            const nubanAccName = data.data.account_name;
-            return {
-              ...userDetails,
-              nuban_bank_name: nubanBankName,
-              nuban_acc_name: nubanAccName,
-              message: "Valid"
-            }
-          } else {
-            return {
-              ...userDetails,
-              message: "Invalid"
-            }
-          }
+      if (data.status = true) {
+        const nubanBankName = "";
+        const nubanAccName = data.data.account_name;
+        return {
+          ...userDetails,
+          nuban_bank_name: nubanBankName,
+          nuban_acc_name: nubanAccName,
+           message: "Valid"
+        }
       } else {
         return {
-          error: "Error. Please try again."
+          ...userDetails,
+          message: "Invalid"
         }
       }
     }))
