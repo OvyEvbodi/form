@@ -48,27 +48,31 @@ export const POST = async (request: NextRequest) => {
     // map that list and query api
     const nubanResponse = await Promise.all( bankDetailsList.map( async (userDetails) => {
       // query
-      const url = `https://app.nuban.com.ng/api/${process.env.NUBAN_API_KEY}?bank_code=${userDetails.bank_code}&acc_no=${userDetails.account_number}`;
-      const {data, status} = await axios.get(url);
+      //const url = `https://app.nuban.com.ng/api/${process.env.NUBAN_API_KEY}?bank_code=${userDetails.bank_code}&acc_no=${userDetails.account_number}`;
+      const url = `https://api.paystack.co/bank/resolve/account_number=${userDetails.account_number}&bank_code=${userDetails.bank_code}`
+      const axios_config = {
+        headers: {
+          'Authorization': `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+          'Content-Type': 'application/json',
+        },
+      }
+      const {data, status} = await axios.get(url, axios_config);
       if (status === 200) {
-        if (data instanceof Array) {
-          const nubanBankName = data[0].bank_name;
-          const nubanAccName = data[0].account_name;
-          // understand result and return all accounts
-          return {
-            ...userDetails,
-            nuban_bank_name: nubanBankName,
-            nuban_acc_name: nubanAccName,
-            message: "Valid"
+          if (data.status = true) {
+            const nubanBankName = "";
+            const nubanAccName = data.data.account_name;
+            return {
+              ...userDetails,
+              nuban_bank_name: nubanBankName,
+              nuban_acc_name: nubanAccName,
+              message: "Valid"
+            }
+          } else {
+            return {
+              ...userDetails,
+              message: "Invalid"
+            }
           }
-        } else {
-          return {
-            ...userDetails,
-            message: "Invalid"
-          }
-        }
-        // console.log(data)
-
       } else {
         return {
           error: "Error. Please try again."
