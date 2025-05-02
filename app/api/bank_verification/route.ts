@@ -49,7 +49,7 @@ export const POST = async (request: NextRequest) => {
     const nubanResponse = await Promise.all( bankDetailsList.map( async (userDetails) => {
       // query
       //const url = `https://app.nuban.com.ng/api/${process.env.NUBAN_API_KEY}?bank_code=${userDetails.bank_code}&acc_no=${userDetails.account_number}`;
-      const url = `https://api.paystack.co/bank/resolve/account_number=${userDetails.account_number}&bank_code=${userDetails.bank_code}`
+      const url = `https://api.paystack.co/bank/resolve/?account_number=${userDetails.account_number}&bank_code=${userDetails.bank_code}`
       const axios_config = {
         headers: {
           'Authorization': `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
